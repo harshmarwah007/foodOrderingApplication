@@ -1,0 +1,176 @@
+<div class="dashboard">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark" >
+            <a class="navbar-brand" href=""><h3>oddo</h3></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                 
+                </li>
+                <li class="nav-item">
+                 
+                </li>
+                <li class="nav-item">
+                
+                </li>
+              </ul>
+              <span class="navbar-text float-right">
+                <button type="button" ng-click="logOut()" class="btn btn-primary" >LogOut</button>
+              </span>
+            </div>
+          </nav>
+    </header>
+    <main style="margin-top: 50px;">
+        <div class="d-flex justify-content-center">
+            <!-- Row 1 -->
+            <div class="row">
+                <div col="col-md-12"> <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#orderModal">
+                    ORDER FOOD
+                  </button>    
+                </div>
+            </div>
+        </div>
+            <!-- Row 2 -->
+            <div class="row">
+                <div class="container py-5">
+                    <div class="row row-cols-4 justify-content-center">
+                      
+                      <div ng-repeat="order in orders" class="col border py-3 px-lg-3 d-flex justify-content-center"><div class="card text-center">
+                        <div class="card-header">
+                          Featured
+                        </div>
+                        <div class="card-body">
+                          <h5 class="card-title">Order Status</h5>
+                          <p class="card-text">{{order.orderStatus}}</p>
+                          <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+
+                          <!-- here is modal of cards -->
+
+                          <!-- Button trigger modal -->
+                          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop">
+                            More
+                          </button>
+
+                          <!-- Modal -->
+                          <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="staticBackdropLabel">Order details</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                  
+
+                                  <table>
+                    
+                               
+                                      <tr ng-repeat="item in order.dishList">
+                                        <td>{{ item.name }}</td>
+                                        <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                         <td >{{ item.price | currency:"₹":true }}</td>
+                                      </tr>
+                       
+                                  </table>
+
+
+
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                  <button type="button" class="btn btn-primary">Okay</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- Endof modal of cards -->
+                        </div>
+                        <div class="card-footer text-muted">
+                          <b>Total : {{order.orderAmount| currency:"₹":true }}</b>
+                        </div>
+                      </div></div>
+
+                  </div>
+            </div>
+        
+    </main>
+    <footer>
+      
+    </footer>
+</div>
+
+
+
+<!-- Button trigger modal -->
+
+  
+
+
+
+  <!-- Modal -->
+  <div  class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" >
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Select Food Items & Add to Cart</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <!-- modal content -->
+            <div class="container">
+                <div name="modalContent">
+                    <div class="row" >
+                        <table class="table col-md-12">
+                          <tr>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th class="qty">Qty</th>
+                            <th>Total</th>
+                          </tr>
+                          <tr class="animate-repeat" ng-repeat="item in foodDishes">
+                            <td>{{ item.name }}</td>
+                            <td >{{ item.price | currency:"₹":true }}</td>
+                            <td><input type="number" min="1" max="10" ng-model="item.qty" class="qty"></td>
+                            <td>{{ item.qty * item.price | currency:"₹":true }}</td>
+                            <td>
+                              <button class="btn-primary" ng-click="addItem(item)">Add to Cart</button></td>
+                          </tr>
+                        </table>
+                      </div>
+                      <div class="row">
+                        <h2>Your Cart:</h2>
+                        <ul>
+                          <li class="animate-repeat" ng-repeat="item in cart">
+                            <span>{{ item.qty + ' x ' + item.name + ' = ' + (getCost(item) | currency:"₹") }}</span>
+                            <button class=" btn btn-danger btn-xs" ng-click="removeItem(item);">Remove Item</button>
+                            </br>
+                            </br>
+                          </li>
+                        </ul>
+                        <h3>Total: {{ getTotal() | currency:"₹":true:"₹":true }}</h3>
+                        
+                      </div>
+                    
+                  </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+        <button class="btn btn-danger" ng-click="clearCart();">Clear Cart</button> 
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="createOrder()">Pay & Order</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- modal ending -->
+  

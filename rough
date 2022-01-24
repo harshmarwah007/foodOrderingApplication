@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Ordering App</title>
+    <!-- angular script -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+    <script src="script.js"></script>
+    <!-- stylesheet -->
+</head>
+<body ng-app="main">
+    
+    <div ng-view id="mainContent">
+
+    </div>
+    
+</body>
+</html>
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+    <title>ODDO-Food Delivery</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <!-- External CSS libraries -->
+    <link type="text/css" rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="assets/fonts/font-awesome/css/font-awesome.min.css">
+    <link type="text/css" rel="stylesheet" href="assets/fonts/flaticon/font/flaticon.css">
+
+    <!-- Favicon icon -->
+    <!-- <link rel="shortcut icon" href="assets/img/favicon.ico" type="image/x-icon" > -->
+
+    <!-- Google fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+
+    <!-- Custom Stylesheet -->
+    <link type="text/css" rel="stylesheet" href="assets/css/style.css">
+
+    <!-- angular script -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+    <script src="script.js"></script>
+</head>
+<body id="top" ng-app="main">
+<div class="page_loader"></div>
+
+<!-- Login 11 start -->
+<div class="login-11">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-6 col-md-12 bg-img none-992">
+                <div class="info">
+                    <h1>Welcome to oddo</h1>
+                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book</p>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12 bg-color-13">
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- External JS libraries -->
+<script src="assets/js/jquery-3.6.0.min.js"></script>
+<script src="assets/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/jquery.validate.min.js"></script>
+<script src="assets/js/app.js"></script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+login 
+<div id="loginForm">
+    <div class="input">
+        <input type="text" ng-model="username" placeholder="Username">
+    </div>
+    <div class="input">
+        <input type="password" ng-model="password" placeholder="Password">
+    </div>
+    <div class="input">
+     <button ng-click="login()">Log In</button>
+    </div>
+</div>
