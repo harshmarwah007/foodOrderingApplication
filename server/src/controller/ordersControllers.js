@@ -4,22 +4,32 @@ const foodOrders = require("../models/FoodOrders");
 
 const getAllOrders = async(req,res)=>{
     try {
+
+        
+ 
         const orders = await foodOrders.find();
+       
         res.json({orders,user: {
             id: req.user._id,
             email: req.user.email,
         }})
+
+
     } catch (error) {
         res.json({message:error})
     }
+
+
+
+
 }
 
 //For single User
 
 const getOrders = async(req,res)=>{
-    try {
+    try {   
         const orders = await foodOrders.find({userId:req.user._id})
-    res.json({orders,user: {
+        res.json({orders,user: {
         id: req.user._id,
         email: req.user.email,
     }})
@@ -29,14 +39,18 @@ const getOrders = async(req,res)=>{
 }
 // for saving one order
 const saveOrder = async( req,res) =>{
-    const array = req.body.dishList.map((item)=>{
-        console.log(item)
-    })
+
+
+        
+
     const order = new foodOrders({
         userId: req.user._id,
         orderStatus:req.body.orderStatus,
         orderAmount:req.body.orderAmount,
-        dishList: req.body.dishList
+        dishList: req.body.dishList,
+        customerContact:req.body.customerContact,
+        customerName:req.body.customerName
+
         // [{value1:1},{value2:2},{value3:3}]
     })
 
@@ -51,5 +65,15 @@ const saveOrder = async( req,res) =>{
     }
 }
 
+// Update Order
+const updateOrder = async(req,res)=>{
+    console.log(req.params.orderId)
+    try{
+        const updatedOrder = await foodOrders.updateOne({_id: req.params.orderId},{orderStatus:req.body.orderStatus})
+        res.json(updatedOrder)
+    }catch(error){
+        res.json({message:error})
+    }
+}
 
-module.exports =  {getOrders,saveOrder,getAllOrders}
+module.exports =  {getOrders,saveOrder,getAllOrders,updateOrder}

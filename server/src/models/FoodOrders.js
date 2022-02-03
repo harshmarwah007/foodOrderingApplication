@@ -12,7 +12,7 @@ const foodOrdersSchema = mongoose.Schema({
     },
     orderStatus:{
         type:String,
-        default:"Order Being Prepared"
+        default:"Preparing"
     },
     orderAmount:{
         type:Number,
@@ -20,6 +20,14 @@ const foodOrdersSchema = mongoose.Schema({
     },
     dishList:{
         type:Array,
+        require:true
+    },
+    customerName:{
+        type:String,
+        require:true
+    },
+    customerContact:{
+        type:String,
         require:true
     }
 })

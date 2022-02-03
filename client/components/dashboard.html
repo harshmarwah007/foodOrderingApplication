@@ -1,114 +1,101 @@
-<div class="dashboard">
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark" >
-            <a class="navbar-brand" href=""><h3>oddo</h3></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarText">
-              <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                 
-                </li>
-                <li class="nav-item">
-                 
-                </li>
-                <li class="nav-item">
-                
-                </li>
-              </ul>
-              <span class="navbar-text float-right">
-                <button type="button" ng-click="logOut()" class="btn btn-primary" >LogOut</button>
-              </span>
-            </div>
-          </nav>
-    </header>
-    <main style="margin-top: 50px;">
-        <div class="d-flex justify-content-center">
-            <!-- Row 1 -->
-            <div class="row">
-                <div col="col-md-12"> <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#orderModal">
-                    ORDER FOOD
-                  </button>    
-                </div>
-            </div>
-        </div>
-            <!-- Row 2 -->
-            <div class="row">
-                <div class="container py-5">
-                    <div class="row row-cols-4 justify-content-center">
-                      
-                      <div ng-repeat="order in orders" class="col border py-3 px-lg-3 d-flex justify-content-center"><div class="card text-center">
-                        <div class="card-header">
-                          Featured
-                        </div>
-                        <div class="card-body">
-                          <h5 class="card-title">Order Status</h5>
-                          <p class="card-text">{{order.orderStatus}}</p>
-                          <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
-
-                          <!-- here is modal of cards -->
-
-                          <!-- Button trigger modal -->
-                          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop">
-                            More
-                          </button>
-
-                          <!-- Modal -->
-                          <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <h5 class="modal-title" id="staticBackdropLabel">Order details</h5>
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                  </button>
-                                </div>
-                                <div class="modal-body">
-                                  
-
-                                  <table>
-                    
-                               
-                                      <tr ng-repeat="item in order.dishList">
-                                        <td>{{ item.name }}</td>
-                                        <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                         <td >{{ item.price | currency:"₹":true }}</td>
-                                      </tr>
-                       
-                                  </table>
-
-
-
-                                </div>
-                                <div class="modal-footer">
-                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                  <button type="button" class="btn btn-primary">Okay</button>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <!-- Endof modal of cards -->
-                        </div>
-                        <div class="card-footer text-muted">
-                          <b>Total : {{order.orderAmount| currency:"₹":true }}</b>
-                        </div>
-                      </div></div>
-
-                  </div>
-            </div>
-        
-    </main>
-    <footer>
-      
-    </footer>
+<div class="d-flex justify-content-center">
+  <!-- Row 1 -->
+  <div class="row">
+      <div col="col-md-12"> <button type="button" class="btn btn-primary" ng-click="toggleModal()" datadata-target="#orderModal">
+          ORDER FOOD
+        </button>    
+      </div>
+  </div>
 </div>
+  <!-- Row 2 -->
+  <div class="row">
+      <div class="container py-5">
+          <div class="row row-cols-4 justify-content-center">
+            
+            <div ng-repeat="order in orders" class="col border py-3 px-lg-3 d-flex justify-content-center"><div class="card text-center">
+              <div class="card-header">
+                {{order.orderId}}
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">{{order.customerName}}</h5>
+                <p class="card-text">
+
+                  <!-- <select  name="orderStatusValue" ng-model="orderStatusValue" ng-change="change(orderStatusValue,orderId)">
+                    <option value="Preparing">Preparing</option>
+                    <option value="Prepared">Prepared</option>
+                  </select> -->
+
+                  <div style="width:100%; height :60px;" >
+                    <h5> Order Status</h5>
+                  <select ng-model="selectedItem" class=" border border-primary  bg-light  btn  dropdown-toggle"
+                  ng-init="selectedItem = order.orderStatus" 
+                  ng-change="statusChange(selectedItem,order.orderId)"
+                  ng-options="item for item in statusOptions"></select>
+                  </div>
+                  <!-- <div class="dropdown">
+                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Order Status
+                    </a>
+                  
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                      <a class="dropdown-item" href="#">Action</a>
+                      <a class="dropdown-item" href="#">Another action</a>
+                      <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                  </div> -->
+                </p>
+                <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+
+                <!-- here is modal of cards -->
+
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop">
+                  More
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Order details</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        
+
+                        <table>
+          
+                     
+                            <tr ng-repeat="item in order.dishList">
+                              <td>{{ item.name }}</td>
+                              <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                               <td >{{ item.price | currency:"₹":true }}</td>
+                            </tr>
+             
+                        </table>
 
 
 
-<!-- Button trigger modal -->
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Okay</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Endof modal of cards -->
+              </div>
+              <div class="card-footer text-muted">
+                <b>Total : {{order.orderAmount| currency:"₹":true }}</b>
+              </div>
+            </div></div>
 
-  
+        </div>
+  </div>
 
 
 
@@ -118,7 +105,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Select Food Items & Add to Cart</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button type="button" class="close" ng-click="toggleModal()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -157,14 +144,25 @@
                         <h3>Total: {{ getTotal() | currency:"₹":true:"₹":true }}</h3>
                         
                       </div>
+
+
+<!--      Todo: create two inputs here                        -->
+                      <div>
+                        <form> 
+                          <label>Customer Name</label>
+                          <input class="form-control" type="text" required ng-model="customerName" placeholder="Customer Name">
+                          <label>Customer Contact</label>
+                          <input class="form-control" type="text" required ng-model="customerContact" placeholder="Customer Contact">
+                        </form>
+                      </div>
                     
                   </div>
             </div>
         </div>
         <div class="modal-footer">
         <button class="btn btn-danger" ng-click="clearCart();">Clear Cart</button> 
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="createOrder()">Pay & Order</button>
+          <button type="button" class="btn btn-secondary" ng-click="toggleModal()" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" id="close" ng-click="createOrder(customerName,customerContact)">Pay & Order</button>
         </div>
       </div>
     </div>
@@ -174,3 +172,4 @@
 
   <!-- modal ending -->
   
+
