@@ -168,6 +168,14 @@ var app = angular.module("dashboard",['ngCookies'])
                     }
                 ).then(()=>(console.log("created"))).catch((error)=>(console.log(error)))
                 $scope.toggleModal();
+                $('#orderModal').on('hidden.bs.modal', function () {
+                  $('#orderModal form')[0].reset();
+                  });
+                $scope.cart=[]
+                $scope.getTotal()
+
+
+
             } 
 
             
