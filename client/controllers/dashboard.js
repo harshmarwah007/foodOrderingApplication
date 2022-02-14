@@ -30,8 +30,7 @@ var app = angular.module("dashboard",['ngCookies'])
                     "Authorization": cookieValue
                 }
             }).then((response)=>{
-             
-                $scope.orders =response.data.orders.map((order)=>{
+                $scope.orders =response.data.map((order)=>{
     
                     return{
                     orderId: order._id,
@@ -50,7 +49,7 @@ var app = angular.module("dashboard",['ngCookies'])
       $scope.statusOptions = ["Preparing","Prepared"]
      $scope.statusChange = function (orderStatusValue,orderId,){
 
-            
+              
 
               $http({
                 url:`http://localhost:3000/food/order/${orderId}`,
@@ -77,7 +76,7 @@ var app = angular.module("dashboard",['ngCookies'])
             method:"GET",
         }).then((response)=>{
          
-            $scope.foodDishes =response.data.dishes.map((item)=>
+            $scope.foodDishes =response.data.map((item)=>
                 {
                     return{
                     id: item._id,

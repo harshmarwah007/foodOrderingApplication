@@ -27,7 +27,7 @@ app.controller("registerCtrl",function($scope,$http,$location){
                 $location.path("/login")
             }
         }).catch((error)=>{
-            console.log(error)
+            console.log("auth error",error)
             alert(error.data.message || error.data||"Some error occured")
         })
 
@@ -60,7 +60,7 @@ app.controller("loginCtrl",function($scope,$http,$location,$cookies){
                 alert("invalid Login")
             }
         }).catch((error)=>{
-            {   console.log(error)
+            {   console.log("auth error",error)
                 alert(error.data.message || error.data||"Some error occured")
             }
             
@@ -69,3 +69,10 @@ app.controller("loginCtrl",function($scope,$http,$location,$cookies){
 
     }
 })
+
+
+// app.factory("user",function($http){
+
+    
+
+// })

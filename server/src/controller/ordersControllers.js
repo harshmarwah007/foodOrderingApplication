@@ -5,8 +5,6 @@ const foodOrders = require("../models/FoodOrders");
 const getAllOrders = async(req,res)=>{
     try {
 
-        
- 
         const orders = await foodOrders.find();
        
         res.json({orders,user: {
@@ -18,25 +16,22 @@ const getAllOrders = async(req,res)=>{
     } catch (error) {
         res.json({message:error})
     }
-
-
-
-
 }
 
 //For single User
 
 const getOrders = async(req,res)=>{
     try {   
-        const orders = await foodOrders.find({userId:req.user._id})
-        res.json({orders,user: {
-        id: req.user._id,
-        email: req.user.email,
-    }})
+        foodOrders.find({userId:req.user._id}).then((orders)=>{
+            
+            res.json(orders)
+        })
     } catch (error) {
         res.json({message:error})
     }
 }
+
+
 // for saving one order
 const saveOrder = async( req,res) =>{
 
@@ -77,3 +72,17 @@ const updateOrder = async(req,res)=>{
 }
 
 module.exports =  {getOrders,saveOrder,getAllOrders,updateOrder}
+
+
+
+// const getOrders = async(req,res)=>{
+//     try {   
+//         const orders = await foodOrders.find({userId:req.user._id})
+//         res.json({orders,user: {
+//         id: req.user._id,
+//         email: req.user.email,
+//     }})
+//     } catch (error) {
+//         res.json({message:error})
+//     }
+// }

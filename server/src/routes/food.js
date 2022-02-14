@@ -2,6 +2,7 @@ const express = require("express")
 const router = express.Router();
 const {getFoodDishes,putFoodDishes} = require("../controller/foodDishesController")
 const passport = require("passport")
+var redisMiddle = require("../controller/redisMiddleware")
 //Passport config
 require("../config/passport")
 const getAllMetrics = require("../controller/metricsController");
@@ -14,7 +15,11 @@ router.patch("/order/:orderId",passport.authenticate("jwt",{session:false}),upda
 
 
 //Food Dishes Routers
-router.get("/dishes",getFoodDishes)
+
+var redis = require('redis');
+var client = redis.createClient();
+client.connect()
+router.get("/dishes",redisMiddle("foodDishesData"),getFoodDishes)
 router.post("/dishes",putFoodDishes)
 
 //Metrics route 
