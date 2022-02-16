@@ -12,12 +12,12 @@
       <div class="container py-5">
           <div class="row row-cols-4 justify-content-center">
             
-            <div ng-repeat="order in orders" class="col border py-3 px-lg-3 d-flex justify-content-center"><div class="card text-center">
+            <div ng-repeat="order in orders | orderBy :'-date'" class="col border py-3 px-lg-3 d-flex justify-content-center"><div class="card text-center">
               <div class="card-header">
-                {{order.orderId}}
+                {{order.orderId || order._id}}
               </div>
               <div class="card-body">
-                <h5 class="card-title">{{order.customerName}}</h5>
+                <h5 class="card-title textCapitalize" >{{order.customerName}}</h5>
                 <p class="card-text">
 
                   

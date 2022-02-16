@@ -1,3 +1,18 @@
+<!-- @format -->
+
 <div>
-    <h1>Metrics are here</h1>
+  <h1>Metrics</h1>
+</div>
+<div class="row textCapitalize">
+  <div class="container py-5">
+    <div ng-repeat="metric in metrics">
+      <div class="row justify-content-between">
+        <div class="col-6">
+          <h3><b>{{metric.metricsType}}&nbsp; :</b></h3>
+        </div>
+        <div class="col-6"><h3>{{metric.value}}</h3></div>
+      </div>
+      <br /><br />
+    </div>
+  </div>
 </div>

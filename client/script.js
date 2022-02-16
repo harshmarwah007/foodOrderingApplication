@@ -1,66 +1,88 @@
+/** @format */
 
+var app = angular.module("main", [
+  "ngRoute",
+  "ngCookies",
+  "ui.router",
+  "dashboard",
+  "authentication",
+  "history",
+  "metrics",
+]);
 
-var app = angular.module("main",[
-    "ngRoute",
-    'ngCookies',"ui.router","dashboard","authentication"])
-
-app.config(function($stateProvider,$urlRouterProvider){
-
-    $stateProvider.state("login",{
-        resolve:{
-            check:function ($location,$cookies){
-                if(($cookies.get("token"))){
-                    $location.path("/home");
-                }
-            }
+app.config(function ($stateProvider, $urlRouterProvider) {
+  $stateProvider
+    .state("login", {
+      resolve: {
+        check: function ($location, $cookies) {
+          if ($cookies.get("token")) {
+            $location.path("/home");
+          }
         },
-        url:"/login",
-        templateUrl:"./components/login.html",
-        controller:"loginCtrl",
-    }).state("register",{
-        resolve:{
-            check:function ($location,$cookies){
-                if(($cookies.get("token"))){
-                    $location.path("/home");
-                }
-            }
+      },
+      url: "/login",
+      templateUrl: "./components/login.html",
+      controller: "loginCtrl",
+    })
+    .state("register", {
+      resolve: {
+        check: function ($location, $cookies) {
+          if ($cookies.get("token")) {
+            $location.path("/home");
+          }
         },
-        url:"/register",
-        templateUrl:"./components/register.html",
-        controller:"registerCtrl"
+      },
+      url: "/register",
+      templateUrl: "./components/register.html",
+      controller: "registerCtrl",
     })
-    // .state("root",{
-    //     resolve:{
-    //         check:function ($location,$cookies){
-    //             if(($cookies.get("token"))){
-    //                 $location.path("/home");
-    //             }
-    //         }
-    //     },
-    //     url:"/",
-    //     templateUrl:"./components/login.html",
-    //     controller:"loginCtrl"
-    // })
-    .state("home",{
-        abstract:true,
-        resolve:{
-                  check:function ($location,$cookies){
-                        if(!($cookies.get("token"))){
-                            $location.path("/login");
-                        }
-                    }
-                },
-        url:"/",
-        templateUrl:"./components/home.html",
-        controller:"dashboardCtrl"
-    }).state("home.dashboard",{
-        url:"",
-        templateUrl:"./components/dashboard.html",
-        
-    }).state("home.metrics",{
-        url:"/metrics",
-        templateUrl:"./components/metrics.html"
+    .state("home", {
+      abstract: true,
+      resolve: {
+        check: function ($location, $cookies) {
+          if (!$cookies.get("token")) {
+            $location.path("/login");
+          }
+        },
+      },
+      url: "/",
+      templateUrl: "./components/home.html",
+      controller: "dashboardCtrl",
     })
-    $urlRouterProvider.otherwise("/");
-})
-
+    .state("home.dashboard", {
+      resolve: {
+        check: function ($location, $cookies) {
+          if (!$cookies.get("token")) {
+            $location.path("/login");
+          }
+        },
+      },
+      url: "",
+      templateUrl: "./components/dashboard.html",
+    })
+    .state("home.metrics", {
+      resolve: {
+        check: function ($location, $cookies) {
+          if (!$cookies.get("token")) {
+            $location.path("/login");
+          }
+        },
+      },
+      url: "metrics",
+      templateUrl: "./components/metrics.html",
+      controller: "metricsCtrl",
+    })
+    .state("home.history", {
+      resolve: {
+        check: function ($location, $cookies) {
+          if (!$cookies.get("token")) {
+            $location.path("/login");
+          }
+        },
+      },
+      url: "history",
+      templateUrl: "./components/history.html",
+      controller: "historyCtrl",
+    });
+  $urlRouterProvider.otherwise("/");
+});
