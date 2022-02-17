@@ -20,8 +20,9 @@ const getAllMetrics = async (req, res) => {
           {
             $project: {
               _id: 0,
-              metricsType: "Top Selling Food Dish",
+              metricsType: "Top Selling - Food Dish",
               value: "$_id",
+              qty: 1,
             },
           },
         ],
@@ -33,8 +34,9 @@ const getAllMetrics = async (req, res) => {
           {
             $project: {
               _id: 0,
-              metricsType: "Least Selling Food Dish",
+              metricsType: "Least Selling - Food Dish",
               value: "$_id",
+              qty: 1,
             },
           },
         ],
@@ -57,35 +59,139 @@ const getAllMetrics = async (req, res) => {
             $project: {
               _id: 0,
               metricsType: "Most Visiting Customer",
+              details: "(Highest number of visits)",
               value: "$_id",
+              count: 1,
             },
           },
         ],
 
+        topCustomer: [
+          {
+            $group: {
+              _id: "$customerName",
+              count: { $sum: 1 },
+              orderSum: { $sum: "$orderAmount" },
+            },
+          },
+          { $sort: { orderSum: -1, count: -1 } },
+          {
+            $match: { count: { $gt: 1 } },
+          },
+          { $limit: 1 },
+          {
+            $project: {
+              metricsType: "Top Customer",
+              details: "(Highest total order amount and number of visits)",
+              value: "$_id",
+              _id: 0,
+              orderSum: 1,
+            },
+          },
+        ],
+        happyDayOfThisMonth: [
+          {
+            $match: {
+              $expr: {
+                $eq: [
+                  { $dateToString: { format: "%m", date: "$date" } },
+                  { $dateToString: { format: "%m", date: new Date() } },
+                ],
+              },
+            },
+          },
+          {
+            $group: {
+              _id: { $dateToString: { format: "%Y-%m-%d", date: "$date" } },
+              revenue: { $sum: "$orderAmount" },
+            },
+          },
+          {
+            $sort: {
+              revenue: -1,
+            },
+          },
+          {
+            $limit: 1,
+          },
+          {
+            $project: {
+              metricsType: "Happy day of Current Month",
+              details: "(Highest Sale Day of Month)",
+              value: "$_id",
+              _id: 0,
+              revenue: 1,
+            },
+          },
+        ],
+        badDayOfThisMonth: [
+          {
+            $match: {
+              $expr: {
+                $eq: [
+                  { $dateToString: { format: "%m", date: "$date" } },
+                  { $dateToString: { format: "%m", date: new Date() } },
+                ],
+              },
+            },
+          },
+          {
+            $group: {
+              _id: { $dateToString: { format: "%Y-%m-%d", date: "$date" } },
+              revenue: { $sum: "$orderAmount" },
+            },
+          },
+          {
+            $sort: {
+              revenue: 1,
+            },
+          },
+          {
+            $limit: 1,
+          },
+          {
+            $project: {
+              metricsType: "Bad day of Current Month",
+              details: "(Lowest Sale Day of Month)",
+              value: "$_id",
+              _id: 0,
+              revenue: 1,
+            },
+          },
+        ],
         customersVisitedOnlyOnce: [
-          { $group: { _id: "$customerName", count: { $sum: 1 } } },
+          {
+            $group: {
+              _id: {
+                customerName: "$customerName",
+              },
+              count: { $sum: 1 },
+              customerDetails: {
+                $push: {
+                  customerName: "$customerName",
+                  customerContact: "$customerContact",
+                },
+              },
+            },
+          },
           { $match: { count: 1 } },
-          { $group: { _id: null, customers: { $push: "$_id" } } },
           {
             $project: {
-              _id: 0,
               metricsType: "customersVisitedOnlyOnce",
-              value: "$customers",
-            },
-          },
-        ],
-        totalSale: [
-          {
-            $group: { _id: null, total: { $sum: "$orderAmount" } },
-          },
-          {
-            $project: {
+              customerDetails: 1,
               _id: 0,
-              metricsType: "Total Sale",
-              value: "$total",
             },
           },
         ],
+      },
+    },
+  ]);
+  var salesMetrics = await foodOrders.aggregate([
+    {
+      $match: { orderStatus: "Completed" },
+    },
+    {
+      $facet: {
         saleOfThisMonth: [
           {
             $match: {
@@ -108,20 +214,23 @@ const getAllMetrics = async (req, res) => {
             },
           },
         ],
-        topCustomer: [
+        totalSale: [
           {
-            $group: {
-              _id: "$customerName",
-              count: { $sum: 1 },
-              orderSum: { $sum: "$orderAmount" },
+            $group: { _id: null, total: { $sum: "$orderAmount" } },
+          },
+          {
+            $project: {
+              _id: 0,
+              metricsType: "Total Sale",
+              details: "(Overall sale from beginning)",
+              value: "$total",
             },
           },
         ],
       },
     },
   ]);
-
-  res.json(allMetrics);
+  res.json({ allMetrics, salesMetrics });
 };
 
 module.exports = getAllMetrics;

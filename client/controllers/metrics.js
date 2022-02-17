@@ -5,23 +5,22 @@ var app = angular.module("metrics", ["ngCookies"]);
 app.controller("metricsCtrl", function ($scope, metricsData) {
   $scope.value = "Hello";
   $scope.metrics = [];
+  $scope.salesMetrics = [];
+  $scope.customerVisitedOnce;
   metricsData.getMetricsData(function (metricsData) {
-    // console.log(metricsData.data[0]);
-    for (var item in metricsData.data[0]) {
-      //   console.log(metricsData.data[0][item][0]);
-      if (
-        metricsData.data[0][item][0].metricsType != "customersVisitedOnlyOnce"
-      )
-      {
-        $scope.metrics.push(metricsData.data[0][item][0]);  
+    var allMetricsData = metricsData.data.allMetrics[0];
+    var salesMetricsData = metricsData.data.salesMetrics[0];
+
+    for (var item in allMetricsData) {
+      if (allMetricsData[item][0].metricsType != "customersVisitedOnlyOnce") {
+        $scope.metrics.push(allMetricsData[item][0]);
+      } else {
+        $scope.customerVisitedOnce = allMetricsData[item];
       }
-      else
-      {
-          
-       } 
-        
     }
-    // metricsData.data.map((data) => console.log(data));
+    for (var item in salesMetricsData) {
+      $scope.salesMetrics.push(salesMetricsData[item][0]);
+    }
   });
 });
 

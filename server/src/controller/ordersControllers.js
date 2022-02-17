@@ -43,7 +43,7 @@ const saveOrder = async (req, res) => {
     customerContact: req.body.customerContact,
     customerName: req.body.customerName,
 
-    // [{value1:1},{value2:2},{value3:3}]
+    
   });
 
   try {

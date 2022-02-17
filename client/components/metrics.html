@@ -5,14 +5,51 @@
 </div>
 <div class="row textCapitalize">
   <div class="container py-5">
+    <div ng-repeat="metric in salesMetrics">
+      <div class="row justify-content-between">
+        <div class="col-6">
+          <h3><b>{{metric.metricsType }}&nbsp; :</b></h3>
+        </div>
+        <div class="col-6">
+          <h3>{{metric.value | currency:"₹":true }}</h3>
+        </div>
+        <div class="col-6">
+          <h5>{{metric.details }}</h5>
+        </div>
+      </div>
+      <br /><br />
+    </div>
     <div ng-repeat="metric in metrics">
       <div class="row justify-content-between">
         <div class="col-6">
           <h3><b>{{metric.metricsType}}&nbsp; :</b></h3>
         </div>
         <div class="col-6"><h3>{{metric.value}}</h3></div>
+        <div class="col-6">
+          <h5>{{metric.details }}</h5>
+        </div>
       </div>
       <br /><br />
+    </div>
+    <div>
+      <h3><b>Customers Visited only once &nbsp; :</b></h3>
+      <br />
+      <table class="table">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col"><h5>Customer Name</h5></th>
+            <th scope="col"><h5>Customer Contact</h5></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="customer in customerVisitedOnce">
+            <th scope="row">{{$index+1}}</th>
+            <td><h5>{{customer.customerDetails[0].customerName}}</h5></td>
+            <td><h5>{{customer.customerDetails[0].customerContact}}</h5></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
