@@ -1,0 +1,20 @@
+{
+  "name": "client",
+  "description": "",
+  "main": "script.js",
+  "authors": [
+    "Harsh Marwah"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/harshmarwah007/foodOrderingApplication-oddo",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.8.2"
+  }
+}

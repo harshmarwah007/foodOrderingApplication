@@ -8,6 +8,7 @@ var app = angular.module("main", [
   "authentication",
   "history",
   "metrics",
+  "customerLogin",
 ]);
 
 app.config(function ($stateProvider, $urlRouterProvider) {
@@ -23,6 +24,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
       url: "/login",
       templateUrl: "./components/login.html",
       controller: "loginCtrl",
+    })
+    .state("customerLogin", {
+      url: "/customerLogin",
+      templateUrl: "./components/customerLogin.html",
+      controller: "customerLoginCtrl",
     })
     .state("register", {
       resolve: {

@@ -112,7 +112,7 @@
                             <td><input type="number" min="1" max="10" ng-model="item.qty" class="qty"></td>
                             <td>{{ item.qty * item.price | currency:"₹":true }}</td>
                             <td>
-                              <button class="btn-primary" ng-click="addItem(item)">Add to Cart</button></td>
+                              <button class="btn-primary button-color" ng-click="addItem(item)">Add to Cart</button></td>
                           </tr>
                         </table>
                       </div>
@@ -131,13 +131,13 @@
                       </div>
 
 
-<!--      Todo: create two inputs here                        -->
+<!--  Todo: create two inputs here  -->
                       <div>
-                        <form> 
+                        <form name="customerDetails"> 
                           <label>Customer Name</label>
-                          <input class="form-control" type="text" required ng-model="customerName" placeholder="Customer Name">
+                          <input name="customerName" class="form-control" required type="text" required ng-model="customerName" placeholder="Customer Name">
                           <label>Customer Contact</label>
-                          <input class="form-control" type="text" required ng-model="customerContact" placeholder="Customer Contact">
+                          <input name="customerContact" class="form-control" type="number" required ng-model="customerContact" min="1000000000"  ng-maxlength="10" ng-minlength="10" placeholder="Customer Contact">
                         </form>
                       </div>
                     
@@ -147,7 +147,12 @@
         <div class="modal-footer">
         <button class="btn btn-danger" ng-click="clearCart();">Clear Cart</button> 
           <button type="button" class="btn btn-secondary" ng-click="toggleModal()" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" id="close" ng-click="createOrder(customerName,customerContact)">Pay & Order</button>
+          <button type="button" class="btn btn-primary" 
+          ng-disabled="
+          customerDetails.customerContact.$invalid
+          " 
+          
+          id="close" ng-click="createOrder(customerName,customerContact)">Pay & Order</button>
         </div>
       </div>
     </div>

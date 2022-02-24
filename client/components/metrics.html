@@ -3,7 +3,7 @@
 <div>
   <h1>Metrics</h1>
 </div>
-<div class="row textCapitalize">
+<div ng-init="getMetricsData()" class="row textCapitalize">
   <div class="container py-5">
     <div ng-repeat="metric in salesMetrics">
       <div class="row justify-content-between">
