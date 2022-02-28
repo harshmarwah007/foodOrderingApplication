@@ -728,9 +728,9 @@ textarea {
 .message {
   padding: 20px;
   border-radius: 4px;
-  margin-bottom: 40px;
   max-width: 300px;
   position: relative;
+  margin-bottom: 60px;
 }
 .incoming {
   background: #8f8be8;
@@ -739,7 +739,7 @@ textarea {
 .outgoing {
   background: #e9eafd;
   color: #787986;
-  margin-left: auto;
+  /* margin-left: auto; */
 }
 .message h4 {
   position: absolute;
@@ -747,4 +747,16 @@ textarea {
   left: 0;
   color: #333;
   font-size: 14px;
+  left: 5%;
+}
+.message h5 {
+  position: absolute;
+  top: 105%;
+  left: 55%;
+
+  color: rgb(88, 85, 85);
+  font-size: 14px;
+}
+#customerName {
+  text-transform: capitalize;
 }

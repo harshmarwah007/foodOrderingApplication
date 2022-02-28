@@ -1,10 +1,10 @@
 /** @format */
 
-var app = angular.module("dashboard", ["data", "ngCookies"]);
+var app = angular.module("dashboard", ["data", "ngCookies", "socketio"]);
 
 app.controller(
   "dashboardCtrl",
-  function ($scope, $http, $cookies, foodDishes, ordersData) {
+  function ($scope, $http, $cookies, foodDishes, ordersData, socket) {
     $scope.toggleModal = function () {
       $("#orderModal").modal("toggle");
     };
@@ -19,20 +19,32 @@ app.controller(
     // var ordersFactory1 = new ordersFactory();
     // ordersFactory1.getData.then((result) => console.log(result));
     // Get Orders
-    $scope.orders;
-    ordersData.getOrders(function (ordersData) {
-      $scope.orders = ordersData;
-    });
+    $scope.getAllOrders = function () {
+      $scope.orders;
+      ordersData.getOrders(function (ordersData) {
+        $scope.orders = ordersData;
+      });
+    };
 
     // Change Status
     $scope.statusOptions = ["Preparing", "Prepared", "Completed"];
-    $scope.statusChange = function (orderStatusValue, orderId) {
-      var index = $scope.orders.findIndex((order) => order.orderId == orderId);
-      $scope.orders.splice(index, 1);
-      console.log($scope.orders);
-      ordersData.changeStatus(orderStatusValue, orderId, function (response) {
-        console.log(response);
+    $scope.statusChange = function (orderStatusValue, orderId, order) {
+      var currentTime = new Date();
+      socket.emit("generateNotification", {
+        orderId: orderId,
+        receiverName: order.customerName + order.customerContact,
+        orderStatus: orderStatusValue,
+        date: currentTime,
+        data: order,
       });
+      if (orderStatusValue == "Completed") {
+        var index = $scope.orders.findIndex(
+          (order) => order.orderId == orderId
+        );
+        $scope.orders.splice(index, 1);
+      }
+
+      ordersData.changeStatus(orderStatusValue, orderId, function () {});
     };
 
     //Food Dishes
@@ -103,6 +115,9 @@ app.controller(
           customerName.toLowerCase(),
           function (response) {
             console.log("created", response.data.savedOrder);
+            var order = response.data.savedOrder;
+            socket.emit("OrderNotification", order);
+            
             $scope.orders.push(response.data.savedOrder);
           }
         );
