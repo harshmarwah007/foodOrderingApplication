@@ -42,8 +42,6 @@ const saveOrder = async (req, res) => {
     dishList: req.body.dishList,
     customerContact: req.body.customerContact,
     customerName: req.body.customerName,
-
-    
   });
 
   try {
@@ -67,10 +65,19 @@ const updateOrder = async (req, res) => {
       { _id: req.params.orderId },
       { orderStatus: req.body.orderStatus }
     );
+    
+    socketData(req.params.orderId, req.body.orderStatus);
     res.json(updatedOrder);
   } catch (error) {
     res.json({ message: error });
   }
 };
+
+const socketData = (orderId, orderStatus) =>
+{
+  
+  
+};
+socketData("62162f326e7da919d1172ea0","Prepared")
 
 module.exports = { getOrders, saveOrder, getAllOrders, updateOrder };

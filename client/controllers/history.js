@@ -4,12 +4,22 @@ var app = angular.module("history", ["ngCookies"]);
 
 app.controller("historyCtrl", function ($scope, ordersHistoryService) {
   $scope.history;
+  // $scope.filteredItems = [];
+  // $scope.currentPage = 1;
+  // $scope.numPerPage = 10;
+  // $scope.maxSize = 5;
   $scope.getHistorydata = function () {
     ordersHistoryService.getData(function (result) {
       $scope.history = result;
     });
   };
   console.log("History working");
+  // $scope.$watch("currentPage + numPerPage", function () {
+  //   var begin = ($scope.currentPage - 1) * $scope.numPerPage,
+  //     end = begin + $scope.numPerPage;
+
+  //   $scope.filteredItems = $scope.history.slice(begin, end);
+  // });
 });
 
 app.service("ordersHistoryService", function ($http, $cookies) {

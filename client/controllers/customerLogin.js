@@ -1,74 +1,74 @@
 /** @format */
 
-var app = angular.module("customerLogin", []);
+var app = angular.module("customerLogin", ["socketio"]);
 
 app.controller("customerLoginCtrl", function ($scope, socket) {
+  $scope.warnMessage = true;
+  var username;
+  do {
+    username = prompt("Enter Your Name and Contact Number without space");
+  } while (!username);
   let messageArea = document.querySelector(".message__area");
-  console.log("customer login working");
-  $scope.value = "Harsh Marwah";
-  console.log($scope.string);
-  $scope.onEnter = function (string) {
-    console.log("enter working");
-    message = $scope.string;
-    console.log($scope.string);
-    sendMessage(message);
-  };
 
-  // textArea.addEventListener("keyup", function (e) {
-  //   if (e.key === "Enter") {
-  //     sendMessage(e.target.value);
-  //   }
-  // });
+  socket.emit("newUser", username);
 
-  function sendMessage(message) {
-    let msg = {
-      userName: "harsh",
-      message: message.trim(),
-    };
-    appendMessage(msg, "outgoing");
-    // send to server
-    socket.emit("message", msg);
+  function appendCreatedOrder(data) {
+    let mainDiv = document.createElement("div");
+    mainDiv.classList.add("outgoing", "message");
+    date = moment(data.date).fromNow();
+
+    var markup2 = data.data.dishList
+      .map(function (item) {
+        return `<li>${item.name} ${item.price} * ${item.qty}</li>`;
+      })
+      .join("");
+    let markUp = `
+      <h4>${data.orderId}</h4>
+      <p><b><span id="customerName">Hey! ${data.data.customerName}</span></b><br>
+      Your New order:`;
+    let markup3 = `<br>
+    <b>Amount : ₹${data.data.orderAmount}</b> <br>
+    Order Satus : <b><u>Preparing</u></b>
+    </p>
+    <h5>${date}</h5>`;
+    mainDiv.innerHTML = markUp + markup2 + markup3;
+    messageArea.appendChild(mainDiv);
+    $scope.warnMessage = false;
   }
 
-  function appendMessage(msg, type) {
+  function appendNotification(data) {
     let mainDiv = document.createElement("div");
-    let className = type;
-    mainDiv.classList.add(className, "message");
+
+    mainDiv.classList.add("outgoing", "message");
+    date = moment(data.date).fromNow();
     let markUp = `
-      <h4>${msg.userName}</h4>
-      <p>${msg.message}</p> `;
+      <h4>${data.orderId}</h4>
+      <p><b><span id="customerName">${data.data.customerName}</span></b><br>
+      Your order is ${data.orderStatus}<br><br>
+      </p>
+      <h5>${date}</h5>`;
     mainDiv.innerHTML = markUp;
     messageArea.appendChild(mainDiv);
+    $scope.warnMessage = false;
+    messageArea.scrollTop = messageArea.scrollHeight;
   }
 
   // recieve messsage
-  socket.on("message", function (msg) {
-    appendMessage(msg, "incoming");
+  socket.on("notification", function (data) {
+    appendNotification(data);
+  });
+
+  socket.on("createOrderNotification", function (data) {
+    appendCreatedOrder({
+      data: data,
+      date: data.date,
+      orderId: data._id,
+      orderStatus: data.orderStatus,
+      dishList: data.dishList,
+    });
   });
 });
-app.factory("socket", function ($rootScope) {
-  var socket = io.connect();
-  return {
-    on: function (eventName, callback) {
-      socket.on(eventName, function () {
-        var args = arguments;
-        $rootScope.$apply(function () {
-          callback.apply(socket, args);
-        });
-      });
-    },
-    emit: function (eventName, data, callback) {
-      socket.emit(eventName, data, function () {
-        var args = arguments;
-        $rootScope.$apply(function () {
-          if (callback) {
-            callback.apply(socket, args);
-          }
-        });
-      });
-    },
-  };
-});
+
 app.directive("ngEnter", function () {
   return function (scope, element, attrs) {
     element.bind("keydown keypress", function (event) {

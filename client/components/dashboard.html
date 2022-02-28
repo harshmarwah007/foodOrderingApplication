@@ -8,7 +8,7 @@
   </div>
 </div>
   <!-- Row 2 -->
-  <div class="row">
+  <div ng-init="getAllOrders()" class="row">
       <div class="container py-5">
           <div class="row row-cols-4 justify-content-center">
             
@@ -26,7 +26,7 @@
                     <h5> Order Status</h5>
                   <select ng-model="selectedItem" class=" border border-primary  bg-light  btn  dropdown-toggle"
                   ng-init="selectedItem = order.orderStatus" 
-                  ng-change="statusChange(selectedItem,order.orderId)"
+                  ng-change="statusChange(selectedItem,order.orderId,order)"
                   ng-options="item for item in statusOptions"></select>
                   </div>
                 

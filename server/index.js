@@ -10,6 +10,7 @@ const flash = require("connect-flash");
 const session = require("express-session");
 const passport = require("passport");
 const MongoStore = require("connect-mongo");
+const getSocket = require("./src/socket");
 require("./src/db/conn");
 require("dotenv").config();
 
@@ -62,11 +63,5 @@ http.listen(port, () => {
 });
 // setting up socket
 const io = require("socket.io")(http);
-
-io.on("connection", (socket) => {
-  console.log("Connected...");
-  socket.on("message", (msg) => {
-    //console.log(msg);
-    socket.broadcast.emit("message", msg);
-  });
-});
+// call socketio
+getSocket(io);

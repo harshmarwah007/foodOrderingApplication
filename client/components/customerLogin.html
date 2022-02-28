@@ -1,7 +1,5 @@
 <!-- @format -->
 
-<!-- <h1><a href="#!login">Go Back</a></h1> -->
-<h1>{{value}}</h1>
 <div class="customer-login">
   <section class="chat__section">
     <div class="brand d-flex justify-content-between">
@@ -13,16 +11,12 @@
       /></a>
     </div>
     <div class="message__area">
-      <div class="incoming message">
-        <h4>Rajat</h4>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad sed
-          atque, nisi minima ipsum, explicabo adipisci dolores non, saepe alias
-          et esse aperiam doloribus. Quam culpa vel suscipit ipsam illum?
-        </p>
-      </div>
+      <p ng-show="warnMessage">
+        If You have entered wrong username then you will not get any
+        notifications.
+      </p>
     </div>
-    <div>
+    <!-- <div>
       <textarea
         ng-model="string"
         ng-enter="onEnter(string)"
@@ -31,6 +25,6 @@
         rows="1"
         placeholder="Write a message..."
       ></textarea>
-    </div>
+    </div> -->
   </section>
 </div>
