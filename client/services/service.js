@@ -9,7 +9,6 @@ app.service("metricsData", function ($cookies, $http) {
   this.getMetricsData = function (cb) {
     try {
       $http({
-        //   url: "http://localhost:3000/food/metrics",
         url: `${ApiUrl}metrics`,
         method: "GET",
         headers: {
