@@ -30,7 +30,7 @@ router.post(
   saveOrder
 );
 router.get(
-  "/order",
+  "/order/:pageNo",
   passport.authenticate("jwt", { session: false }),
   getOrders
 );
@@ -40,7 +40,7 @@ router.patch(
   updateOrder
 );
 router.get(
-  "/history",
+  "/history/:pageNo",
   passport.authenticate("jwt", { session: false }),
   getHistory
 );

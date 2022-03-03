@@ -1,39 +1,48 @@
 /** @format */
 
 var app = angular.module("history", ["ngCookies"]);
-
+var ApiUrl = "http://localhost:3000/food/";
 app.controller("historyCtrl", function ($scope, ordersHistoryService) {
   $scope.history;
-  // $scope.filteredItems = [];
-  // $scope.currentPage = 1;
-  // $scope.numPerPage = 10;
-  // $scope.maxSize = 5;
+  $scope.currentPage = 1;
+  $scope.ordersCount;
+  $scope.maxSize = 3;
+  $scope.itemsPerPage = 6;
+  $scope.pageChange = function (currentPage) {
+    $scope.currentPage = currentPage;
+    console.log($scope.currentPage);
+    $scope.getHistorydata();
+  };
   $scope.getHistorydata = function () {
-    ordersHistoryService.getData(function (result) {
-      $scope.history = result;
-    });
+    ordersHistoryService.getData(
+      $scope.itemsPerPage,
+      $scope.currentPage,
+      function (result, count) {
+        $scope.history = result;
+        $scope.ordersCount = count;
+      }
+    );
   };
   console.log("History working");
-  // $scope.$watch("currentPage + numPerPage", function () {
-  //   var begin = ($scope.currentPage - 1) * $scope.numPerPage,
-  //     end = begin + $scope.numPerPage;
-
-  //   $scope.filteredItems = $scope.history.slice(begin, end);
-  // });
 });
 
 app.service("ordersHistoryService", function ($http, $cookies) {
   var cookieValue = $cookies.get("token");
-  this.getData = function (cb) {
+  this.getData = function (itemsPerPage, pageNo, cb) {
     $http({
-      url: "http://localhost:3000/food/history",
+      // url: "http://localhost:3000/food/history",
+      url: `${ApiUrl}history/${pageNo}`,
       method: "GET",
+      data: {
+        itemsPerPage: itemsPerPage,
+      },
       headers: {
         Authorization: cookieValue,
       },
     })
       .then(function (response) {
-        var history = response.data.map((order) => {
+        var count = response.data.count;
+        var history = response.data.orders.map((order) => {
           return {
             orderId: order._id,
             date: order.date,
@@ -45,7 +54,7 @@ app.service("ordersHistoryService", function ($http, $cookies) {
           };
         });
 
-        cb(history);
+        cb(history, count);
       })
       .catch(function (error) {
         console.log(error);

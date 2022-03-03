@@ -22,11 +22,22 @@ const getAllOrders = async (req, res) => {
 //For single User
 
 const getOrders = async (req, res) => {
+  var size = 6;
+  var pageNo = req.params.pageNo;
+  var skip = size * (pageNo - 1);
+
   try {
     foodOrders
       .find({ userId: req.user._id, orderStatus: { $ne: "Completed" } })
+      .sort({ date: -1 })
+      .skip(skip)
+      .limit(size)
       .then((orders) => {
-        res.json(orders);
+        foodOrders
+          .count({ userId: req.user._id, orderStatus: { $ne: "Completed" } })
+          .then((count) => {
+            res.json({ orders, count });
+          });
       });
   } catch (error) {
     res.json({ message: error });
@@ -65,7 +76,7 @@ const updateOrder = async (req, res) => {
       { _id: req.params.orderId },
       { orderStatus: req.body.orderStatus }
     );
-    
+
     socketData(req.params.orderId, req.body.orderStatus);
     res.json(updatedOrder);
   } catch (error) {
@@ -73,11 +84,7 @@ const updateOrder = async (req, res) => {
   }
 };
 
-const socketData = (orderId, orderStatus) =>
-{
-  
-  
-};
-socketData("62162f326e7da919d1172ea0","Prepared")
+const socketData = (orderId, orderStatus) => {};
+socketData("62162f326e7da919d1172ea0", "Prepared");
 
 module.exports = { getOrders, saveOrder, getAllOrders, updateOrder };

@@ -157,8 +157,26 @@
       </div>
     </div>
   </div>
-
-
+  <div style="margin-bottom: 50px;" >
+    <div class="justify-content-center" 
+    uib-pagination 
+    total-items="ordersCount" 
+    ng-model="currentPage" 
+    ng-change="pageChange(currentPage)"
+    max-size="maxSize" 
+    class="pagination-sm" 
+    boundary-links="true" 
+    rotate="false"
+    items-per-page="itemsPerPage"
+    >
+  </div>
+  </div>
+  <!-- <div style="margin-bottom: 50px;" >
+    <dir-pagination-controls   
+    boundary-links="true"   
+    direction-links="true" >  
+    </dir-pagination-controls>  
+  </div> -->
 
   <!-- modal ending -->
   

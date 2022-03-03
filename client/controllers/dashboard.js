@@ -1,31 +1,48 @@
 /** @format */
 
-var app = angular.module("dashboard", ["data", "ngCookies", "socketio"]);
+var app = angular.module("dashboard", [
+  "data",
+  "ngCookies",
+  "socketio",
+  "ui.bootstrap",
+]);
 
 app.controller(
   "dashboardCtrl",
-  function ($scope, $http, $cookies, foodDishes, ordersData, socket) {
+  function ($scope, foodDishes, ordersData, socket) {
     $scope.toggleModal = function () {
       $("#orderModal").modal("toggle");
     };
+    $scope.currentPage = 1;
+    $scope.ordersCount;
+    $scope.maxSize = 3;
+    $scope.itemsPerPage = 6;
+    $scope.pageChange = function (currentPage) {
+      $scope.currentPage = currentPage;
+      $scope.getAllOrders();
+      console.log(currentPage);
+      console.log($scope.ordersCount);
+    };
+
     $scope.logOut = function () {
       console.log("LOGGED OUT");
       $cookies.remove("token");
       location.reload();
     };
-    var cookieValue = $cookies.get("token");
-    console.log("this is", cookieValue);
+
     //! just for refernce --- how to implement factory
-    // var ordersFactory1 = new ordersFactory();
-    // ordersFactory1.getData.then((result) => console.log(result));
-    // Get Orders
+
     $scope.getAllOrders = function () {
       $scope.orders;
-      ordersData.getOrders(function (ordersData) {
+      ordersData.getOrders($scope.currentPage, function (ordersData, count) {
         $scope.orders = ordersData;
+        $scope.ordersCount = count;
       });
     };
 
+    // var ordersFactory1 = new ordersFactory();
+    // ordersFactory1.getData.then((result) => console.log(result));
+    // Get Orders
     // Change Status
     $scope.statusOptions = ["Preparing", "Prepared", "Completed"];
     $scope.statusChange = function (orderStatusValue, orderId, order) {
@@ -117,7 +134,7 @@ app.controller(
             console.log("created", response.data.savedOrder);
             var order = response.data.savedOrder;
             socket.emit("OrderNotification", order);
-            
+
             $scope.orders.push(response.data.savedOrder);
           }
         );

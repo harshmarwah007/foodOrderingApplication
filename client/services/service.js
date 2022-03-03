@@ -53,10 +53,10 @@ app.service("ordersData", function ($http, $cookies) {
       .catch((error) => console.log(error));
   };
 
-  this.getOrders = function (cb) {
+  this.getOrders = function (pageNo, cb) {
     $http({
       //   url: "http://localhost:3000/food/order",
-      url: `${ApiUrl}order`,
+      url: `${ApiUrl}order/${pageNo}`,
       method: "GET",
 
       headers: {
@@ -64,7 +64,9 @@ app.service("ordersData", function ($http, $cookies) {
       },
     })
       .then((response) => {
-        var orders = response.data.map((order) => {
+        var count = response.data.count;
+
+        var orders = response.data.orders.map((order) => {
           return {
             orderId: order._id,
             date: order.date,
@@ -75,7 +77,7 @@ app.service("ordersData", function ($http, $cookies) {
             customerContact: order.customerContact,
           };
         });
-        cb(orders);
+        cb(orders, count);
       })
       .catch((error) => console.log(error));
   };
