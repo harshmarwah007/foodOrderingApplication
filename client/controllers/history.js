@@ -1,6 +1,6 @@
 /** @format */
 
-var app = angular.module("history", ["ngCookies"]);
+var app = angular.module("history", ["ngCookies", "ordersHistoryService"]);
 var ApiUrl = "http://localhost:3000/food/";
 app.controller("historyCtrl", function ($scope, ordersHistoryService) {
   $scope.history;
@@ -8,6 +8,7 @@ app.controller("historyCtrl", function ($scope, ordersHistoryService) {
   $scope.ordersCount;
   $scope.maxSize = 3;
   $scope.itemsPerPage = 6;
+  $scope.showPagination = false;
   $scope.pageChange = function (currentPage) {
     $scope.currentPage = currentPage;
     console.log($scope.currentPage);
@@ -24,42 +25,6 @@ app.controller("historyCtrl", function ($scope, ordersHistoryService) {
     );
   };
   console.log("History working");
-});
-
-app.service("ordersHistoryService", function ($http, $cookies) {
-  var cookieValue = $cookies.get("token");
-  this.getData = function (itemsPerPage, pageNo, cb) {
-    $http({
-      // url: "http://localhost:3000/food/history",
-      url: `${ApiUrl}history/${pageNo}`,
-      method: "GET",
-      data: {
-        itemsPerPage: itemsPerPage,
-      },
-      headers: {
-        Authorization: cookieValue,
-      },
-    })
-      .then(function (response) {
-        var count = response.data.count;
-        var history = response.data.orders.map((order) => {
-          return {
-            orderId: order._id,
-            date: order.date,
-            dishList: order.dishList,
-            orderAmount: order.orderAmount,
-            orderStatus: order.orderStatus,
-            customerName: order.customerName,
-            customerContact: order.customerContact,
-          };
-        });
-
-        cb(history, count);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  };
 });
 
 // app.controller("historyCtrl", function ($scope, historyFactory) {

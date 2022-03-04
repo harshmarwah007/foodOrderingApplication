@@ -1,18 +1,21 @@
 /** @format */
 
 var app = angular.module("dashboard", [
-  "data",
   "ngCookies",
   "socketio",
   "ui.bootstrap",
+  "authentication",
+  "foodDishes",
+  "ordersData",
 ]);
 
 app.controller(
   "dashboardCtrl",
-  function ($scope, foodDishes, ordersData, socket) {
+  function ($scope, $cookies, foodDishes, ordersData, socket, authentication) {
     $scope.toggleModal = function () {
       $("#orderModal").modal("toggle");
     };
+    $scope.showPagination = false;
     $scope.currentPage = 1;
     $scope.ordersCount;
     $scope.maxSize = 3;
@@ -24,11 +27,7 @@ app.controller(
       console.log($scope.ordersCount);
     };
 
-    $scope.logOut = function () {
-      console.log("LOGGED OUT");
-      $cookies.remove("token");
-      location.reload();
-    };
+    $scope.logOut = authentication.logOut;
 
     //! just for refernce --- how to implement factory
 
@@ -37,6 +36,9 @@ app.controller(
       ordersData.getOrders($scope.currentPage, function (ordersData, count) {
         $scope.orders = ordersData;
         $scope.ordersCount = count;
+        if ($scope.ordersCount) {
+          $scope.showPagination = true;
+        }
       });
     };
 

@@ -54,6 +54,10 @@ router.get("/dishes", redisMiddle("foodDishesData"), getFoodDishes);
 router.post("/dishes", putFoodDishes);
 
 //Metrics route
-router.get("/metrics", getAllMetrics);
+router.get(
+  "/metrics",
+  passport.authenticate("jwt", { session: false }),
+  getAllMetrics
+);
 
 module.exports = router;

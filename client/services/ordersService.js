@@ -1,27 +1,7 @@
 /** @format */
 
-var app = angular.module("data", ["ngCookies"]);
+var app = angular.module("ordersData", ["ngCookies"]);
 var ApiUrl = "http://localhost:3000/food/";
-
-//Service for Metrics Data
-app.service("metricsData", function ($cookies, $http) {
-  var cookieValue = $cookies.get("token");
-  this.getMetricsData = function (cb) {
-    try {
-      $http({
-        url: `${ApiUrl}metrics`,
-        method: "GET",
-        headers: {
-          Authorization: cookieValue,
-        },
-      }).then(function (metrics) {
-        cb(metrics);
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-});
 
 //Service for  Orders Data
 app.service("ordersData", function ($http, $cookies) {
@@ -95,31 +75,5 @@ app.service("ordersData", function ($http, $cookies) {
     })
       .then((response) => cb(response))
       .catch((error) => console.log(error));
-  };
-});
-
-// Service for Food Dishes
-app.service("foodDishes", function ($http, $cookies) {
-  var cookieValue = $cookies.get("token");
-  this.getData = function (cb) {
-    $http({
-      //   url: "http://localhost:3000/food/dishes",
-      url: `${ApiUrl}dishes`,
-      method: "GET",
-    })
-      .then((response) => {
-        var foodDishes = response.data.map((item) => {
-          return {
-            id: item._id,
-            name: item.name,
-            price: item.price,
-            qty: 1,
-          };
-        });
-        cb(foodDishes);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
   };
 });

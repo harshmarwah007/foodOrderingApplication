@@ -1,6 +1,6 @@
 /** @format */
 
-var app = angular.module("metrics", ["data"]);
+var app = angular.module("metrics", ["metricsData"]);
 
 app.controller("metricsCtrl", function ($scope, metricsData) {
   $scope.value = "Hello";
@@ -24,9 +24,6 @@ app.controller("metricsCtrl", function ($scope, metricsData) {
           }
         }
       }
-
-      // console.log(salesMetrics);
-      // console.log(metrics);
       for (var item in salesMetricsData) {
         if (salesMetricsData[item].length) {
           $scope.salesMetrics.push(salesMetricsData[item][0]);

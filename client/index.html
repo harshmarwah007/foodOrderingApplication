@@ -15,8 +15,7 @@
       src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular-cookies.js"
     ></script>
     <script src="script.js"></script>
-    <script src="
-https://unpkg.com/@uirouter/angularjs@1.0.7/release/angular-ui-router.min.js"></script>
+    <script src="https://unpkg.com/@uirouter/angularjs@1.0.7/release/angular-ui-router.min.js"></script>
 
     <!-- for now -->
 
@@ -92,14 +91,21 @@ https://unpkg.com/@uirouter/angularjs@1.0.7/release/angular-ui-router.min.js"></
     ></script>
     <script src="assets/js/jquery.validate.min.js"></script>
     <script src="assets/js/app.js"></script>
+    <!-- controllers -->
     <script src="./controllers/dashboard.js"></script>
-    <script src="./controllers/authentication.js"></script>
+    <script src="./controllers/authentication/authService.js"></script>
     <script src="./controllers/history.js"></script>
     <script src="./controllers/metrics.js"></script>
     <script src="./controllers/customerLogin.js"></script>
-    <script src="./services/service.js"></script>
-
+    <script src="./controllers/authentication/logInCtrl.js"></script>
+    <script src="./controllers/authentication/registerCtrl.js"></script>
+    <!-- services -->
+    <script src="./services/ordersService.js"></script>
+    <script src="./services/metricsService.js"></script>
+    <script src="./services/historyService.js"></script>
+    <script src="./services/foodDishesService.js"></script>
     <script src="./services/socketioService.js"></script>
+    <!-- socketIo -->
     <script src="http://127.0.0.1:3000/socket.io/socket.io.js"></script>
   </body>
 </html>
