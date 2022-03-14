@@ -5,7 +5,7 @@ var app = angular.module("ordersFactory", [
   "ordersData",
   "ordersFactory",
 ]);
-app.factory("ordersFactory", function (ordersData, socket) {
+app.factory("ordersFactory", function (ordersData, socket, _) {
   // these are general functions
   var findItemById = function (items, id) {
     return _.find(items, function (item) {
@@ -17,6 +17,7 @@ app.factory("ordersFactory", function (ordersData, socket) {
     var outer = this;
     this.newOrder;
     this.cart = [];
+
     this.statusOptions = ["Preparing", "Prepared", "Completed"];
     this.getCost = function (item) {
       return item.qty * item.price;
@@ -69,13 +70,24 @@ app.factory("ordersFactory", function (ordersData, socket) {
       if (!outer.cart.length) {
         return alert("Add Items to Cart");
       }
-      if (!customerContact && !customerName) {
+      if (!customerContact) {
+        return alert("Enter Customer Details");
+      }
+      if (!customerName) {
         return alert("Enter Customer Details");
       }
       var retVal = confirm("Do you want to Confirm Order ?");
       if (retVal == true) {
         var orderAmount = outer.getTotal();
-        var dishList = outer.cart;
+
+        // let gfg = _.sortBy(object,
+        //   [function(o) { return o.obj; }]);
+
+        var dishList = _.sortBy(outer.cart, [
+          function (item) {
+            item.name;
+          },
+        ]);
         ordersData.createOrder(
           orderAmount,
           dishList,
@@ -85,12 +97,55 @@ app.factory("ordersFactory", function (ordersData, socket) {
             console.log("created", response.data.savedOrder);
             var order = response.data.savedOrder;
             socket.emit("OrderNotification", order);
-            //! we need to return this order
             cb(response.data.savedOrder);
-            // $scope.orders.push(response.data.savedOrder);
           }
         );
       }
+    };
+    this.updateOrder = function (customerName, customerContact, order) {
+      console.log("contact", customerContact);
+      console.log("name", customerName);
+      if (!outer.cart.length) {
+        alert("Add Items to Cart");
+        return false;
+      }
+      if (!customerName) {
+        alert("Enter Customer Name");
+        return false;
+      }
+      if (!customerContact) {
+        alert("Enter Customer Details");
+        return false;
+      }
+      var phoneno = /^\d{10}$/;
+
+      var phonenoValidate = function () {
+        if (String(customerContact).match(phoneno)) {
+          return true;
+        } else {
+          return false;
+        }
+      };
+
+      if (!phonenoValidate()) {
+        alert("Enter Valid Contact Number");
+        return false;
+      }
+
+      var retVal = confirm("Do you want to Update Order ?");
+      if (retVal == true) {
+        var orderAmount = outer.getTotal();
+        var dishList = outer.cart;
+        var updatedOrder = order;
+        updatedOrder.customerName = customerName;
+        updatedOrder.customerContact = customerContact;
+        updatedOrder.dishList = dishList;
+        updatedOrder.orderAmount = orderAmount;
+        ordersData.updateOrder(updatedOrder, function (response) {
+          console.log(response);
+        });
+      }
+      return true;
     };
     //!
   };

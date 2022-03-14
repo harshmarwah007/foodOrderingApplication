@@ -4,12 +4,16 @@ var app = angular.module("main", [
   "ngRoute",
   "ngCookies",
   "ui.router",
-  "dashboard",
   "registerCtrl",
   "logIn",
   "history",
   "metrics",
   "customerLogin",
+  "foodDishes",
+  "ui.bootstrap",
+  "authentication",
+  "ordersData",
+  "ordersFactory",
 ]);
 
 app.config(function ($stateProvider, $urlRouterProvider) {

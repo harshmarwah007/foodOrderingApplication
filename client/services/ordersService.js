@@ -64,7 +64,7 @@ app.service("ordersData", function ($http, $cookies) {
 
   this.changeStatus = function (orderStatusValue, orderId, cb) {
     $http({
-      url: `http://localhost:3000/food/order/${orderId}`,
+      url: `http://localhost:3000/food/orderStatus/${orderId}`,
       method: "PATCH",
       data: {
         orderStatus: orderStatusValue,
@@ -75,5 +75,26 @@ app.service("ordersData", function ($http, $cookies) {
     })
       .then((response) => cb(response))
       .catch((error) => console.log(error));
+  };
+  this.updateOrder = function (updatedOrder, cb) {
+    var orderId = updatedOrder.orderId;
+    var updatedOrder = angular.copy(updatedOrder);
+    console.log("updated one", updatedOrder);
+    $http({
+      url: `http://localhost:3000/food/order/${orderId}`,
+      method: "PATCH",
+      data: {
+        updatedOrder: updatedOrder,
+      },
+      headers: {
+        Authorization: cookieValue,
+      },
+    })
+      .then(function (response) {
+        cb(response);
+      })
+      .catch(function (error) {
+        cb(error);
+      });
   };
 });

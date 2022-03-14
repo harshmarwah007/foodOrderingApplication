@@ -1,29 +1,16 @@
 /** @format */
 
-var app = angular.module("dashboard", [
-  // "ngCookies",
-  "ui.bootstrap",
-  // "socketio",
-  "authentication",
-  "foodDishes",
-  "ordersData",
-  "ordersFactory",
-]);
-
 app.controller(
   "dashboardCtrl",
   function (
     $scope,
-    // $cookies,
-    foodDishes,
     ordersData,
-    socket,
     authentication,
-    ordersFactory
+    ordersFactory,
+    $uibModal,
+    foodDishes,
+    _
   ) {
-    $scope.toggleModal = function () {
-      $("#orderModal").modal("toggle");
-    };
     $scope.showPagination = false;
     $scope.currentPage = 1;
     $scope.ordersCount;
@@ -35,9 +22,22 @@ app.controller(
     };
 
     $scope.logOut = authentication.logOut;
-
-    //! just for refernce --- how to implement factory
-
+    //Food Dishes
+    $scope.getAllFooddishes = function () {
+      foodDishes.getData.then(function (response) {
+        $scope.foodDishes = response.data.map((item) => {
+          return {
+            id: item._id,
+            name: item.name,
+            price: item.price,
+            qty: 1,
+          };
+        });
+      });
+      //   foodDishes.getData(function (foodDishesData) {
+      //     $scope.foodDishes = foodDishesData;
+      //   });
+    };
     $scope.getAllOrders = function () {
       $scope.orders;
       ordersData.getOrders($scope.currentPage, function (ordersData, count) {
@@ -48,6 +48,7 @@ app.controller(
         }
       });
     };
+
     //! here object is made
 
     var orderBill = new ordersFactory();
@@ -63,61 +64,129 @@ app.controller(
       }
     };
 
-    //Food Dishes
-    foodDishes.getData(function (foodDishesData) {
-      $scope.foodDishes = foodDishesData;
-    });
-
-    //todo
-    $scope.cart = [];
-
-    //todo
-    $scope.getCost = function (item) {
-      orderBill.getCost(item);
+    $scope.openInfoModal = function (order) {
+      $uibModal
+        .open({
+          templateUrl: "/components/Modals/infoModal.html",
+          controller: "infoModalCtrl",
+          size: "md",
+          resolve: {
+            order: function () {
+              if (order) {
+                return order;
+              } else {
+                return null;
+              }
+            },
+          },
+        })
+        .result.then(
+          function () {},
+          function (res) {}
+        );
     };
-
-    $scope.addItem = function (itemToAdd) {
-      orderBill.addItem(itemToAdd);
-      $scope.cart = orderBill.cart;
-    };
-    $scope.totalAmount = null;
-    $scope.getTotal = function () {
-      var value = orderBill.getTotal();
-      return value;
-    };
-
-    $scope.clearCart = function () {
-      orderBill.clearCart();
-      $scope.cart = orderBill.cart;
-    };
-
-    $scope.removeItem = function (item) {
-      orderBill.removeItem(item);
-      $scope.cart = orderBill.cart;
-    };
-
-    // creating order
-    // var toggle = $scope.toggleModal();
-    $scope.createOrder = function (customerName, customerContact) {
-      orderBill.createOrder(
-        customerName,
-        customerContact,
-
-        function (newOrder) {
-          $scope.orders.push(newOrder);
-          $scope.toggleModal();
-        }
-      );
-      // $scope.toggleModal();
-      $("#orderModal").on("hidden.bs.modal", function () {
-        $("#orderModal form")[0].reset();
-      });
-      $scope.cart = [];
-      $scope.getTotal();
+    $scope.openOrderModal = function (typeOfModal, order) {
+      console.log("modal type", typeOfModal);
+      $uibModal
+        .open({
+          templateUrl: "/components/Modals/orderModal.html",
+          controller: "orderModalCtrl",
+          size: "lg",
+          resolve: {
+            foodDishes: function () {
+              return $scope.foodDishes;
+            },
+            typeOfModal: function () {
+              return typeOfModal;
+            },
+            order: function () {
+              if (order) {
+                return order;
+              } else {
+                return null;
+              }
+            },
+          },
+        })
+        .result.then(
+          function (newOrder) {
+            if (typeOfModal != "edit") {
+              $scope.orders.push(newOrder);
+            }
+          },
+          function (res) {}
+        );
     };
     //! last point
   }
 );
+
+app.factory("_", function ($window) {
+  var _ = $window._;
+  delete $window._;
+  return _;
+});
+
+// app.controller(
+//   "orderModalCtrl",
+//   function (ordersFactory, $scope, $uibModalInstance, foodDishes) {
+//     //Food Dishes
+//     $scope.getAllFooddishes = function () {
+//       foodDishes.getData(function (foodDishesData) {
+//         $scope.foodDishes = foodDishesData;
+//       });
+//     };
+
+//     var orderBill = new ordersFactory();
+
+//     $scope.cart = [];
+
+//     $scope.getCost = function (item) {
+//       orderBill.getCost(item);
+//     };
+
+//     $scope.addItem = function (itemToAdd) {
+//       orderBill.addItem(itemToAdd);
+//       $scope.cart = orderBill.cart;
+//     };
+//     $scope.totalAmount = null;
+//     $scope.getTotal = function () {
+//       var value = orderBill.getTotal();
+//       return value;
+//     };
+
+//     $scope.clearCart = function () {
+//       orderBill.clearCart();
+//       $scope.cart = orderBill.cart;
+//     };
+
+//     $scope.removeItem = function (item) {
+//       orderBill.removeItem(item);
+//       $scope.cart = orderBill.cart;
+//     };
+
+//     // creating order
+
+//     $scope.createOrder = function (customerName, customerContact) {
+//       orderBill.createOrder(
+//         customerName,
+//         customerContact,
+
+//         function (newOrder) {
+//           $uibModalInstance.close(newOrder);
+//           $scope.cart = [];
+//           $scope.getTotal();
+//         }
+//       );
+//     };
+
+//     // edit Order
+
+//     $scope.cancel = function () {
+//       $uibModalInstance.dismiss("cancel");
+//     };
+//   }
+// );
 
 // Services and Factories
 

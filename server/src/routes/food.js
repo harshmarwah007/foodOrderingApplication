@@ -16,6 +16,7 @@ const {
   getOrders,
   saveOrder,
   getAllOrders,
+  updateOrderStatus,
   updateOrder,
 } = require("../controller/ordersControllers");
 // Food Orders Routes
@@ -33,6 +34,11 @@ router.get(
   "/order/:pageNo",
   passport.authenticate("jwt", { session: false }),
   getOrders
+);
+router.patch(
+  "/orderStatus/:orderId",
+  passport.authenticate("jwt", { session: false }),
+  updateOrderStatus
 );
 router.patch(
   "/order/:orderId",

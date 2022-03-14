@@ -1,0 +1,62 @@
+<!-- @format -->
+
+<div class="modal-content">
+  <div class="modal-header">
+    <h5 class="modal-title" id="staticBackdropLabel">Order details</h5>
+    <button
+      type="button"
+      ng-click="cancel()"
+      class="close"
+      data-dismiss="modal"
+      aria-label="Close"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <table>
+      <tr>
+        <th>#</th>
+
+        <th>Name</th>
+        <th>&nbsp;&nbsp;&nbsp;&nbsp;</th>
+        <th>Price</th>
+      </tr>
+      <tr ng-repeat="item in order.dishList">
+        <td>{{$index+1}}.&nbsp;&nbsp;</td>
+        <td>{{ item.name }}</td>
+        <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+        <td>{{ item.price | currency:"₹":true }}</td>
+      </tr>
+    </table>
+    <hr />
+    <table class="textCapitalize">
+      <tr>
+        <td><b>Total Amount :</b></td>
+        <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+        <td>{{order.orderAmount | currency:"₹":true }}</td>
+      </tr>
+      <tr>
+        <td><b>Customer Name :</b></td>
+        <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+        <td>{{order.customerName}}</td>
+      </tr>
+      <tr>
+        <td><b>Customer Contact :</b></td>
+        <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+        <td>{{order.customerContact}}</td>
+      </tr>
+
+      <tr>
+        <td><b>Ordered Before :</b></td>
+        <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+        <td style="text-transform: none">{{date}}</td>
+      </tr>
+    </table>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" ng-click="cancel()">
+      Close
+    </button>
+  </div>
+</div>

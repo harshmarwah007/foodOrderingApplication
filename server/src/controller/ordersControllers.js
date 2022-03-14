@@ -70,13 +70,12 @@ const saveOrder = async (req, res) => {
 };
 
 // Update Order
-const updateOrder = async (req, res) => {
+const updateOrderStatus = async (req, res) => {
   try {
     const updatedOrder = await foodOrders.updateOne(
       { _id: req.params.orderId },
       { orderStatus: req.body.orderStatus }
     );
-
     socketData(req.params.orderId, req.body.orderStatus);
     res.json(updatedOrder);
   } catch (error) {
@@ -84,7 +83,21 @@ const updateOrder = async (req, res) => {
   }
 };
 
-const socketData = (orderId, orderStatus) => {};
-socketData("62162f326e7da919d1172ea0", "Prepared");
-
-module.exports = { getOrders, saveOrder, getAllOrders, updateOrder };
+const updateOrder = async (req, res) => {
+  try {
+    const updatedOrder = await foodOrders.updateOne(
+      { _id: req.params.orderId },
+      req.body.updatedOrder
+    );
+    res.json(updatedOrder);
+  } catch (error) {
+    res.json({ message: error });
+  }
+};
+module.exports = {
+  getOrders,
+  saveOrder,
+  getAllOrders,
+  updateOrderStatus,
+  updateOrder,
+};
