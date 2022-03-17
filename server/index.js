@@ -20,6 +20,7 @@ require("./src/config/passport");
 const port = process.env.PORT || 3000;
 const authRoutes = require("./src/routes/auth");
 const foodRoutes = require("./src/routes/food");
+const tableRoutes = require("./src/routes/table");
 
 // middlewares
 app.use("/", express.static(path.join(__dirname, "../", "/client")));
@@ -53,6 +54,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use("/user", authRoutes);
 app.use("/food", foodRoutes);
+app.use("/orderTable", tableRoutes);
 
 app.get("/", (req, res) => {
   res.send("Harsh Marwah");

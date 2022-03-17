@@ -22,6 +22,15 @@ const foodOrdersSchema = mongoose.Schema({
     type: Array,
     require: true,
   },
+  orderType: {
+    type: String,
+    require: true,
+    default: "take away",
+  },
+  orderTableNumber: {
+    type: String,
+    default: null,
+  },
   customerName: {
     type: String,
     require: true,

@@ -18,6 +18,7 @@ const {
   getAllOrders,
   updateOrderStatus,
   updateOrder,
+  getDineInOrders,
 } = require("../controller/ordersControllers");
 // Food Orders Routes
 router.get(
@@ -49,6 +50,11 @@ router.get(
   "/history/:pageNo",
   passport.authenticate("jwt", { session: false }),
   getHistory
+);
+router.get(
+  "/dineInOrders",
+  passport.authenticate("jwt", { session: false }),
+  getDineInOrders
 );
 
 //Food Dishes Routers

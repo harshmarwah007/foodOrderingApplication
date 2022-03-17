@@ -37,6 +37,16 @@
         <td>{{order.orderAmount | currency:"₹":true }}</td>
       </tr>
       <tr>
+        <td><b>Order Type:</b></td>
+        <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+        <td>{{order.orderType || "TakeAway"}}</td>
+      </tr>
+      <tr ng-if="order.orderTableNumber">
+        <td><b>Order Table:</b></td>
+        <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+        <td>{{order.orderTableNumber || "Not Available"}}</td>
+      </tr>
+      <tr>
         <td><b>Customer Name :</b></td>
         <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
         <td>{{order.customerName}}</td>

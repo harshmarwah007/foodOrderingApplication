@@ -63,10 +63,17 @@ app.factory("ordersFactory", function (ordersData, socket, _) {
         data: order,
       });
 
-      ordersData.changeStatus(orderStatusValue, orderId, function () {});
+      ordersData.changeStatus(orderStatusValue, orderId, order, function () {});
     };
 
-    this.createOrder = function (customerName, customerContact, cb) {
+    this.createOrder = function (
+      customerName,
+      customerContact,
+      orderType,
+      tableNumber,
+      cb
+    ) {
+      var orderTableNumber;
       if (!outer.cart.length) {
         return alert("Add Items to Cart");
       }
@@ -76,13 +83,19 @@ app.factory("ordersFactory", function (ordersData, socket, _) {
       if (!customerName) {
         return alert("Enter Customer Details");
       }
+
+      if (orderType == "dineIn" && !tableNumber) {
+        return alert("Please select Table");
+      }
+      if (orderType == "dineIn") {
+        orderTableNumber = tableNumber;
+      } else {
+        orderTableNumber = null;
+      }
+
       var retVal = confirm("Do you want to Confirm Order ?");
       if (retVal == true) {
         var orderAmount = outer.getTotal();
-
-        // let gfg = _.sortBy(object,
-        //   [function(o) { return o.obj; }]);
-
         var dishList = _.sortBy(outer.cart, [
           function (item) {
             item.name;
@@ -93,6 +106,8 @@ app.factory("ordersFactory", function (ordersData, socket, _) {
           dishList,
           customerContact,
           customerName.toLowerCase(),
+          orderType,
+          orderTableNumber,
           function (response) {
             console.log("created", response.data.savedOrder);
             var order = response.data.savedOrder;
@@ -102,7 +117,14 @@ app.factory("ordersFactory", function (ordersData, socket, _) {
         );
       }
     };
-    this.updateOrder = function (customerName, customerContact, order) {
+    this.updateOrder = function (
+      customerName,
+      customerContact,
+      order,
+      orderType,
+      tableNumber,
+      previousTableNumber
+    ) {
       console.log("contact", customerContact);
       console.log("name", customerName);
       if (!outer.cart.length) {
@@ -141,9 +163,21 @@ app.factory("ordersFactory", function (ordersData, socket, _) {
         updatedOrder.customerContact = customerContact;
         updatedOrder.dishList = dishList;
         updatedOrder.orderAmount = orderAmount;
-        ordersData.updateOrder(updatedOrder, function (response) {
-          console.log(response);
-        });
+        updatedOrder.orderType = orderType;
+        if (orderType == "dineIn") {
+          updatedOrder.orderTableNumber = tableNumber;
+        } else {
+          updatedOrder.orderTableNumber = null;
+        }
+        // console.log("orderrrrr", previousTableNumber);
+        ordersData.updateOrder(
+          updatedOrder,
+          order,
+          previousTableNumber,
+          function (response) {
+            console.log(response);
+          }
+        );
       }
       return true;
     };

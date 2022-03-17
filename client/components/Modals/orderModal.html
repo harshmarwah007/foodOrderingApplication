@@ -48,19 +48,29 @@
                       <div>
                         <form name="customerDetails"> 
                           <h2></h2>
-                          <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                              <button class="btn btn-outline-secondary" type="button">Button</button>
-                              <button class="btn btn-outline-secondary" type="button">Button</button>
+                          <div class="mb-3">
+                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                              <label id="takeAway" ng-class="{active : takeAwayButton}" class="btn btn-secondary">
+                                <input ng-change="changeOccured()" type="radio" name="options" ng-model="orderType"  value="takeAway"autocomplete="off"> Take Away
+                              </label>
+                              <label ng-show="emptyTable" id="dineIn" ng-class="{'active':dineInButton}" class="btn btn-secondary">
+                                <input  ng-change="changeOccured()" type="radio" name="options"  ng-model="orderType"  value="dineIn"autocomplete="off" > Dine In
+                              </label>
                             </div>
-                            <select ng-model="selectedItem" class=" border border-primary  bg-light  btn  dropdown-toggle"
-                      ng-init="selectedItem = order.orderStatus" 
-                      ng-change="statusChange(selectedItem,order.orderId,order)"
-                      ng-options="item for item in statusOptions"></select>
-                      </div>
-                          </div><br>
-                          <input type="radio" name="takeAway" id="orderType"><label>Takeaway/Delivery</label>
-                          <input type="radio" name="takeAway" id="orderType"><label>Dine In</label><br>
+                            <div ng-show="!emptyTable">You need to wait for Dine In - all occupied</div>
+                            <div ng-switch="orderType"> 
+                              <div ng-switch-when="dineIn" style="margin-top: 10px;">
+                                <div><b>Select Table</b></div>
+                                
+                                <div ><label class="btn m-1"  ng-repeat ="item in tableData.tablesData" 
+                                  ng-click="setOrderTable($parent.tableNumber)" ng-hide="typeOfModal != 'edit' && item.occupied" ng-class="{'btn-outline-success':item.occupied == false,'btn-outline-danger':item.occupied,'btn-warning':item.tableNumber == tableNumber}" ng-model="$parent.tableNumber"
+                                   uib-btn-radio="{{item.tableNumber}}" uib-uncheckable='true'>{{item.tableNumber}}</label></div>
+                               <div ><button>{{tableNumber}}</button></div>
+                                
+                              </div>
+                            </div>
+                            <!-- {{orderType}} -->
+                          </div>
                           <label>Customer Name</label>
                           <input ng-change="changeOccured()"  name="customerName" class="form-control" required type="text" required ng-model="customerName" placeholder="Customer Name">
                           <label>Customer Contact</label>
@@ -74,6 +84,7 @@
         <div class="modal-footer">
         <button class="btn btn-danger" ng-click="clearCart()">Clear Cart</button> 
           <button type="button" class="btn btn-secondary" ng-click="cancel()">Close</button>
+          <!-- <button type="button" class="btn btn-secondary" ng-click="changeOrderTypeButton('dineIn')">changetype</button> -->
           <button type="button" class="btn btn-warning" 
           ng-show="updateButton"
           
@@ -82,7 +93,7 @@
           <button type="button" class="btn btn-primary" 
           ng-show="orderButton"
           ng-disabled="customerDetails.customerContact.$invalid" 
-          id="close" ng-click="createOrder(customerName,customerContact)">Pay & Order</button>
+          id="close" ng-click="createOrder(customerName,customerContact,orderType)">Pay & Order</button>
         </div>
       </div>
     

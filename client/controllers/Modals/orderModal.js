@@ -9,12 +9,57 @@ app.controller(
     foodDishes,
     typeOfModal,
     order,
+    orderTableData,
     _
   ) {
+    $scope.typeOfModal = typeOfModal;
+    $scope.justValue = true;
+    $scope.buttonColor = "btn btn-primary ml-1";
+    $scope.dineInButton = false;
+    $scope.takeAwayButton = true;
+    $scope.orderType = "takeAway";
+    $scope.tableNumber;
+    var previousTableNumber;
+    //var tempTableNumber;
+    $scope.setOrderTable = function (tableNumber) {
+      $scope.tableNumber = tableNumber;
+      $scope.changeOccured();
+    };
+    // $scope.currentTable = null;
+    $scope.changeOrderTypeButton = function (orderType) {
+      if (orderType == "dineIn") {
+        $scope.orderType = "dineIn";
+        $scope.takeAwayButton = false;
+        $scope.dineInButton = true;
+      }
+    };
+
+    if (typeOfModal == "edit") {
+      console.log("valueeeeee", order.orderType, order.orderTableNumber);
+      $scope.changeOrderTypeButton(order.orderType);
+      $scope.tableNumber = order.orderTableNumber;
+      previousTableNumber = order.orderTableNumber;
+      //$scope.setOrderTable(order.orderTableNumber);
+    }
+    //! getting tables data here
+    $scope.tableData;
+    orderTableData.getTables(function (response) {
+      $scope.emptyTable = 0;
+
+      $scope.tableData = response.data;
+      response.data.tablesData.forEach(function (item) {
+        if (!item.occupied) {
+          $scope.emptyTable++;
+        }
+      });
+      console.log($scope.emptyTable);
+    });
+
     $scope.foodDishes = foodDishes;
     $scope.customerContact;
     $scope.customerName;
     $scope.updateOrderAvailble = true;
+
     var orderBill = new ordersFactory();
 
     $scope.cart = [];
@@ -48,11 +93,12 @@ app.controller(
 
     // creating order
 
-    $scope.createOrder = function (customerName, customerContact) {
+    $scope.createOrder = function (customerName, customerContact, orderType) {
       orderBill.createOrder(
         customerName,
         customerContact,
-
+        orderType,
+        $scope.tableNumber,
         function (newOrder) {
           $uibModalInstance.close(newOrder);
           $scope.cart = [];
@@ -85,10 +131,18 @@ app.controller(
             parseInt(order.customerContact),
             $scope.customerContact
           );
+          var table = _.isEqual(
+            parseInt(order.orderTableNumber),
+            parseInt($scope.tableNumber)
+          );
+          var orderType = _.isEqual(order.orderType, $scope.orderType);
+
           if (
             !customerContactResult ||
             !customerNameResult ||
-            !dishListResult
+            !dishListResult ||
+            !table ||
+            !orderType
           ) {
             $scope.changeVisibilityofUpdateButton = false;
             $scope.updateOrderAvailble = true;
@@ -102,7 +156,10 @@ app.controller(
         var result = orderBill.updateOrder(
           $scope.customerName,
           $scope.customerContact,
-          order
+          order,
+          $scope.orderType,
+          $scope.tableNumber,
+          previousTableNumber
         );
         if (result) {
           $uibModalInstance.close();
@@ -126,3 +183,19 @@ app.controller(
     }
   }
 );
+
+app.service("orderTableData", function ($http) {
+  this.getTables = function (cb) {
+    $http({
+      url: "http://localhost:3000/orderTable",
+      method: "GET",
+    })
+      .then(function (result) {
+        cb(result);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+  this.setTable = function () {};
+});

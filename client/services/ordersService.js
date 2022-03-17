@@ -12,6 +12,8 @@ app.service("ordersData", function ($http, $cookies) {
     dishList,
     customerContact,
     customerName,
+    orderType,
+    orderTableNumber,
     cb
   ) {
     $http({
@@ -25,10 +27,42 @@ app.service("ordersData", function ($http, $cookies) {
         dishList: dishList,
         customerName: customerName,
         customerContact: customerContact,
+        orderType: orderType,
+        orderTableNumber: orderTableNumber,
       },
     })
       .then((response) => {
         cb(response);
+      })
+      .catch((error) => console.log(error));
+  };
+
+  this.getDineInOrders = function (cb) {
+    $http({
+      //   url: "http://localhost:3000/food/order",
+      url: `${ApiUrl}dineInOrders`,
+      method: "GET",
+
+      headers: {
+        Authorization: cookieValue,
+      },
+    })
+      .then((response) => {
+        console.log("dinein", response.data);
+        var dineInOrders = response.data.map((order) => {
+          return {
+            orderId: order._id,
+            date: order.date,
+            dishList: order.dishList,
+            orderAmount: order.orderAmount,
+            orderStatus: order.orderStatus,
+            customerName: order.customerName,
+            customerContact: order.customerContact,
+            orderType: order.orderType,
+            orderTableNumber: order.orderTableNumber,
+          };
+        });
+        cb(dineInOrders);
       })
       .catch((error) => console.log(error));
   };
@@ -45,7 +79,6 @@ app.service("ordersData", function ($http, $cookies) {
     })
       .then((response) => {
         var count = response.data.count;
-
         var orders = response.data.orders.map((order) => {
           return {
             orderId: order._id,
@@ -55,6 +88,8 @@ app.service("ordersData", function ($http, $cookies) {
             orderStatus: order.orderStatus,
             customerName: order.customerName,
             customerContact: order.customerContact,
+            orderType: order.orderType,
+            orderTableNumber: order.orderTableNumber,
           };
         });
         cb(orders, count);
@@ -62,12 +97,13 @@ app.service("ordersData", function ($http, $cookies) {
       .catch((error) => console.log(error));
   };
 
-  this.changeStatus = function (orderStatusValue, orderId, cb) {
+  this.changeStatus = function (orderStatusValue, orderId, order, cb) {
     $http({
       url: `http://localhost:3000/food/orderStatus/${orderId}`,
       method: "PATCH",
       data: {
         orderStatus: orderStatusValue,
+        order: order,
       },
       headers: {
         Authorization: cookieValue,
@@ -76,7 +112,7 @@ app.service("ordersData", function ($http, $cookies) {
       .then((response) => cb(response))
       .catch((error) => console.log(error));
   };
-  this.updateOrder = function (updatedOrder, cb) {
+  this.updateOrder = function (updatedOrder, order, previousTableNumber, cb) {
     var orderId = updatedOrder.orderId;
     var updatedOrder = angular.copy(updatedOrder);
     console.log("updated one", updatedOrder);
@@ -85,6 +121,8 @@ app.service("ordersData", function ($http, $cookies) {
       method: "PATCH",
       data: {
         updatedOrder: updatedOrder,
+        order: order,
+        previousTableNumber: previousTableNumber,
       },
       headers: {
         Authorization: cookieValue,
