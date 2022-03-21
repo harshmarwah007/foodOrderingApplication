@@ -70,5 +70,6 @@ const io = require("socket.io")(http, {
     methods: ["GET", "POST"],
   },
 });
+// const io = require("socket.io")(http);
 // call socketio
 getSocket(io);

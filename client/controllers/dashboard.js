@@ -78,7 +78,7 @@ app.controller(
     $scope.openInfoModal = function (order) {
       $uibModal
         .open({
-          templateUrl: "/components/Modals/infoModal.html",
+          templateUrl: "components/Modals/infoModal.html",
           controller: "infoModalCtrl",
           size: "md",
           resolve: {
@@ -100,7 +100,7 @@ app.controller(
       console.log("modal type", typeOfModal);
       $uibModal
         .open({
-          templateUrl: "/components/Modals/orderModal.html",
+          templateUrl: "components/Modals/orderModal.html",
           controller: "orderModalCtrl",
           size: "lg",
           resolve: {
