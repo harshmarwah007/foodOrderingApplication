@@ -179,7 +179,9 @@ app.factory("ordersFactory", function (ordersData, socket, _) {
           }
         );
       }
-      return true;
+      return {
+        updatedOrder: updatedOrder,
+      };
     };
     //!
   };

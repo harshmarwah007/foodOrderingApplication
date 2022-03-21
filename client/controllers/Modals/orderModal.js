@@ -136,7 +136,7 @@ app.controller(
             parseInt($scope.tableNumber)
           );
           var orderType = _.isEqual(order.orderType, $scope.orderType);
-
+          $scope.diffOrderType = orderType; // boolean
           if (
             !customerContactResult ||
             !customerNameResult ||
@@ -162,7 +162,11 @@ app.controller(
           previousTableNumber
         );
         if (result) {
-          $uibModalInstance.close();
+          $uibModalInstance.close({
+            updatedOrder: result.updatedOrder,
+            previousTableNumber: previousTableNumber,
+            diffOrderType: $scope.diffOrderType,
+          });
         }
       } else {
         alert("No changes are there to update the order");

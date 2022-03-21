@@ -23,8 +23,8 @@ const foodRoutes = require("./src/routes/food");
 const tableRoutes = require("./src/routes/table");
 
 // middlewares
-app.use("/", express.static(path.join(__dirname, "../", "/client")));
-console.log(path.join(__dirname, "../", "/client"));
+// app.use("/", express.static(path.join(__dirname, "../", "/client")));
+
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -64,6 +64,11 @@ http.listen(port, () => {
   console.log("server is running ", port);
 });
 // setting up socket
-const io = require("socket.io")(http);
+const io = require("socket.io")(http, {
+  cors: {
+    origin: "http://127.0.0.1:5500",
+    methods: ["GET", "POST"],
+  },
+});
 // call socketio
 getSocket(io);

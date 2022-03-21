@@ -127,6 +127,27 @@ app.controller(
               } else {
                 $scope.dineInOrders.push(newOrder);
               }
+            } else {
+              if (newOrder.updatedOrder.orderType == "dineIn") {
+                console.log(newOrder.diffOrderType);
+
+                if (!newOrder.diffOrderType) {
+                  console.log("order diff");
+                  $scope.dineInOrders.push(newOrder.updatedOrder);
+                  var index = $scope.orders.findIndex(
+                    (order) => order.orderId == newOrder.updatedOrder.orderId
+                  );
+                  $scope.orders.splice(index, 1);
+                } else {
+                  console.log("order not diff");
+                }
+              } else {
+                $scope.orders.push(newOrder.updatedOrder);
+                var index = $scope.dineInOrders.findIndex(
+                  (order) => order.orderId == newOrder.updatedOrder.orderId
+                );
+                $scope.dineInOrders.splice(index, 1);
+              }
             }
           },
           function (res) {}

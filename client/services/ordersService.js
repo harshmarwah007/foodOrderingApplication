@@ -39,7 +39,6 @@ app.service("ordersData", function ($http, $cookies) {
 
   this.getDineInOrders = function (cb) {
     $http({
-      //   url: "http://localhost:3000/food/order",
       url: `${ApiUrl}dineInOrders`,
       method: "GET",
 
@@ -48,7 +47,6 @@ app.service("ordersData", function ($http, $cookies) {
       },
     })
       .then((response) => {
-        console.log("dinein", response.data);
         var dineInOrders = response.data.map((order) => {
           return {
             orderId: order._id,
@@ -69,7 +67,6 @@ app.service("ordersData", function ($http, $cookies) {
 
   this.getOrders = function (pageNo, cb) {
     $http({
-      //   url: "http://localhost:3000/food/order",
       url: `${ApiUrl}order/${pageNo}`,
       method: "GET",
 
