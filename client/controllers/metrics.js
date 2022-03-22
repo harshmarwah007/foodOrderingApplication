@@ -29,7 +29,6 @@ app.controller("metricsCtrl", function ($scope, metricsData) {
           $scope.salesMetrics.push(salesMetricsData[item][0]);
         }
       }
-      console.log("first");
     });
   };
 });

@@ -23,6 +23,9 @@ app.controller(
         function (result, count) {
           $scope.history = result;
           $scope.ordersCount = count;
+          if ($scope.ordersCount) {
+            $scope.showPagination = true;
+          }
         }
       );
     };

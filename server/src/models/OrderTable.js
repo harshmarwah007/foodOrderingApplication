@@ -8,7 +8,7 @@ const orderTableSchema = mongoose.Schema({
     ref: "users",
   },
   tableNumber: {
-    type: String,
+    type: Number,
     required: true,
   },
   occupied: {

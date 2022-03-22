@@ -33,7 +33,8 @@
           </div>
         </div>
       </div>
-      <div style="margin-top: 50px;" >
+      <div ng-if="showPagination"
+      style="margin-top: 50px;" >
         <div class="justify-content-center" 
         uib-pagination 
         total-items="ordersCount" 
@@ -45,6 +46,9 @@
         rotate="false"
         items-per-page="itemsPerPage" >
         </div>
+      </div>
+      <div ng-if="!showPagination">
+        <h4>#### Create some orders ####</h4>
       </div>
   </div>
 </div>

@@ -115,7 +115,6 @@ app.controller(
     $scope.orderChanged = false;
     $scope.changeVisibilityofUpdateButton = true;
     $scope.changeOccured = function () {
-      console.log("first");
       if (typeOfModal == "edit") {
         $scope.changeVisibilityofUpdateButton = true;
         if (order && $scope.customerContact && $scope.customerName) {
@@ -188,11 +187,15 @@ app.controller(
   }
 );
 
-app.service("orderTableData", function ($http) {
+app.service("orderTableData", function ($http, $cookies) {
+  var cookieValue = $cookies.get("token");
   this.getTables = function (cb) {
     $http({
       url: "http://localhost:3000/orderTable",
       method: "GET",
+      headers: {
+        Authorization: cookieValue,
+      },
     })
       .then(function (result) {
         cb(result);

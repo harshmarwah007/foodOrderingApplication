@@ -11,6 +11,7 @@ app.controller(
     foodDishes,
     _
   ) {
+    $scope.showOrdersTabs = false;
     $scope.showPagination = false;
     $scope.currentPage = 1;
     $scope.ordersCount;
@@ -39,6 +40,10 @@ app.controller(
     $scope.getAllDineInOrders = function () {
       ordersData.getDineInOrders(function (dineInOrders) {
         $scope.dineInOrders = dineInOrders;
+
+        if ($scope.dineInOrders.length) {
+          $scope.showOrdersTabs = true;
+        }
       });
     };
 
@@ -49,6 +54,7 @@ app.controller(
         $scope.ordersCount = count;
         if ($scope.ordersCount) {
           $scope.showPagination = true;
+          // $scope.showOrdersTabs = true;
         }
       });
     };
@@ -97,7 +103,6 @@ app.controller(
         );
     };
     $scope.openOrderModal = function (typeOfModal, order) {
-      console.log("modal type", typeOfModal);
       $uibModal
         .open({
           templateUrl: "components/Modals/orderModal.html",
@@ -129,17 +134,13 @@ app.controller(
               }
             } else {
               if (newOrder.updatedOrder.orderType == "dineIn") {
-                console.log(newOrder.diffOrderType);
-
                 if (!newOrder.diffOrderType) {
-                  console.log("order diff");
                   $scope.dineInOrders.push(newOrder.updatedOrder);
                   var index = $scope.orders.findIndex(
                     (order) => order.orderId == newOrder.updatedOrder.orderId
                   );
                   $scope.orders.splice(index, 1);
                 } else {
-                  console.log("order not diff");
                 }
               } else {
                 $scope.orders.push(newOrder.updatedOrder);
@@ -154,6 +155,11 @@ app.controller(
         );
     };
     //! last point
+
+    $scope.getAllData = function () {
+      $scope.getAllDineInOrders();
+      $scope.getAllOrders();
+    };
   }
 );
 

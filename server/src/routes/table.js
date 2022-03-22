@@ -10,7 +10,11 @@ const {
 const passport = require("passport");
 require("../config/passport");
 
-router.get("/", getOrderTable);
+router.get(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  getOrderTable
+);
 router.post("/", createOrderTable);
 router.patch("/", updateOrderTable);
 module.exports = router;
