@@ -8,7 +8,7 @@ const getAllMetrics = async (req, res) => {
 
   var allMetrics = await foodOrders.aggregate([
     {
-      $match: { orderStatus: "Completed" },
+      $match: { orderStatus: "Completed", userId: req.user._id },
     },
     {
       $facet: {
@@ -188,7 +188,7 @@ const getAllMetrics = async (req, res) => {
   ]);
   var salesMetrics = await foodOrders.aggregate([
     {
-      $match: { orderStatus: "Completed" },
+      $match: { orderStatus: "Completed", userId: req.user._id },
     },
     {
       $facet: {
