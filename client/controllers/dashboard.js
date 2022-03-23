@@ -25,15 +25,8 @@ app.controller(
     $scope.logOut = authentication.logOut;
     //Food Dishes
     $scope.getAllFooddishes = function () {
-      foodDishes.getData.then(function (response) {
-        $scope.foodDishes = response.data.map((item) => {
-          return {
-            id: item._id,
-            name: item.name,
-            price: item.price,
-            qty: 1,
-          };
-        });
+      foodDishes.getData(function (foodDishesData) {
+        $scope.foodDishesData = foodDishesData;
       });
     };
     //!
@@ -109,8 +102,8 @@ app.controller(
           controller: "orderModalCtrl",
           size: "lg",
           resolve: {
-            foodDishes: function () {
-              return $scope.foodDishes;
+            foodDishesData: function () {
+              return $scope.foodDishesData;
             },
             typeOfModal: function () {
               return typeOfModal;

@@ -18,6 +18,14 @@ const foodOrdersSchema = mongoose.Schema({
     type: Number,
     require: true,
   },
+  tax: {
+    type: Number,
+    require: true,
+  },
+  totalAmount: {
+    type: Number,
+    require: true,
+  },
   dishList: {
     type: Array,
     require: true,

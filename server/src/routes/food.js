@@ -62,7 +62,8 @@ router.get(
 var redis = require("redis");
 var client = redis.createClient();
 client.connect();
-router.get("/dishes", redisMiddle("foodDishesData"), getFoodDishes);
+// router.get("/dishes", redisMiddle("foodDishesData"), getFoodDishes);
+router.get("/dishes", getFoodDishes);
 router.post("/dishes", putFoodDishes);
 
 //Metrics route

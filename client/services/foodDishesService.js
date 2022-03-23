@@ -3,56 +3,67 @@
 var app = angular.module("foodDishes", ["ngCookies"]);
 var ApiUrl = "http://localhost:3000/food/";
 // Service for Food Dishes
-// app.service("foodDishes", function ($http, $cookies) {
-//   var cookieValue = $cookies.get("token");
-//   this.getData = function (cb) {
-//     $http({
-//       //   url: "http://localhost:3000/food/dishes",
-//       url: `${ApiUrl}dishes`,
-//       method: "GET",
-//     })
-//       .then((response) => {
-//         var foodDishes = response.data.map((item) => {
-//           return {
-//             id: item._id,
-//             name: item.name,
-//             price: item.price,
-//             qty: 1,
-//           };
-//         });
-//         cb(foodDishes);
-//       })
-//       .catch((error) => {
-//         console.log(error);
-//       });
-//   };
-// });
-app.service("foodDishes", function ($http, $cookies) {
-  var cookieValue = $cookies.get("token");
-  this.getData = new Promise(function (resolve, reject) {
-    var data = $http({
+app.service("foodDishes", function ($http) {
+  this.getData = function (cb) {
+    $http({
       url: `${ApiUrl}dishes`,
       method: "GET",
-    });
+    })
+      .then(function (response) {
+        var foodDishesData = {};
+        var categories = response.data.map((item) => {
+          var dishes = item.dishes.map(function (dish) {
+            return {
+              dishDetails: {
+                name: dish.name,
+                price: dish.price,
+                tag: dish.tag,
+                tax: dish.tax,
+              },
+              id: dish.id,
+              qty: 1,
+            };
+          });
 
-    if (data) {
-      resolve(data);
-    } else {
-      reject("Didn't get Data");
-    }
-    // .then((response) => {
-    //   var foodDishes = response.data.map((item) => {
-    //     return {
-    //       id: item._id,
-    //       name: item.name,
-    //       price: item.price,
-    //       qty: 1,
-    //     };
-    //   });
-    //   resolve(foodDishes);
-    // })
-    // .catch((error) => {
-    //   console.log(error);
-    // });
-  });
+          foodDishesData[item.category] = dishes;
+          return item.category;
+        });
+
+        cb({ categories: categories, foodDishes: foodDishesData });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
 });
+// app.service("foodDishes", function ($http, $cookies) {
+//   var cookieValue = $cookies.get("token");
+
+//   this.getData = new Promise(function (resolve, reject) {
+//     var data = $http({
+//       url: `${ApiUrl}dishes`,
+//       method: "GET",
+//     });
+
+//     console.log(data);
+//     if (data) {
+//       resolve(data);
+//     } else {
+//       reject("Didn't get Data");
+//     }
+// .then((response) => {
+//   var foodDishes = response.data.map((item) => {
+//     return {
+//       id: item._id,
+//       name: item.name,
+//       price: item.price,
+//       qty: 1,
+//     };
+//   });
+//   resolve(foodDishes);
+// })
+// .catch((error) => {
+//   console.log(error);
+// });
+//   });
+// });

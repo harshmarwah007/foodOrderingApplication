@@ -7,7 +7,41 @@ client.connect();
 const getFoodDishes = async (req, res) => {
   // const dishes = await FoodDishes.find();
 
-  FoodDishes.find().then(function (dishes) {
+  // FoodDishes.find()
+  //   .populate("category")
+  FoodDishes.aggregate([
+    {
+      $lookup: {
+        from: "foodcategories",
+        localField: "category",
+        foreignField: "_id",
+        as: "category",
+      },
+    },
+    {
+      $group: {
+        _id: "$category.name",
+        dishes: {
+          $push: {
+            id: "$_id",
+            name: "$name",
+            price: "$price",
+            alias: "$alias",
+            tag: "$tag",
+            tax: "$tax",
+          },
+        },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        category: { $arrayElemAt: ["$_id", 0] },
+
+        dishes: "$dishes",
+      },
+    },
+  ]).then(function (dishes) {
     client
       .setEx("foodDishesData", 3600, JSON.stringify(dishes))
       .then((result) => console.log("saved"))
@@ -18,10 +52,14 @@ const getFoodDishes = async (req, res) => {
 };
 
 const putFoodDishes = async (req, res) => {
-  const { name, price } = req.body;
+  const { name, price, category, tag, alias, tax } = req.body;
   const dish = new FoodDishes({
     name: name,
     price: price,
+    category: category,
+    tag: tag,
+    alias: alias,
+    tax: tax,
   });
   const savedDish = await dish.save();
   res.json({ message: "dishes saved", savedDish });

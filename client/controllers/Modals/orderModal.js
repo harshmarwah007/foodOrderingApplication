@@ -6,7 +6,7 @@ app.controller(
     ordersFactory,
     $scope,
     $uibModalInstance,
-    foodDishes,
+    foodDishesData,
     typeOfModal,
     order,
     orderTableData,
@@ -55,7 +55,8 @@ app.controller(
       console.log($scope.emptyTable);
     });
 
-    $scope.foodDishes = foodDishes;
+    $scope.foodDishesData = foodDishesData;
+    console.log($scope.foodDishesData);
     $scope.customerContact;
     $scope.customerName;
     $scope.updateOrderAvailble = true;
