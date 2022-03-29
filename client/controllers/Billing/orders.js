@@ -17,21 +17,105 @@ app.factory("ordersFactory", function (ordersData, socket, _) {
     var outer = this;
     this.newOrder;
     this.cart = [];
-
+    this.taxes = [];
+    this.total = 0;
+    this.totalTaxValue;
     this.statusOptions = ["Preparing", "Prepared", "Completed"];
     this.getCost = function (item) {
       return item.qty * item.price;
     };
+    this.getTotalTax = function () {
+      var totalTaxValue = outer.taxes.reduce(function (
+        previousValue,
+        currentValue
+      ) {
+        return previousValue + currentValue.taxValue;
+      },
+      0);
+      return totalTaxValue;
+    };
+    this.getTax = function () {
+      outer.taxes = [];
+      outer.cart.map(function (item) {
+        item.tax.forEach(function (typeOfTax) {
+          if (typeOfTax.applicable) {
+            var found = _.findIndex(outer.taxes, { name: typeOfTax.name });
+
+            var taxValue = (item.price * typeOfTax.value) / 100;
+
+            if (found >= 0) {
+              var newTaxValue = taxValue + outer.taxes[found]["taxValue"];
+              outer.taxes[found]["taxValue"] = newTaxValue;
+            } else {
+              outer.taxes.push({
+                name: typeOfTax.name,
+                taxValue: taxValue,
+              });
+            }
+          }
+        });
+      });
+
+      outer.totalTaxValue = outer.getTotalTax();
+    };
+
+    var getNewTax = function (itemToAdd) {
+      var newTax = itemToAdd.tax.map(function (tax) {
+        if (tax.applicable) {
+          var price = itemToAdd.price;
+          var value = tax.value;
+
+          var taxValue = (price * value) / 100;
+
+          return {
+            name: tax.name,
+            value: tax.value,
+            taxAmount: taxValue,
+            applicable: tax.applicable,
+          };
+        } else {
+          return {
+            name: tax.name,
+            value: tax.value,
+            taxAmount: 0,
+            applicable: tax.applicable,
+          };
+        }
+      });
+      return newTax;
+    };
+    var addTaxToItem = function (itemToAdd, found) {
+      // console.log("found", found);
+      if (found) {
+        var newTax = getNewTax(found);
+        console.log("found", found.tax);
+        found.tax = newTax;
+      } else {
+        var newTax = getNewTax(itemToAdd);
+        itemToAdd.tax = newTax;
+        return itemToAdd;
+      }
+    };
 
     this.addItem = function (itemToAdd) {
       var found = findItemById(outer.cart, itemToAdd.id);
+
       if (found) {
+        addTaxToItem(itemToAdd, found);
         found.qty += itemToAdd.qty;
       } else {
-        outer.cart.push(angular.copy(itemToAdd));
+        var updatedItem = addTaxToItem(itemToAdd, found);
+
+        outer.cart.push(angular.copy(updatedItem));
       }
+
+      //addTaxToItem(itemToAdd, found);
+      console.log(outer.cart);
+      outer.getTotal();
     };
+
     this.getTotal = function () {
+      outer.getTax();
       var total = _.reduce(
         outer.cart,
         function (sum, item) {
@@ -39,18 +123,21 @@ app.factory("ordersFactory", function (ordersData, socket, _) {
         },
         0
       );
-      //! comment it out if required
-      //   $scope.total = total;
+
+      outer.total = total;
+
       return total;
     };
 
     this.clearCart = function () {
       outer.cart.length = 0;
+      outer.getTotal();
     };
 
     this.removeItem = function (item) {
       var index = outer.cart.indexOf(item);
       outer.cart.splice(index, 1);
+      outer.getTotal();
     };
 
     this.statusChange = function (orderStatusValue, orderId, order) {
@@ -95,13 +182,19 @@ app.factory("ordersFactory", function (ordersData, socket, _) {
 
       var retVal = confirm("Do you want to Confirm Order ?");
       if (retVal == true) {
-        var orderAmount = outer.getTotal();
+        var totalAmount = outer.getTotal();
+        var taxes = outer.taxes;
+        var totalTaxValue = outer.totalTaxValue;
+        var orderAmount = totalAmount + totalTaxValue;
         var dishList = _.sortBy(outer.cart, [
           function (item) {
             item.name;
           },
         ]);
         ordersData.createOrder(
+          totalAmount,
+          taxes,
+          totalTaxValue,
           orderAmount,
           dishList,
           customerContact,
@@ -109,7 +202,6 @@ app.factory("ordersFactory", function (ordersData, socket, _) {
           orderType,
           orderTableNumber,
           function (response) {
-            console.log("created", response.data.savedOrder);
             var order = response.data.savedOrder;
             socket.emit("OrderNotification", order);
             cb(response.data.savedOrder);
@@ -125,8 +217,6 @@ app.factory("ordersFactory", function (ordersData, socket, _) {
       tableNumber,
       previousTableNumber
     ) {
-      console.log("contact", customerContact);
-      console.log("name", customerName);
       if (!outer.cart.length) {
         alert("Add Items to Cart");
         return false;
@@ -156,20 +246,26 @@ app.factory("ordersFactory", function (ordersData, socket, _) {
 
       var retVal = confirm("Do you want to Update Order ?");
       if (retVal == true) {
-        var orderAmount = outer.getTotal();
+        var totalAmount = outer.getTotal();
+        var taxes = outer.taxes;
+        var totalTaxValue = outer.totalTaxValue;
+        var orderAmount = totalAmount + totalTaxValue;
         var dishList = outer.cart;
         var updatedOrder = order;
         updatedOrder.customerName = customerName;
         updatedOrder.customerContact = customerContact;
         updatedOrder.dishList = dishList;
         updatedOrder.orderAmount = orderAmount;
+        updatedOrder.totalAmount = totalAmount;
+        updatedOrder.taxes = taxes;
+        updatedOrder.totalTaxValue = totalTaxValue;
         updatedOrder.orderType = orderType;
         if (orderType == "dineIn") {
           updatedOrder.orderTableNumber = tableNumber;
         } else {
           updatedOrder.orderTableNumber = null;
         }
-        // console.log("orderrrrr", previousTableNumber);
+
         ordersData.updateOrder(
           updatedOrder,
           order,

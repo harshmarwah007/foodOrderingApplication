@@ -19,14 +19,16 @@
                             <tr>
                               <th>Name</th>
                               <th>Price</th>
+                              <th>Tag</th>
                               <th class="qty">Qty</th>
                               <th>Total</th>
                             </tr>
                             <tr class="animate-repeat" ng-repeat="item in foodDishesData.foodDishes[category]">
-                              <td>{{ item.dishDetails.name }}</td>
-                              <td >{{ item.dishDetails.price | currency:"₹":true }}</td>
+                              <td>{{ item.name }}</td>
+                              <td >{{ item.price | currency:"₹":true }}</td>
+                              <td class="textCapitalize">{{item.tag}}</td>
                               <td><input type="number" min="1" max="10" ng-model="item.qty" class="qty"></td>
-                              <td>{{ item.dishDetails.qty * item.dishDetails.price | currency:"₹":true }}</td>
+                              <td>{{ item.qty * item.price | currency:"₹":true }}</td>
                               <td>
                                 <button class="btn-primary button-color" ng-click="addItem(item)">Add to Cart</button></td>
                             </tr>
@@ -34,10 +36,6 @@
                         </div>
                       </uib-tab>
                     </div>
-                    
-                    <!-- <uib-tab index="1" heading="Italian">Long Labeled Justified content</uib-tab>
-                    <uib-tab index="2" heading="Combos">Short Labeled Justified content</uib-tab>
-                    <uib-tab index="3" heading="Soft Drink">Long Labeled Justified content</uib-tab> -->
                   </uib-tabset>  
                       <div class="row">
                         <h2>Your Cart:</h2>
@@ -49,7 +47,18 @@
                             </br>
                           </li>
                         </ul>
-                        <h3>Total: {{ getTotal() | currency:"₹":true:"₹":true }}</h3>                        
+                        <h5 ng-if="totalAmount"><u>Order Amount:</u> {{ totalAmount | currency:"₹":true:"₹":true }}</h5>
+                        <div ng-if="taxes"><h5><u>Taxes:</u></h5>  
+                          <table >
+                            <tr ng-repeat="tax in taxes">
+                              <td style="padding: 0px 20px ;">{{tax.name}}</td> 
+                              <td style="padding: 0px 20px ;">{{tax.taxValue | currency:"₹":true:"₹":true }}</td>
+                            </tr>
+                          </table>
+                          <br>
+                          <h3>Total Amount: {{ totalAmount + totalTaxValue | currency:"₹":true:"₹":true }}</h3>
+                        </div>  
+                                                       
                       </div>
 <!--  Todo: create two inputs here  -->
                       <div>

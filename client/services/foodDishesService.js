@@ -14,17 +14,15 @@ app.service("foodDishes", function ($http) {
         var categories = response.data.map((item) => {
           var dishes = item.dishes.map(function (dish) {
             return {
-              dishDetails: {
-                name: dish.name,
-                price: dish.price,
-                tag: dish.tag,
-                tax: dish.tax,
-              },
-              id: dish.id,
+              name: dish.name,
+              price: dish.price,
+              tag: dish.tag,
+              tax: dish.tax,
+              category: item.category,
               qty: 1,
+              id: dish.id,
             };
           });
-
           foodDishesData[item.category] = dishes;
           return item.category;
         });

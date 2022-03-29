@@ -10,7 +10,9 @@ app.service("authentication", function ($cookies, $http, $location) {
     location.reload();
   };
   this.isAuthenticated = function () {
-    if ($cookies.get("token")) {
+    if ($cookies.get("token"))
+    {
+      
       $location.path("/home");
     }
   };

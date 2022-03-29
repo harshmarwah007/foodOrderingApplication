@@ -4,25 +4,30 @@ var app = angular.module("ordersData", ["ngCookies"]);
 var ApiUrl = "http://localhost:3000/food/";
 
 //Service for  Orders Data
-app.service("ordersData", function ($http, $cookies) {
-  var cookieValue = $cookies.get("token");
-
+app.service("ordersData", function ($http) {
   this.createOrder = function (
+    totalAmount,
+    taxes,
+    totalTaxValue,
     orderAmount,
     dishList,
     customerContact,
     customerName,
     orderType,
     orderTableNumber,
+
     cb
   ) {
     $http({
       url: `${ApiUrl}order`,
       method: "POST",
-      headers: {
-        Authorization: cookieValue,
-      },
+      // headers: {
+      //   Authorization: cookieValue,
+      // },
       data: {
+        totalAmount: totalAmount,
+        taxes: taxes,
+        totalTax: totalTaxValue,
         orderAmount: orderAmount,
         dishList: dishList,
         customerName: customerName,
@@ -38,13 +43,14 @@ app.service("ordersData", function ($http, $cookies) {
   };
 
   this.getDineInOrders = function (cb) {
+    // var cookieValue = $cookies.get("token");
     $http({
       url: `${ApiUrl}dineInOrders`,
       method: "GET",
 
-      headers: {
-        Authorization: cookieValue,
-      },
+      // headers: {
+      //   Authorization: cookieValue,
+      // },
     })
       .then((response) => {
         var dineInOrders = response.data.map((order) => {
@@ -70,14 +76,16 @@ app.service("ordersData", function ($http, $cookies) {
       url: `${ApiUrl}order/${pageNo}`,
       method: "GET",
 
-      headers: {
-        Authorization: cookieValue,
-      },
+      // headers: {
+      //   Authorization: cookieValue,
+      // },
     })
       .then((response) => {
         var count = response.data.count;
         var orders = response.data.orders.map((order) => {
           return {
+            tax: order.tax,
+            totalAmount: order.totalAmount,
             orderId: order._id,
             date: order.date,
             dishList: order.dishList,
@@ -102,9 +110,9 @@ app.service("ordersData", function ($http, $cookies) {
         orderStatus: orderStatusValue,
         order: order,
       },
-      headers: {
-        Authorization: cookieValue,
-      },
+      // headers: {
+      //   Authorization: cookieValue,
+      // },
     })
       .then((response) => cb(response))
       .catch((error) => console.log(error));
@@ -121,9 +129,9 @@ app.service("ordersData", function ($http, $cookies) {
         order: order,
         previousTableNumber: previousTableNumber,
       },
-      headers: {
-        Authorization: cookieValue,
-      },
+      // headers: {
+      //   Authorization: cookieValue,
+      // },
     })
       .then(function (response) {
         cb(response);

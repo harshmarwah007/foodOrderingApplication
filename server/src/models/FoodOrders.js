@@ -19,8 +19,8 @@ const foodOrdersSchema = mongoose.Schema({
     require: true,
   },
   tax: {
-    type: Number,
-    require: true,
+    totalTax: { type: Number },
+    taxes: { type: Array },
   },
   totalAmount: {
     type: Number,

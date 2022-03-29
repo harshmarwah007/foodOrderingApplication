@@ -13,7 +13,7 @@ app.controller(
     $scope.showPagination = false;
     $scope.pageChange = function (currentPage) {
       $scope.currentPage = currentPage;
-      console.log($scope.currentPage);
+
       $scope.getHistorydata();
     };
     $scope.getHistorydata = function () {
@@ -30,11 +30,9 @@ app.controller(
       );
     };
     $scope.openInfoModal = function (order) {
-      console.log("working");
-
       $uibModal
         .open({
-          templateUrl: "/components/Modals/infoModal.html",
+          templateUrl: "components/Modals/infoModal.html",
           controller: "infoModalCtrl",
           size: "md",
           resolve: {

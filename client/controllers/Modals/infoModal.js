@@ -1,6 +1,7 @@
 /** @format */
 
 app.controller("infoModalCtrl", function ($scope, $uibModalInstance, order) {
+  console.log(order);
   $scope.order = order;
   $scope.date = moment(order.date).format("MMMM Do YYYY, h:mm:ss a");
 

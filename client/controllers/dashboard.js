@@ -9,8 +9,12 @@ app.controller(
     ordersFactory,
     $uibModal,
     foodDishes,
+    $http,
+    $cookies,
     _
   ) {
+    var cookieValue = $cookies.get("token");
+    $http.defaults.headers.common.Authorization = cookieValue;
     $scope.showOrdersTabs = false;
     $scope.showPagination = false;
     $scope.currentPage = 1;
@@ -47,7 +51,7 @@ app.controller(
         $scope.ordersCount = count;
         if ($scope.ordersCount) {
           $scope.showPagination = true;
-          // $scope.showOrdersTabs = true;
+          $scope.showOrdersTabs = true;
         }
       });
     };

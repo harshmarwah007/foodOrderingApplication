@@ -1,10 +1,9 @@
 /** @format */
 
 const foodOrders = require("../models/FoodOrders");
-
+const foodDishes = require("../models/FoodDishes");
 const getAllMetrics = async (req, res) => {
-  var currentMonth = new Date().getMonth();
-  console.log(currentMonth);
+  // var currentMonth = new Date().getMonth();
 
   var allMetrics = await foodOrders.aggregate([
     {
@@ -14,8 +13,18 @@ const getAllMetrics = async (req, res) => {
       $facet: {
         topSelling: [
           { $unwind: "$dishList" },
-          { $group: { _id: "$dishList.name", qty: { $sum: "$dishList.qty" } } },
-          { $sort: { qty: -1 } },
+          {
+            $match: {
+              "dishList.tag": { $nin: ["alcohol", "nonAlcohol"] },
+            },
+          },
+          {
+            $group: {
+              _id: "$dishList.name",
+              qty: { $sum: "$dishList.qty" },
+            },
+          },
+          { $sort: { qty: -1, _id: 1 } },
           { $limit: 1 },
           {
             $project: {
@@ -28,8 +37,18 @@ const getAllMetrics = async (req, res) => {
         ],
         leastSelling: [
           { $unwind: "$dishList" },
-          { $group: { _id: "$dishList.name", qty: { $sum: "$dishList.qty" } } },
-          { $sort: { qty: 1 } },
+          {
+            $match: {
+              "dishList.tag": { $nin: ["alcohol", "nonAlcohol"] },
+            },
+          },
+          {
+            $group: {
+              _id: "$dishList.name",
+              qty: { $sum: "$dishList.qty" },
+            },
+          },
+          { $sort: { qty: 1, _id: 1 } },
           { $limit: 1 },
           {
             $project: {
@@ -203,6 +222,7 @@ const getAllMetrics = async (req, res) => {
               },
             },
           },
+
           {
             $group: { _id: null, total: { $sum: "$orderAmount" } },
           },
@@ -230,7 +250,161 @@ const getAllMetrics = async (req, res) => {
       },
     },
   ]);
-  res.json({ allMetrics, salesMetrics });
+  var tagsAndDishes = await foodDishes.aggregate([
+    {
+      $group: {
+        _id: "$tag",
+        dishes: { $push: "$name" },
+      },
+    },
+  ]);
+  var test = await foodDishes.aggregate([
+    {
+      $group: {
+        _id: "$tag",
+        dishes: { $push: "$name" },
+      },
+    },
+  ]);
+  var taxes = await foodOrders.aggregate([
+    {
+      $match: { orderStatus: "Completed", userId: req.user._id },
+    },
+    { $unwind: "$dishList" },
+    {
+      $facet: {
+        taxEarnedOnDishes: [
+          { $unwind: "$dishList.tax" },
+          {
+            $group: {
+              _id: {
+                dish: "$dishList.name",
+                taxType: "$dishList.tax.name",
+              },
+              taxValue: { $sum: "$dishList.tax.taxAmount" },
+            },
+          },
+          { $sort: { "_id.taxType": 1 } },
+          {
+            $group: {
+              _id: "$_id.dish",
+              taxes: {
+                $push: { taxName: "$_id.taxType", taxValue: "$taxValue" },
+              },
+            },
+          },
+          {
+            $project: {
+              _id: 0,
+              dishName: "$_id",
+              taxes: "$taxes",
+            },
+          },
+        ],
+        taxesEarnedThisMonth: [
+          { $unwind: "$tax.taxes" },
+          {
+            $match: {
+              $expr: {
+                $eq: [
+                  { $dateToString: { format: "%m", date: "$date" } },
+                  { $dateToString: { format: "%m", date: new Date() } },
+                ],
+              },
+            },
+          },
+
+          {
+            $group: {
+              _id: "$tax.taxes.name",
+              totalTaxValue: { $sum: "$tax.taxes.taxValue" },
+              count: { $count: {} },
+            },
+          },
+          {
+            $project: {
+              _id: 0,
+              taxType: "$_id",
+              totalTaxValue: 1,
+              count: 1,
+            },
+          },
+        ],
+      },
+    },
+  ]);
+
+  // var test = await foodOrders.aggregate([
+  //   {
+  //     $match: { orderStatus: "Completed", userId: req.user._id },
+  //   },
+  //   { $unwind: "$dishList" },
+
+  //   {
+  //     $facet: {
+  //       taxeEarnedOnDishes: [{ $unwind: "$dishList.tax" }],
+
+  // nontaxableItems: [
+  //   // { $unwind: "$tax.taxes" },
+  //   // { $unwind: "$dishList.tax" },
+  //   {
+  //     $match: {
+  //       $expr: {
+  //         $eq: [
+  //           { $dateToString: { format: "%m", date: "$date" } },
+  //           { $dateToString: { format: "%m", date: new Date() } },
+  //         ],
+  //       },
+  //     },
+  //   },
+
+  // {
+  // $filter: {
+  //   input: "$dishList.tax",
+  //   as: "item",
+  //   cond: {
+  //     $and: [
+  //       { $and: [{$eq:["$$item.name","gst"]},{ $eq: ["$$item.applicable", false] },] },
+  //       { $and: [{$eq:["$$item.name","serviceCharge"]},{ $eq: ["$$item.applicable", false] },] },
+  //       { $and: [{$eq:["$$item.name",""]},{ $eq: ["$$item.applicable", false] },] }
+  //     ]
+  //   }
+
+  //   }]
+  // },
+  // },
+  //   { $unwind: "$dishes" },
+  // {
+  //   $group: {
+  //     _id: "null",
+  //     dishes: { $addToSet: "$dishList.name" },
+  //   },
+  // },
+  // {
+  //   $group: {
+  //     _id: null,
+  //     dishes: { $push: "$dishList" },
+  //   },
+  // },
+  // {
+  //   $group: {
+  //     _id: "$tax.taxes.name",
+  //     totalTaxValue: { $sum: "$tax.taxes.taxValue" },
+  //   },
+  // },
+  // {
+  //   $project: {
+  //     _id: 0,
+  //     taxType: "$_id",
+  //     totalTaxValue: 1,
+  //   },
+  // },
+  // ],
+  //     },
+  //   },
+  // ]);
+  // res.json(test);
+  res.json({ allMetrics, salesMetrics, taxes, tagsAndDishes });
 };
 
 module.exports = getAllMetrics;

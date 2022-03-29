@@ -5,10 +5,6 @@ var redis = require("redis");
 var client = redis.createClient();
 client.connect();
 const getFoodDishes = async (req, res) => {
-  // const dishes = await FoodDishes.find();
-
-  // FoodDishes.find()
-  //   .populate("category")
   FoodDishes.aggregate([
     {
       $lookup: {

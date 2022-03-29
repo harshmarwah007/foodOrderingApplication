@@ -2,19 +2,17 @@
 
 var app = angular.module("ordersHistoryService", ["ngCookies"]);
 var ApiUrl = "http://localhost:3000/food/";
-app.service("ordersHistoryService", function ($http, $cookies) {
-  var cookieValue = $cookies.get("token");
+app.service("ordersHistoryService", function ($http) {
   this.getData = function (itemsPerPage, pageNo, cb) {
     $http({
-      // url: "http://localhost:3000/food/history",
       url: `${ApiUrl}history/${pageNo}`,
       method: "GET",
       data: {
         itemsPerPage: itemsPerPage,
       },
-      headers: {
-        Authorization: cookieValue,
-      },
+      // headers: {
+      //   Authorization: cookieValue,
+      // },
     })
       .then(function (response) {
         var count = response.data.count;
@@ -22,6 +20,7 @@ app.service("ordersHistoryService", function ($http, $cookies) {
           return {
             orderId: order._id,
             date: order.date,
+            tax: order.tax,
             dishList: order.dishList,
             orderAmount: order.orderAmount,
             orderStatus: order.orderStatus,

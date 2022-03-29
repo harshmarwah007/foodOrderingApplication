@@ -19,6 +19,26 @@ app.controller(
     $scope.takeAwayButton = true;
     $scope.orderType = "takeAway";
     $scope.tableNumber;
+    $scope.taxValue = null;
+    $scope.totalTaxValue = null;
+    $scope.totalAmount = 0;
+
+    var setBillValues = function (taxValue, totalTaxValue, totalAmount) {
+      $scope.taxes = taxValue;
+      $scope.totalTaxValue = totalTaxValue;
+      $scope.totalAmount = totalAmount;
+      console.log(
+        "taxValue",
+        taxValue,
+        "totalTaxValue",
+        totalTaxValue,
+        "totalAmount",
+        totalAmount
+      );
+    };
+
+    $scope.taxValue = null;
+    $scope.totalTaxValue = null;
     var previousTableNumber;
     //var tempTableNumber;
     $scope.setOrderTable = function (tableNumber) {
@@ -73,6 +93,8 @@ app.controller(
       orderBill.addItem(itemToAdd);
       $scope.cart = orderBill.cart;
       $scope.changeOccured();
+      setBillValues(orderBill.taxes, orderBill.totalTaxValue, orderBill.total);
+      // $scope.totalAmount = ;
     };
     $scope.totalAmount = null;
     $scope.getTotal = function () {
@@ -83,12 +105,14 @@ app.controller(
     $scope.clearCart = function () {
       orderBill.clearCart();
       $scope.cart = orderBill.cart;
+      setBillValues(orderBill.taxes, orderBill.totalTaxValue, orderBill.total);
       $scope.changeOccured();
     };
 
     $scope.removeItem = function (item) {
       orderBill.removeItem(item);
       $scope.cart = orderBill.cart;
+      setBillValues(orderBill.taxes, orderBill.totalTaxValue, orderBill.total);
       $scope.changeOccured();
     };
 
@@ -187,23 +211,3 @@ app.controller(
     }
   }
 );
-
-app.service("orderTableData", function ($http, $cookies) {
-  var cookieValue = $cookies.get("token");
-  this.getTables = function (cb) {
-    $http({
-      url: "http://localhost:3000/orderTable",
-      method: "GET",
-      headers: {
-        Authorization: cookieValue,
-      },
-    })
-      .then(function (result) {
-        cb(result);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  };
-  this.setTable = function () {};
-});

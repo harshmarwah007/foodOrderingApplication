@@ -32,7 +32,17 @@
     <hr />
     <table class="textCapitalize">
       <tr>
-        <td><b>Total Amount :</b></td>
+        <td><b>Order Amount :</b></td>
+        <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+        <td>{{order.totalAmount | currency:"₹":true }}</td>
+      </tr>
+      <tr>
+        <td><b>Total Tax :</b></td>
+        <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+        <td>{{order.tax.totalTax | currency:"₹":true }}</td>
+      </tr>
+      <tr>
+        <td><b>Final Amount :</b></td>
         <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
         <td>{{order.orderAmount | currency:"₹":true }}</td>
       </tr>

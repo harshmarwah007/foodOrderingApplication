@@ -1,5 +1,81 @@
 <!-- @format -->
+<div ng-init="getMetricsData()">
+  <h1>Metrics</h1>
+</div>
+<div>
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-3">
+        <button
+          type="button"
+          ng-click="openMetricsModal('generalMetrics',metrics)"
+          class="btn btn-success textCapitalize metricsButtons"
+        >
+          <h4>General Metrics</h4>
+        </button>
+      </div>
+      <div class="col-3">
+        <button
+          type="button"
+          ng-click="openMetricsModal('salesMetrics',salesMetrics)"
+          class="btn btn-primary textCapitalize metricsButtons"
+        >
+          <h4>Sales Metrics</h4>
+        </button>
+      </div>
+      <div class="col-3">
+        <button
+          type="button"
+          ng-click="openMetricsModal('customerVisitedOnce',customerVisitedOnce)"
+          customerVisitedOnce
+          class="btn btn-success textCapitalize metricsButtons"
+        >
+          <h4>Customer Visited Only Once</h4>
+        </button>
+      </div>
+      <div class="col-3">
+        <button
+          type="button"
+          ng-click="openMetricsModal('nonTaxableItems',dishesWithNoTaxes)"
+          class="btn btn-primary textCapitalize metricsButtons"
+        >
+          <h4>Non Taxable Items</h4>
+        </button>
+      </div>
+      <div class="col-3">
+        <button
+          type="button"
+          ng-click="openMetricsModal('tagsAndDishes',tagsAndDishes)"
+          taxEarnedOnDishes
+          class="btn btn-primary textCapitalize metricsButtons"
+        >
+          <h4>Tags and Food Dishes</h4>
+        </button>
+      </div>
+      <div class="col-3">
+        <button
+          type="button"
+          ng-click="openMetricsModal('monthlyTaxes',taxesEarnedThisMonth)"
+          taxesEarnedThisMonth
+          class="btn btn-success textCapitalize metricsButtons"
+        >
+          <h4>Total tax collected this month</h4>
+        </button>
+      </div>
+      <div class="col-3">
+        <button
+          type="button"
+          ng-click="openMetricsModal('taxAsPerItems',taxAsPerItems)"
+          class="btn btn-primary textCapitalize metricsButtons"
+        >
+          <h4>Taxes as per Items</h4>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 
+<!-- 
 <div>
   <h1>Metrics</h1>
 </div>
@@ -51,5 +127,57 @@
         </tbody>
       </table>
     </div>
+    <div>
+      <h3><b>Taxes Collected This Month &nbsp; :</b></h3>
+      <br />
+      <table class="table">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">Tax Name</th>
+            <th scope="col"><h5>Apllied on</h5></th>
+            <th scope="col"><h5>Total Tax</h5></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="taxes in taxesEarnedThisMonth">
+            <td>{{taxes.taxType}}</th>
+            <td><h5>{{taxes.count}}</h5></td>
+            <td><h5>{{taxes.totalTaxValue  | currency:"₹":true}}</h5></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <h3><b>Tax collected as per Items &nbsp; :</b></h3>
+      <br />
+      <table class="table">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">Item Name</th>
+            <th scope="col"><h5>GST</h5></th>
+            <th scope="col"><h5>Service Charge</h5></th>
+            <th scope="col"><h5>State Tax</h5></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="item in taxEarnedOnDishes">
+            <td>{{item.dishName}}</th>
+              <td><h5>{{item.taxes.gst  | currency:"₹":true}}</h5></td>
+            <td><h5>{{item.taxes.serviceCharge  | currency:"₹":true}}</h5></td>
+            <td><h5>{{item.taxes.stateTax  | currency:"₹":true}}</h5></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <h3><b>Items With No Taxes Sold &nbsp; :</b></h3>
+      <br />
+      <ol>
+        <div ng-repeat="dish in dishesWithNoTaxes">
+          <li><h5>{{dish}}</h5></li>
+        </div>
+      </ol>
+      <br />
+    </div>
   </div>
-</div>
+</div> -->
