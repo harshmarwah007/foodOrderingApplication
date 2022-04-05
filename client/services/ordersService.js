@@ -1,10 +1,10 @@
 /** @format */
 
 var app = angular.module("ordersData", ["ngCookies"]);
-var ApiUrl = "http://localhost:3000/food/";
 
 //Service for  Orders Data
-app.service("ordersData", function ($http) {
+app.service("ordersData", function ($http, config) {
+  var ApiUrl = config.apiUrl;
   this.createOrder = function (
     totalAmount,
     taxes,
@@ -15,7 +15,6 @@ app.service("ordersData", function ($http) {
     customerName,
     orderType,
     orderTableNumber,
-
     cb
   ) {
     $http({

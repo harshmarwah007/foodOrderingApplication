@@ -1,33 +1,30 @@
 /** @format */
 
 var app = angular.module("foodDishes", ["ngCookies"]);
-var ApiUrl = "http://localhost:3000/food/";
+
 // Service for Food Dishes
-app.service("foodDishes", function ($http) {
+app.service("foodDishes", function ($http, config) {
   this.getData = function (cb) {
     $http({
-      url: `${ApiUrl}dishes`,
+      url: `${config.apiUrl}dishes`,
       method: "GET",
     })
       .then(function (response) {
-        var foodDishesData = {};
-        var categories = response.data.map((item) => {
-          var dishes = item.dishes.map(function (dish) {
-            return {
-              name: dish.name,
-              price: dish.price,
-              tag: dish.tag,
-              tax: dish.tax,
-              category: item.category,
-              qty: 1,
-              id: dish.id,
-            };
+        var allDishes = [];
+        var categories = response.data.dishes.map((item) => {
+          item.subCategory.map(function (subCategory) {
+            subCategory.dishes.map(function (dish) {
+              dish["qty"] = 1;
+              allDishes.push(dish);
+            });
           });
-          foodDishesData[item.category] = dishes;
-          return item.category;
+          return item;
         });
 
-        cb({ categories: categories, foodDishes: foodDishesData });
+        allDishes = angular.copy(allDishes);
+        categories = angular.copy(categories);
+        var recommendationData = response.data.recommendationData;
+        cb({ categories, allDishes, recommendationData });
       })
       .catch(function (error) {
         console.log(error);

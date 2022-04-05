@@ -202,6 +202,30 @@ const getAllMetrics = async (req, res) => {
             },
           },
         ],
+        totalDineInOrders: [
+          {
+            $match: { orderType: "dineIn" },
+          },
+          { $count: "totalDineInOrders" },
+          {
+            $project: {
+              metricsType: "Total DineIn Orders",
+              value: "$totalDineInOrders",
+            },
+          },
+        ],
+        totalTakeAwayOrders: [
+          {
+            $match: { orderType: "takeAway" },
+          },
+          { $count: "totalTakeAwayOrders" },
+          {
+            $project: {
+              metricsType: "Total TakeAway Orders",
+              value: "$totalTakeAwayOrders",
+            },
+          },
+        ],
       },
     },
   ]);
@@ -258,14 +282,7 @@ const getAllMetrics = async (req, res) => {
       },
     },
   ]);
-  var test = await foodDishes.aggregate([
-    {
-      $group: {
-        _id: "$tag",
-        dishes: { $push: "$name" },
-      },
-    },
-  ]);
+
   var taxes = await foodOrders.aggregate([
     {
       $match: { orderStatus: "Completed", userId: req.user._id },
@@ -334,76 +351,19 @@ const getAllMetrics = async (req, res) => {
     },
   ]);
 
-  // var test = await foodOrders.aggregate([
-  //   {
-  //     $match: { orderStatus: "Completed", userId: req.user._id },
-  //   },
-  //   { $unwind: "$dishList" },
-
-  //   {
-  //     $facet: {
-  //       taxeEarnedOnDishes: [{ $unwind: "$dishList.tax" }],
-
-  // nontaxableItems: [
-  //   // { $unwind: "$tax.taxes" },
-  //   // { $unwind: "$dishList.tax" },
-  //   {
-  //     $match: {
-  //       $expr: {
-  //         $eq: [
-  //           { $dateToString: { format: "%m", date: "$date" } },
-  //           { $dateToString: { format: "%m", date: new Date() } },
-  //         ],
-  //       },
-  //     },
-  //   },
-
-  // {
-  // $filter: {
-  //   input: "$dishList.tax",
-  //   as: "item",
-  //   cond: {
-  //     $and: [
-  //       { $and: [{$eq:["$$item.name","gst"]},{ $eq: ["$$item.applicable", false] },] },
-  //       { $and: [{$eq:["$$item.name","serviceCharge"]},{ $eq: ["$$item.applicable", false] },] },
-  //       { $and: [{$eq:["$$item.name",""]},{ $eq: ["$$item.applicable", false] },] }
-  //     ]
-  //   }
-
-  //   }]
-  // },
-  // },
-  //   { $unwind: "$dishes" },
-  // {
-  //   $group: {
-  //     _id: "null",
-  //     dishes: { $addToSet: "$dishList.name" },
-  //   },
-  // },
-  // {
-  //   $group: {
-  //     _id: null,
-  //     dishes: { $push: "$dishList" },
-  //   },
-  // },
-  // {
-  //   $group: {
-  //     _id: "$tax.taxes.name",
-  //     totalTaxValue: { $sum: "$tax.taxes.taxValue" },
-  //   },
-  // },
-  // {
-  //   $project: {
-  //     _id: 0,
-  //     taxType: "$_id",
-  //     totalTaxValue: 1,
-  //   },
-  // },
-  // ],
-  //     },
-  //   },
-  // ]);
-  // res.json(test);
+  var test = await foodOrders.aggregate([
+    {
+      $match: { orderType: "dineIn" },
+    },
+    { $count: "totalDineInOrders" },
+    {
+      $project: {
+        metricsType: "Total DineIn Orders",
+        value: "$totalDineInOrders",
+      },
+    },
+  ]);
+  //  res.json(test);
   res.json({ allMetrics, salesMetrics, taxes, tagsAndDishes });
 };
 

@@ -16,6 +16,12 @@ var app = angular.module("main", [
   "ordersFactory",
 ]);
 
+app.constant("config", {
+  apiUrl: "http://localhost:3000/food/",
+  baseUrl: "/",
+  enableDebug: true,
+});
+
 app.config(function ($stateProvider, $urlRouterProvider) {
   $stateProvider
     .state("login", {
@@ -97,5 +103,3 @@ app.config(function ($stateProvider, $urlRouterProvider) {
     });
   $urlRouterProvider.otherwise("/");
 });
-
-

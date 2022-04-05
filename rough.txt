@@ -1,0 +1,1091 @@
+[
+    {
+        "_id": "623abb497b3b4b5e3a18d7d0",
+        "name": "Paneer Momos",
+        "price": 100,
+        "category": {
+            "_id": "6239bfc486b31f0a9a959859",
+            "userId": "62396641781824e8e67c19a4",
+            "name": "Chinese",
+            "__v": 0
+        },
+        "tag": "veg",
+        "alias": "PMO",
+        "tax": [
+            {
+                "name": "gst",
+                "applicable": true,
+                "value": 10,
+                "_id": "623abb497b3b4b5e3a18d7d1"
+            },
+            {
+                "name": "stateTax",
+                "applicable": true,
+                "value": 5,
+                "_id": "623abb497b3b4b5e3a18d7d2"
+            },
+            {
+                "name": "serviceCharge",
+                "applicable": false,
+                "value": 10,
+                "_id": "623abb497b3b4b5e3a18d7d3"
+            }
+        ],
+        "__v": 0
+    },
+    {
+        "_id": "623abf972a8e6f0a37ece2ea",
+        "name": "Chilli Potato",
+        "price": 150,
+        "category": {
+            "_id": "6239bfc486b31f0a9a959859",
+            "userId": "62396641781824e8e67c19a4",
+            "name": "Chinese",
+            "__v": 0
+        },
+        "tag": "veg",
+        "alias": "CPO",
+        "tax": [
+            {
+                "name": "gst",
+                "applicable": true,
+                "value": 10,
+                "_id": "623abf972a8e6f0a37ece2eb"
+            },
+            {
+                "name": "stateTax",
+                "applicable": true,
+                "value": 5,
+                "_id": "623abf972a8e6f0a37ece2ec"
+            },
+            {
+                "name": "serviceCharge",
+                "applicable": true,
+                "value": 10,
+                "_id": "623abf972a8e6f0a37ece2ed"
+            }
+        ],
+        "__v": 0
+    },
+    {
+        "_id": "623abfac2a8e6f0a37ece2ef",
+        "name": "Chicken Momos",
+        "price": 120,
+        "category": {
+            "_id": "6239bfc486b31f0a9a959859",
+            "userId": "62396641781824e8e67c19a4",
+            "name": "Chinese",
+            "__v": 0
+        },
+        "tag": "nonVeg",
+        "alias": "CMO",
+        "tax": [
+            {
+                "name": "gst",
+                "applicable": true,
+                "value": 10,
+                "_id": "623abfac2a8e6f0a37ece2f0"
+            },
+            {
+                "name": "stateTax",
+                "applicable": true,
+                "value": 5,
+                "_id": "623abfac2a8e6f0a37ece2f1"
+            },
+            {
+                "name": "serviceCharge",
+                "applicable": false,
+                "value": 10,
+                "_id": "623abfac2a8e6f0a37ece2f2"
+            }
+        ],
+        "__v": 0
+    },
+    {
+        "_id": "623abfbb2a8e6f0a37ece2f4",
+        "name": "Darjeeling Momos",
+        "price": 120,
+        "category": {
+            "_id": "6239bfc486b31f0a9a959859",
+            "userId": "62396641781824e8e67c19a4",
+            "name": "Chinese",
+            "__v": 0
+        },
+        "tag": "veg",
+        "alias": "DMO",
+        "tax": [
+            {
+                "name": "gst",
+                "applicable": true,
+                "value": 10,
+                "_id": "623abfbb2a8e6f0a37ece2f5"
+            },
+            {
+                "name": "stateTax",
+                "applicable": true,
+                "value": 5,
+                "_id": "623abfbb2a8e6f0a37ece2f6"
+            },
+            {
+                "name": "serviceCharge",
+                "applicable": false,
+                "value": 10,
+                "_id": "623abfbb2a8e6f0a37ece2f7"
+            }
+        ],
+        "__v": 0
+    },
+    {
+        "_id": "623abfc82a8e6f0a37ece2f9",
+        "name": "Soyabean Momos",
+        "price": 80,
+        "category": {
+            "_id": "6239bfc486b31f0a9a959859",
+            "userId": "62396641781824e8e67c19a4",
+            "name": "Chinese",
+            "__v": 0
+        },
+        "tag": "veg",
+        "alias": "SMO",
+        "tax": [
+            {
+                "name": "gst",
+                "applicable": true,
+                "value": 10,
+                "_id": "623abfc82a8e6f0a37ece2fa"
+            },
+            {
+                "name": "stateTax",
+                "applicable": true,
+                "value": 5,
+                "_id": "623abfc82a8e6f0a37ece2fb"
+            },
+            {
+                "name": "serviceCharge",
+                "applicable": false,
+                "value": 10,
+                "_id": "623abfc82a8e6f0a37ece2fc"
+            }
+        ],
+        "__v": 0
+    },
+    {
+        "_id": "623ac0052a8e6f0a37ece2fe",
+        "name": "Hakka Noodles",
+        "price": 200,
+        "category": {
+            "_id": "6239bfc486b31f0a9a959859",
+            "userId": "62396641781824e8e67c19a4",
+            "name": "Chinese",
+            "__v": 0
+        },
+        "tag": "veg",
+        "alias": "HNO",
+        "tax": [
+            {
+                "name": "gst",
+                "applicable": true,
+                "value": 10,
+                "_id": "623ac0052a8e6f0a37ece2ff"
+            },
+            {
+                "name": "stateTax",
+                "applicable": true,
+                "value": 5,
+                "_id": "623ac0052a8e6f0a37ece300"
+            },
+            {
+                "name": "serviceCharge",
+                "applicable": true,
+                "value": 10,
+                "_id": "623ac0052a8e6f0a37ece301"
+            }
+        ],
+        "__v": 0
+    },
+    {
+        "_id": "623ac01c2a8e6f0a37ece303",
+        "name": "Chicken Noodles",
+        "price": 200,
+        "category": {
+            "_id": "6239bfc486b31f0a9a959859",
+            "userId": "62396641781824e8e67c19a4",
+            "name": "Chinese",
+            "__v": 0
+        },
+        "tag": "nonVeg",
+        "alias": "CNO",
+        "tax": [
+            {
+                "name": "gst",
+                "applicable": true,
+                "value": 10,
+                "_id": "623ac01c2a8e6f0a37ece304"
+            },
+            {
+                "name": "stateTax",
+                "applicable": true,
+                "value": 5,
+                "_id": "623ac01c2a8e6f0a37ece305"
+            },
+            {
+                "name": "serviceCharge",
+                "applicable": true,
+                "value": 10,
+                "_id": "623ac01c2a8e6f0a37ece306"
+            }
+        ],
+        "__v": 0
+    },
+    {
+        "_id": "623ac03d2a8e6f0a37ece308",
+        "name": "Egg Noodles",
+        "price": 200,
+        "category": {
+            "_id": "6239bfc486b31f0a9a959859",
+            "userId": "62396641781824e8e67c19a4",
+            "name": "Chinese",
+            "__v": 0
+        },
+        "tag": "egg",
+        "alias": "ENO",
+        "tax": [
+            {
+                "name": "gst",
+                "applicable": true,
+                "value": 10,
+                "_id": "623ac03d2a8e6f0a37ece309"
+            },
+            {
+                "name": "stateTax",
+                "applicable": true,
+                "value": 5,
+                "_id": "623ac03d2a8e6f0a37ece30a"
+            },
+            {
+                "name": "serviceCharge",
+                "applicable": true,
+                "value": 10,
+                "_id": "623ac03d2a8e6f0a37ece30b"
+            }
+        ],
+        "__v": 0
+    },
+    {
+        "_id": "623ac198248b273ab03da482",
+        "name": "Veg Manchurian",
+        "price": 250,
+        "category": {
+            "_id": "6239bfc486b31f0a9a959859",
+            "userId": "62396641781824e8e67c19a4",
+            "name": "Chinese",
+            "__v": 0
+        },
+        "tag": "veg",
+        "alias": "VMC",
+        "tax": [
+            {
+                "name": "gst",
+                "applicable": true,
+                "value": 10,
+                "_id": "623ac198248b273ab03da483"
+            },
+            {
+                "name": "stateTax",
+                "applicable": true,
+                "value": 5,
+                "_id": "623ac198248b273ab03da484"
+            },
+            {
+                "name": "serviceCharge",
+                "applicable": true,
+                "value": 10,
+                "_id": "623ac198248b273ab03da485"
+            }
+        ],
+        "__v": 0
+    },
+    {
+        "_id": "623ac1c7248b273ab03da487",
+        "name": "Egg Manchurian",
+        "price": 250,
+        "category": {
+            "_id": "6239bfc486b31f0a9a959859",
+            "userId": "62396641781824e8e67c19a4",
+            "name": "Chinese",
+            "__v": 0
+        },
+        "tag": "egg",
+        "alias": "EMC",
+        "tax": [
+            {
+                "name": "gst",
+                "applicable": true,
+                "value": 10,
+                "_id": "623ac1c7248b273ab03da488"
+            },
+            {
+                "name": "stateTax",
+                "applicable": true,
+                "value": 5,
+                "_id": "623ac1c7248b273ab03da489"
+            },
+            {
+                "name": "serviceCharge",
+                "applicable": true,
+                "value": 10,
+                "_id": "623ac1c7248b273ab03da48a"
+            }
+        ],
+        "__v": 0
+    },
+    {
+        "_id": "623ac1d3248b273ab03da48c",
+        "name": "Chicken Manchurian",
+        "price": 350,
+        "category": {
+            "_id": "6239bfc486b31f0a9a959859",
+            "userId": "62396641781824e8e67c19a4",
+            "name": "Chinese",
+            "__v": 0
+        },
+        "tag": "egg",
+        "alias": "EMC",
+        "tax": [
+            {
+                "name": "gst",
+                "applicable": true,
+                "value": 10,
+                "_id": "623ac1d3248b273ab03da48d"
+            },
+            {
+                "name": "stateTax",
+                "applicable": true,
+                "value": 5,
+                "_id": "623ac1d3248b273ab03da48e"
+            },
+            {
+                "name": "serviceCharge",
+                "applicable": true,
+                "value": 10,
+                "_id": "623ac1d3248b273ab03da48f"
+            }
+        ],
+        "__v": 0
+    },
+    {
+        "_id": "623ac220248b273ab03da491",
+        "name": "Veg Noodles & Manchurian",
+        "price": 350,
+        "category": {
+            "_id": "6239bfd386b31f0a9a95985b",
+            "userId": "62396641781824e8e67c19a4",
+            "name": "Combos",
+            "__v": 0
+        },
+        "tag": "veg",
+        "alias": "CNM",
+        "tax": [
+            {
+                "name": "gst",
+                "applicable": true,
+                "value": 10,
+                "_id": "623ac220248b273ab03da492"
+            },
+            {
+                "name": "stateTax",
+                "applicable": true,
+                "value": 5,
+                "_id": "623ac220248b273ab03da493"
+            },
+            {
+                "name": "serviceCharge",
+                "applicable": true,
+                "value": 10,
+                "_id": "623ac220248b273ab03da494"
+            }
+        ],
+        "__v": 0
+    },
+    {
+        "_id": "623ac24d248b273ab03da496",
+        "name": "NonVeg Noodles & Manchurian",
+        "price": 450,
+        "category": {
+            "_id": "6239bfd386b31f0a9a95985b",
+            "userId": "62396641781824e8e67c19a4",
+            "name": "Combos",
+            "__v": 0
+        },
+        "tag": "nonVeg",
+        "alias": "CNN",
+        "tax": [
+            {
+                "name": "gst",
+                "applicable": true,
+                "value": 10,
+                "_id": "623ac24d248b273ab03da497"
+            },
+            {
+                "name": "stateTax",
+                "applicable": true,
+                "value": 5,
+                "_id": "623ac24d248b273ab03da498"
+            },
+            {
+                "name": "serviceCharge",
+                "applicable": true,
+                "value": 10,
+                "_id": "623ac24d248b273ab03da499"
+            }
+        ],
+        "__v": 0
+    },
+    {
+        "_id": "623ac274248b273ab03da49b",
+        "name": "Veg Momos Platter",
+        "price": 400,
+        "category": {
+            "_id": "6239bfd386b31f0a9a95985b",
+            "userId": "62396641781824e8e67c19a4",
+            "name": "Combos",
+            "__v": 0
+        },
+        "tag": "veg",
+        "alias": "CVM",
+        "tax": [
+            {
+                "name": "gst",
+                "applicable": true,
+                "value": 10,
+                "_id": "623ac274248b273ab03da49c"
+            },
+            {
+                "name": "stateTax",
+                "applicable": true,
+                "value": 5,
+                "_id": "623ac274248b273ab03da49d"
+            },
+            {
+                "name": "serviceCharge",
+                "applicable": false,
+                "value": 10,
+                "_id": "623ac274248b273ab03da49e"
+            }
+        ],
+        "__v": 0
+    },
+    {
+        "_id": "623ac285248b273ab03da4a0",
+        "name": "NonVeg Momos Platter",
+        "price": 400,
+        "category": {
+            "_id": "6239bfd386b31f0a9a95985b",
+            "userId": "62396641781824e8e67c19a4",
+            "name": "Combos",
+            "__v": 0
+        },
+        "tag": "nonVeg",
+        "alias": "CNM",
+        "tax": [
+            {
+                "name": "gst",
+                "applicable": true,
+                "value": 10,
+                "_id": "623ac285248b273ab03da4a1"
+            },
+            {
+                "name": "stateTax",
+                "applicable": true,
+                "value": 5,
+                "_id": "623ac285248b273ab03da4a2"
+            },
+            {
+                "name": "serviceCharge",
+                "applicable": false,
+                "value": 10,
+                "_id": "623ac285248b273ab03da4a3"
+            }
+        ],
+        "__v": 0
+    },
+    {
+        "_id": "623ac2b7248b273ab03da4a5",
+        "name": "Veg Chinese Combo",
+        "price": 600,
+        "category": {
+            "_id": "6239bfd386b31f0a9a95985b",
+            "userId": "62396641781824e8e67c19a4",
+            "name": "Combos",
+            "__v": 0
+        },
+        "tag": "veg",
+        "alias": "CVC",
+        "tax": [
+            {
+                "name": "gst",
+                "applicable": true,
+                "value": 10,
+                "_id": "623ac2b7248b273ab03da4a6"
+            },
+            {
+                "name": "stateTax",
+                "applicable": true,
+                "value": 5,
+                "_id": "623ac2b7248b273ab03da4a7"
+            },
+            {
+                "name": "serviceCharge",
+                "applicable": true,
+                "value": 10,
+                "_id": "623ac2b7248b273ab03da4a8"
+            }
+        ],
+        "__v": 0
+    },
+    {
+        "_id": "623ac2c6248b273ab03da4aa",
+        "name": "NonVeg Chinese Combo",
+        "price": 700,
+        "category": {
+            "_id": "6239bfd386b31f0a9a95985b",
+            "userId": "62396641781824e8e67c19a4",
+            "name": "Combos",
+            "__v": 0
+        },
+        "tag": "nonVeg",
+        "alias": "CVC",
+        "tax": [
+            {
+                "name": "gst",
+                "applicable": true,
+                "value": 10,
+                "_id": "623ac2c6248b273ab03da4ab"
+            },
+            {
+                "name": "stateTax",
+                "applicable": true,
+                "value": 5,
+                "_id": "623ac2c6248b273ab03da4ac"
+            },
+            {
+                "name": "serviceCharge",
+                "applicable": true,
+                "value": 10,
+                "_id": "623ac2c6248b273ab03da4ad"
+            }
+        ],
+        "__v": 0
+    },
+    {
+        "_id": "623ac3e5248b273ab03da4af",
+        "name": "Egg Chinese Combo",
+        "price": 700,
+        "category": {
+            "_id": "6239bfd386b31f0a9a95985b",
+            "userId": "62396641781824e8e67c19a4",
+            "name": "Combos",
+            "__v": 0
+        },
+        "tag": "egg",
+        "alias": "CEC",
+        "tax": [
+            {
+                "name": "gst",
+                "applicable": true,
+                "value": 10,
+                "_id": "623ac3e5248b273ab03da4b0"
+            },
+            {
+                "name": "stateTax",
+                "applicable": true,
+                "value": 5,
+                "_id": "623ac3e5248b273ab03da4b1"
+            },
+            {
+                "name": "serviceCharge",
+                "applicable": true,
+                "value": 10,
+                "_id": "623ac3e5248b273ab03da4b2"
+            }
+        ],
+        "__v": 0
+    },
+    {
+        "_id": "623ac416248b273ab03da4b4",
+        "name": "Chicken & Egg Chinese Combo",
+        "price": 800,
+        "category": {
+            "_id": "6239bfd386b31f0a9a95985b",
+            "userId": "62396641781824e8e67c19a4",
+            "name": "Combos",
+            "__v": 0
+        },
+        "tag": "nonVegEgg",
+        "alias": "CEC",
+        "tax": [
+            {
+                "name": "gst",
+                "applicable": true,
+                "value": 10,
+                "_id": "623ac416248b273ab03da4b5"
+            },
+            {
+                "name": "stateTax",
+                "applicable": true,
+                "value": 5,
+                "_id": "623ac416248b273ab03da4b6"
+            },
+            {
+                "name": "serviceCharge",
+                "applicable": true,
+                "value": 10,
+                "_id": "623ac416248b273ab03da4b7"
+            }
+        ],
+        "__v": 0
+    },
+    {
+        "_id": "623ac478248b273ab03da4b9",
+        "name": "Chicken & Egg Burger",
+        "price": 200,
+        "category": {
+            "_id": "6239bff786b31f0a9a959865",
+            "userId": "62396641781824e8e67c19a4",
+            "name": "Italian",
+            "__v": 0
+        },
+        "tag": "nonVegEgg",
+        "alias": "ICE",
+        "tax": [
+            {
+                "name": "gst",
+                "applicable": true,
+                "value": 10,
+                "_id": "623ac478248b273ab03da4ba"
+            },
+            {
+                "name": "stateTax",
+                "applicable": true,
+                "value": 5,
+                "_id": "623ac478248b273ab03da4bb"
+            },
+            {
+                "name": "serviceCharge",
+                "applicable": true,
+                "value": 10,
+                "_id": "623ac478248b273ab03da4bc"
+            }
+        ],
+        "__v": 0
+    },
+    {
+        "_id": "623ac49e248b273ab03da4be",
+        "name": "Chicken & Egg Pizza",
+        "price": 400,
+        "category": {
+            "_id": "6239bff786b31f0a9a959865",
+            "userId": "62396641781824e8e67c19a4",
+            "name": "Italian",
+            "__v": 0
+        },
+        "tag": "nonVegEgg",
+        "alias": "CEP",
+        "tax": [
+            {
+                "name": "gst",
+                "applicable": true,
+                "value": 10,
+                "_id": "623ac49e248b273ab03da4bf"
+            },
+            {
+                "name": "stateTax",
+                "applicable": true,
+                "value": 5,
+                "_id": "623ac49e248b273ab03da4c0"
+            },
+            {
+                "name": "serviceCharge",
+                "applicable": true,
+                "value": 10,
+                "_id": "623ac49e248b273ab03da4c1"
+            }
+        ],
+        "__v": 0
+    },
+    {
+        "_id": "623ac4bc248b273ab03da4c3",
+        "name": "Veg Pizza",
+        "price": 200,
+        "category": {
+            "_id": "6239bff786b31f0a9a959865",
+            "userId": "62396641781824e8e67c19a4",
+            "name": "Italian",
+            "__v": 0
+        },
+        "tag": "veg",
+        "alias": "IVP",
+        "tax": [
+            {
+                "name": "gst",
+                "applicable": true,
+                "value": 10,
+                "_id": "623ac4bc248b273ab03da4c4"
+            },
+            {
+                "name": "stateTax",
+                "applicable": true,
+                "value": 5,
+                "_id": "623ac4bc248b273ab03da4c5"
+            },
+            {
+                "name": "serviceCharge",
+                "applicable": true,
+                "value": 10,
+                "_id": "623ac4bc248b273ab03da4c6"
+            }
+        ],
+        "__v": 0
+    },
+    {
+        "_id": "623ac4f0248b273ab03da4c8",
+        "name": "Veg & Cheese Burger",
+        "price": 300,
+        "category": {
+            "_id": "6239bff786b31f0a9a959865",
+            "userId": "62396641781824e8e67c19a4",
+            "name": "Italian",
+            "__v": 0
+        },
+        "tag": "veg",
+        "alias": "IVCB",
+        "tax": [
+            {
+                "name": "gst",
+                "applicable": true,
+                "value": 10,
+                "_id": "623ac4f0248b273ab03da4c9"
+            },
+            {
+                "name": "stateTax",
+                "applicable": true,
+                "value": 5,
+                "_id": "623ac4f0248b273ab03da4ca"
+            },
+            {
+                "name": "serviceCharge",
+                "applicable": true,
+                "value": 10,
+                "_id": "623ac4f0248b273ab03da4cb"
+            }
+        ],
+        "__v": 0
+    },
+    {
+        "_id": "623ac5bf248b273ab03da4cd",
+        "name": "Chicken Burger",
+        "price": 250,
+        "category": {
+            "_id": "6239bff786b31f0a9a959865",
+            "userId": "62396641781824e8e67c19a4",
+            "name": "Italian",
+            "__v": 0
+        },
+        "tag": "nonVeg",
+        "alias": "ICB",
+        "tax": [
+            {
+                "name": "gst",
+                "applicable": true,
+                "value": 10,
+                "_id": "623ac5bf248b273ab03da4ce"
+            },
+            {
+                "name": "stateTax",
+                "applicable": true,
+                "value": 5,
+                "_id": "623ac5bf248b273ab03da4cf"
+            },
+            {
+                "name": "serviceCharge",
+                "applicable": true,
+                "value": 10,
+                "_id": "623ac5bf248b273ab03da4d0"
+            }
+        ],
+        "__v": 0
+    },
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!++++++++++++++++++++++!!!!!!!!!!!!!!!!!!!
+    {
+        "_id": "623ac684248b273ab03da4d2",
+        "name": "Bira Beer",
+        "price": 250,
+        "category": {
+            "_id": "6239c02c86b31f0a9a959867",
+            "userId": "62396641781824e8e67c19a4",
+            "name": "Drinks",
+            "__v": 0
+        },
+        "tag": "alcohol",
+        "alias": "DBB",
+        "tax": [
+            {
+                "name": "gst",
+                "applicable": true,
+                "value": 10,
+                "_id": "623ac684248b273ab03da4d3"
+            },
+            {
+                "name": "stateTax",
+                "applicable": true,
+                "value": 5,
+                "_id": "623ac684248b273ab03da4d4"
+            },
+            {
+                "name": "serviceCharge",
+                "applicable": false,
+                "value": 10,
+                "_id": "623ac684248b273ab03da4d5"
+            }
+        ],
+        "__v": 0
+    },
+    {
+        "_id": "623ac69d248b273ab03da4d7",
+        "name": "RS Beer",
+        "price": 350,
+        "category": {
+            "_id": "6239c02c86b31f0a9a959867",
+            "userId": "62396641781824e8e67c19a4",
+            "name": "Drinks",
+            "__v": 0
+        },
+        "tag": "alcohol",
+        "alias": "DRB",
+        "tax": [
+            {
+                "name": "gst",
+                "applicable": true,
+                "value": 10,
+                "_id": "623ac69d248b273ab03da4d8"
+            },
+            {
+                "name": "stateTax",
+                "applicable": true,
+                "value": 5,
+                "_id": "623ac69d248b273ab03da4d9"
+            },
+            {
+                "name": "serviceCharge",
+                "applicable": false,
+                "value": 10,
+                "_id": "623ac69d248b273ab03da4da"
+            }
+        ],
+        "__v": 0
+    },
+    {
+        "_id": "623ac6b1248b273ab03da4dc",
+        "name": "Breezer",
+        "price": 150,
+        "category": {
+            "_id": "6239c02c86b31f0a9a959867",
+            "userId": "62396641781824e8e67c19a4",
+            "name": "Drinks",
+            "__v": 0
+        },
+        "tag": "alcohol",
+        "alias": "DBZ",
+        "tax": [
+            {
+                "name": "gst",
+                "applicable": true,
+                "value": 10,
+                "_id": "623ac6b1248b273ab03da4dd"
+            },
+            {
+                "name": "stateTax",
+                "applicable": true,
+                "value": 5,
+                "_id": "623ac6b1248b273ab03da4de"
+            },
+            {
+                "name": "serviceCharge",
+                "applicable": false,
+                "value": 10,
+                "_id": "623ac6b1248b273ab03da4df"
+            }
+        ],
+        "__v": 0
+    },
+    {
+        "_id": "623ac6dd248b273ab03da4e1",
+        "name": "RedBull",
+        "price": 120,
+        "category": {
+            "_id": "6239c02c86b31f0a9a959867",
+            "userId": "62396641781824e8e67c19a4",
+            "name": "Drinks",
+            "__v": 0
+        },
+        "tag": "nonAlcohol",
+        "alias": "DRB",
+        "tax": [
+            {
+                "name": "gst",
+                "applicable": true,
+                "value": 10,
+                "_id": "623ac6dd248b273ab03da4e2"
+            },
+            {
+                "name": "stateTax",
+                "applicable": false,
+                "value": 5,
+                "_id": "623ac6dd248b273ab03da4e3"
+            },
+            {
+                "name": "serviceCharge",
+                "applicable": false,
+                "value": 10,
+                "_id": "623ac6dd248b273ab03da4e4"
+            }
+        ],
+        "__v": 0
+    },
+    {
+        "_id": "623ac6fb248b273ab03da4e6",
+        "name": "Coke",
+        "price": 120,
+        "category": {
+            "_id": "6239c02c86b31f0a9a959867",
+            "userId": "62396641781824e8e67c19a4",
+            "name": "Drinks",
+            "__v": 0
+        },
+        "tag": "nonAlcohol",
+        "alias": "DCK",
+        "tax": [
+            {
+                "name": "gst",
+                "applicable": true,
+                "value": 10,
+                "_id": "623ac6fb248b273ab03da4e7"
+            },
+            {
+                "name": "stateTax",
+                "applicable": false,
+                "value": 5,
+                "_id": "623ac6fb248b273ab03da4e8"
+            },
+            {
+                "name": "serviceCharge",
+                "applicable": false,
+                "value": 10,
+                "_id": "623ac6fb248b273ab03da4e9"
+            }
+        ],
+        "__v": 0
+    },
+    {
+        "_id": "623ac7aa248b273ab03da4eb",
+        "name": "Sharbat",
+        "price": 120,
+        "category": {
+            "_id": "6239c02c86b31f0a9a959867",
+            "userId": "62396641781824e8e67c19a4",
+            "name": "Drinks",
+            "__v": 0
+        },
+        "tag": "nonAlcohol",
+        "alias": "DSB",
+        "tax": [
+            {
+                "name": "gst",
+                "applicable": false,
+                "value": 10,
+                "_id": "623ac7aa248b273ab03da4ec"
+            },
+            {
+                "name": "stateTax",
+                "applicable": false,
+                "value": 5,
+                "_id": "623ac7aa248b273ab03da4ed"
+            },
+            {
+                "name": "serviceCharge",
+                "applicable": false,
+                "value": 10,
+                "_id": "623ac7aa248b273ab03da4ee"
+            }
+        ],
+        "__v": 0
+    },
+    {
+        "_id": "623ac7c1248b273ab03da4f0",
+        "name": "Mineral Water",
+        "price": 50,
+        "category": {
+            "_id": "6239c02c86b31f0a9a959867",
+            "userId": "62396641781824e8e67c19a4",
+            "name": "Drinks",
+            "__v": 0
+        },
+        "tag": "nonAlcohol",
+        "alias": "DMW",
+        "tax": [
+            {
+                "name": "gst",
+                "applicable": false,
+                "value": 10,
+                "_id": "623ac7c1248b273ab03da4f1"
+            },
+            {
+                "name": "stateTax",
+                "applicable": false,
+                "value": 5,
+                "_id": "623ac7c1248b273ab03da4f2"
+            },
+            {
+                "name": "serviceCharge",
+                "applicable": false,
+                "value": 10,
+                "_id": "623ac7c1248b273ab03da4f3"
+            }
+        ],
+        "__v": 0
+    },
+    {
+        "_id": "623ac7dc248b273ab03da4f5",
+        "name": "Himalayan Mineral Water",
+        "price": 100,
+        "category": {
+            "_id": "6239c02c86b31f0a9a959867",
+            "userId": "62396641781824e8e67c19a4",
+            "name": "Drinks",
+            "__v": 0
+        },
+        "tag": "nonAlcohol",
+        "alias": "DHM",
+        "tax": [
+            {
+                "name": "gst",
+                "applicable": false,
+                "value": 10,
+                "_id": "623ac7dc248b273ab03da4f6"
+            },
+            {
+                "name": "stateTax",
+                "applicable": false,
+                "value": 5,
+                "_id": "623ac7dc248b273ab03da4f7"
+            },
+            {
+                "name": "serviceCharge",
+                "applicable": false,
+                "value": 10,
+                "_id": "623ac7dc248b273ab03da4f8"
+            }
+        ],
+        "__v": 0
+    }
+]

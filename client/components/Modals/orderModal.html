@@ -10,34 +10,70 @@
         <div class="modal-body">
             <!-- modal content -->
             <div class="container">
-                <div name="modalContent">
-                  <uib-tabset active="activeJustified" justified="true">
-                    <div ng-repeat="category in foodDishesData.categories | orderBy:'category'">
-                      <uib-tab index="$index" heading={{category}}>
-                        <div class="row container mt-4" >                      
-                          <table class="table col-md-12">
-                            <tr>
-                              <th>Name</th>
-                              <th>Price</th>
-                              <th>Tag</th>
-                              <th class="qty">Qty</th>
-                              <th>Total</th>
-                            </tr>
-                            <tr class="animate-repeat" ng-repeat="item in foodDishesData.foodDishes[category]">
-                              <td>{{ item.name }}</td>
-                              <td >{{ item.price | currency:"₹":true }}</td>
-                              <td class="textCapitalize">{{item.tag}}</td>
-                              <td><input type="number" min="1" max="10" ng-model="item.qty" class="qty"></td>
-                              <td>{{ item.qty * item.price | currency:"₹":true }}</td>
-                              <td>
-                                <button class="btn-primary button-color" ng-click="addItem(item)">Add to Cart</button></td>
-                            </tr>
-                          </table>
+                <div style="width: 100%;" class="textCapitalize" name="modalContent">
+                  <uib-tabset active="activeJustified" justified="true">                 
+                    <div ng-repeat="category in foodDishesData | orderBy:'category'">                      
+                      <uib-tab index="$index" heading={{category.category}}>                    
+                        <div class="mt-2">
+                          <uib-tabset type="pills">
+                            <div ng-repeat="subCategory in category.subCategory">
+                              <uib-tab index="$index" heading={{subCategory.name}}>
+                                <div class="row container mt-4" >                      
+                                  <table class="table col-md-12">
+                                    <tr>
+                                      <th>Name</th>
+                                      <th>Price</th>
+                                      <th>Tag</th>
+                                      <th class="qty">Qty</th>
+                                      <th>Total</th>
+                                    </tr>
+                                    <tr class="animate-repeat" ng-repeat="item in subCategory.dishes">
+                                      <td>{{ item.name }}</td>
+                                      <td >{{ item.price | currency:"₹":true }}</td>
+                                      <td> 
+                                        <div ng-if="item.tag == 'egg'"><i class="fa-solid fa-egg" style='font-size:24px;color:rgb(189, 189, 28)'></i></div>
+                                        <div ng-if="item.tag == 'nonVeg'"><i class="fas fa-drumstick-bite" style='font-size:24px;color:red'></i></div>
+                                        <div ng-if="item.tag == 'veg'"><i class="fa-solid fa-leaf" style='font-size:24px;color:green'></i></div>
+                                        <div ng-if="item.tag == 'alcohol'"><i class="fas fa-glass-cheers" style='font-size:24px;color:goldenrod'></i></div>
+                                        <div ng-if="item.tag == 'nonAlcohol'"><i class="fas fa-beer" style='font-size:24px;color:blue'></i></div>
+                                        <!-- <div ng-if="item.tag == 'nonVegEgg'">
+                                          <i class="fas fa-drumstick-bite" style='font-size:24px;color:red'>
+                                        </div> -->
+                                      </td>
+                                      <!-- <td class="textCapitalize">{{item.tag}}</td> -->
+                                      <td><input type="number" min="1" max="10" ng-model="item.qty" class="qty"></td>
+                                      <td>{{ item.qty * item.price | currency:"₹":true }}</td>
+                                      <td>
+                                        <button class="btn-primary button-color" ng-click="addItem(item)">Add to Cart</button></td>
+                                    </tr>
+                                  </table>
+                                </div>  
+                              </uib-tab>
+                            </div>
+                          </uib-tabset>  
                         </div>
+                        
                       </uib-tab>
                     </div>
                   </uib-tabset>  
                       <div class="row">
+                        <div ng-if="recommendation.length" >
+                          <h2>Recommendation</h2>
+                        <div class="row row-cols-4">
+                          <div ng-repeat="recommendDish in recommendation track by $index">
+                            <div class="col py-0 px-lg-1 d-flex">
+                              <div class="card" style="width: 12rem;">
+                                <div class="card-body">
+                                  <h5 class="card-title">{{recommendDish.name}}</h5>
+                                  <h6 class="card-subtitle mb-2 text-muted">Price: {{recommendDish.price | currency:"₹"}}</h6>
+                                  <p class="card-text">Tag:{{recommendDish.tag}}</p>
+                                  <button class="btn-primary button-color" ng-click="addRecommendation(recommendDish)">Add to Cart</button></td>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        </div>
                         <h2>Your Cart:</h2>
                         <ul>
                           <li class="animate-repeat" ng-repeat="item in cart">

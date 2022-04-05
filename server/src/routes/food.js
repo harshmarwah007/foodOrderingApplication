@@ -6,6 +6,7 @@ const {
   getFoodDishes,
   putFoodDishes,
 } = require("../controller/foodDishesController");
+const { getRecommendations } = require("../controller/foodRecommendController");
 const getHistory = require("../controller/historyControllers");
 const passport = require("passport");
 var redisMiddle = require("../controller/redisMiddleware");
@@ -65,6 +66,8 @@ client.connect();
 // router.get("/dishes", redisMiddle("foodDishesData"), getFoodDishes);
 router.get("/dishes", getFoodDishes);
 router.post("/dishes", putFoodDishes);
+// router.get("/recommendations/:cart", getRecommendations);
+router.get("/recommendations", getRecommendations);
 
 //Metrics route
 router.get(

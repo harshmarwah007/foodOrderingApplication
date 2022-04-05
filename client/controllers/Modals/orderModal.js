@@ -10,7 +10,8 @@ app.controller(
     typeOfModal,
     order,
     orderTableData,
-    _
+    _,
+    recommendation
   ) {
     $scope.typeOfModal = typeOfModal;
     $scope.justValue = true;
@@ -27,25 +28,40 @@ app.controller(
       $scope.taxes = taxValue;
       $scope.totalTaxValue = totalTaxValue;
       $scope.totalAmount = totalAmount;
-      console.log(
-        "taxValue",
-        taxValue,
-        "totalTaxValue",
-        totalTaxValue,
-        "totalAmount",
-        totalAmount
-      );
     };
 
+    var setRecommendationValues = function (orderBill) {
+      var cart = orderBill.cart;
+      if (cart.length) {
+        if (cart.length < 4) {
+          recommendation.recommend(cart, function (data) {
+            $scope.recommendation = data;
+          });
+        } else {
+          $scope.recommendation = [];
+        }
+      } else {
+        $scope.recommendation = [];
+      }
+    };
+    // var setRecommendationValues = function (orderBill) {
+    //   orderBill.recommendation(function (data) {
+    //     $scope.recommendation = data;
+    //     // console.log("recommendationsData", $scope.recommendation);
+    //   });
+    // };
+    $scope.addRecommendation = function (reccomendedDish) {
+      $scope.addItem(reccomendedDish);
+    };
     $scope.taxValue = null;
     $scope.totalTaxValue = null;
     var previousTableNumber;
-    //var tempTableNumber;
+
     $scope.setOrderTable = function (tableNumber) {
       $scope.tableNumber = tableNumber;
       $scope.changeOccured();
     };
-    // $scope.currentTable = null;
+
     $scope.changeOrderTypeButton = function (orderType) {
       if (orderType == "dineIn") {
         $scope.orderType = "dineIn";
@@ -75,14 +91,13 @@ app.controller(
       console.log($scope.emptyTable);
     });
 
-    $scope.foodDishesData = foodDishesData;
-    console.log($scope.foodDishesData);
+    $scope.foodDishesData = foodDishesData.categories;
     $scope.customerContact;
     $scope.customerName;
     $scope.updateOrderAvailble = true;
 
     var orderBill = new ordersFactory();
-
+    orderBill.setAllDishesData(foodDishesData);
     $scope.cart = [];
 
     $scope.getCost = function (item) {
@@ -94,8 +109,9 @@ app.controller(
       $scope.cart = orderBill.cart;
       $scope.changeOccured();
       setBillValues(orderBill.taxes, orderBill.totalTaxValue, orderBill.total);
-      // $scope.totalAmount = ;
+      setRecommendationValues(orderBill);
     };
+
     $scope.totalAmount = null;
     $scope.getTotal = function () {
       var value = orderBill.getTotal();
@@ -103,10 +119,12 @@ app.controller(
     };
 
     $scope.clearCart = function () {
+      // $scope.recommendation.length = 0;
       orderBill.clearCart();
       $scope.cart = orderBill.cart;
       setBillValues(orderBill.taxes, orderBill.totalTaxValue, orderBill.total);
       $scope.changeOccured();
+      setRecommendationValues(orderBill);
     };
 
     $scope.removeItem = function (item) {
@@ -114,6 +132,7 @@ app.controller(
       $scope.cart = orderBill.cart;
       setBillValues(orderBill.taxes, orderBill.totalTaxValue, orderBill.total);
       $scope.changeOccured();
+      setRecommendationValues(orderBill);
     };
 
     // creating order

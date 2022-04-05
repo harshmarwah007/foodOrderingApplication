@@ -12,8 +12,12 @@ const foodDishesSchema = mongoose.Schema({
     required: true,
   },
   category: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "foodcategories",
+    id: { type: mongoose.Schema.Types.ObjectId },
+    name: { type: String },
+  },
+  subCategory: {
+    id: { type: mongoose.Schema.Types.ObjectId },
+    name: { type: String },
   },
   tag: {
     type: String,

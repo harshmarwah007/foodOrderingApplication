@@ -1,13 +1,12 @@
 /** @format */
 
 var app = angular.module("metricsData", ["ngCookies"]);
-var ApiUrl = "http://localhost:3000/food/";
 
-app.service("metricsData", function ($http) {
+app.service("metricsData", function ($http, config) {
   this.getMetricsData = function (cb) {
     try {
       $http({
-        url: `${ApiUrl}metrics`,
+        url: `${config.apiUrl}metrics`,
         method: "GET",
         // headers: {
         //   Authorization: cookieValue,

@@ -13,6 +13,10 @@ var test = function ($q, $cookies, $location) {
 
       return config;
     },
+    requestError: function (rejection) {
+      console.log(rejection);
+      return $q.reject(rejection);
+    },
     responseError: function (response) {
       if (response.status === 401 || response.status === 403) {
         $location.path("/login");

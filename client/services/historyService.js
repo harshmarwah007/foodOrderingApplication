@@ -1,11 +1,11 @@
 /** @format */
 
 var app = angular.module("ordersHistoryService", ["ngCookies"]);
-var ApiUrl = "http://localhost:3000/food/";
-app.service("ordersHistoryService", function ($http) {
+
+app.service("ordersHistoryService", function ($http, config) {
   this.getData = function (itemsPerPage, pageNo, cb) {
     $http({
-      url: `${ApiUrl}history/${pageNo}`,
+      url: `${config.apiUrl}history/${pageNo}`,
       method: "GET",
       data: {
         itemsPerPage: itemsPerPage,

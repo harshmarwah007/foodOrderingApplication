@@ -5,8 +5,7 @@ var app = angular.module("ordersFactory", [
   "ordersData",
   "ordersFactory",
 ]);
-app.factory("ordersFactory", function (ordersData, socket, _) {
-  // these are general functions
+app.factory("ordersFactory", function (ordersData, recommendation, socket, _) {
   var findItemById = function (items, id) {
     return _.find(items, function (item) {
       return item.id === id;
@@ -15,12 +14,33 @@ app.factory("ordersFactory", function (ordersData, socket, _) {
 
   return function () {
     var outer = this;
+    this.allDishes;
     this.newOrder;
     this.cart = [];
     this.taxes = [];
     this.total = 0;
     this.totalTaxValue;
+    this.recommendationData;
     this.statusOptions = ["Preparing", "Prepared", "Completed"];
+    this.setAllDishesData = function (data) {
+      outer.allDishes = data.allDishes;
+      outer.recommendationData = data.recommendationData;
+    };
+
+    // this.recommendation = function (cb) {
+    //   if (outer.cart.length) {
+    //     if (outer.cart.length < 4) {
+    //       recommendation.recommend(outer.cart, function (data) {
+    //         cb(data);
+    //       });
+    //     } else {
+    //       cb([]);
+    //     }
+    //   } else {
+    //     cb([]);
+    //   }
+    // };
+
     this.getCost = function (item) {
       return item.qty * item.price;
     };
@@ -85,10 +105,9 @@ app.factory("ordersFactory", function (ordersData, socket, _) {
       return newTax;
     };
     var addTaxToItem = function (itemToAdd, found) {
-      // console.log("found", found);
       if (found) {
         var newTax = getNewTax(found);
-        console.log("found", found.tax);
+
         found.tax = newTax;
       } else {
         var newTax = getNewTax(itemToAdd);
@@ -99,18 +118,13 @@ app.factory("ordersFactory", function (ordersData, socket, _) {
 
     this.addItem = function (itemToAdd) {
       var found = findItemById(outer.cart, itemToAdd.id);
-
       if (found) {
         addTaxToItem(itemToAdd, found);
         found.qty += itemToAdd.qty;
       } else {
         var updatedItem = addTaxToItem(itemToAdd, found);
-
         outer.cart.push(angular.copy(updatedItem));
       }
-
-      //addTaxToItem(itemToAdd, found);
-      console.log(outer.cart);
       outer.getTotal();
     };
 
@@ -123,9 +137,7 @@ app.factory("ordersFactory", function (ordersData, socket, _) {
         },
         0
       );
-
       outer.total = total;
-
       return total;
     };
 
@@ -149,7 +161,6 @@ app.factory("ordersFactory", function (ordersData, socket, _) {
         date: currentTime,
         data: order,
       });
-
       ordersData.changeStatus(orderStatusValue, orderId, order, function () {});
     };
 
@@ -179,7 +190,6 @@ app.factory("ordersFactory", function (ordersData, socket, _) {
       } else {
         orderTableNumber = null;
       }
-
       var retVal = confirm("Do you want to Confirm Order ?");
       if (retVal == true) {
         var totalAmount = outer.getTotal();
@@ -230,7 +240,6 @@ app.factory("ordersFactory", function (ordersData, socket, _) {
         return false;
       }
       var phoneno = /^\d{10}$/;
-
       var phonenoValidate = function () {
         if (String(customerContact).match(phoneno)) {
           return true;

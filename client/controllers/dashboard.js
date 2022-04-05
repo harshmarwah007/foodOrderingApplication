@@ -31,6 +31,7 @@ app.controller(
     $scope.getAllFooddishes = function () {
       foodDishes.getData(function (foodDishesData) {
         $scope.foodDishesData = foodDishesData;
+        console.log(foodDishesData.allDishes);
       });
     };
     //!
