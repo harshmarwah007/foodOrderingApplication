@@ -14,6 +14,7 @@ var redisMiddle = require("../controller/redisMiddleware");
 require("../config/passport");
 const getAllMetrics = require("../controller/metricsController");
 const {
+  updateBulkOrder,
   getOrders,
   saveOrder,
   getAllOrders,
@@ -41,6 +42,11 @@ router.patch(
   "/orderStatus/:orderId",
   passport.authenticate("jwt", { session: false }),
   updateOrderStatus
+);
+router.patch(
+  "/bulkOrders",
+  passport.authenticate("jwt", { session: false }),
+  updateBulkOrder
 );
 router.patch(
   "/order/:orderId",

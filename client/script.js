@@ -13,16 +13,14 @@ var app = angular.module("main", [
   "ui.bootstrap",
   "authentication",
   "ordersData",
-  "ordersFactory",
 ]);
 
 app.constant("config", {
   apiUrl: "http://localhost:3000/food/",
-  baseUrl: "/",
-  enableDebug: true,
+  baseUrl: "http://localhost:3000",
 });
 
-app.config(function ($stateProvider, $urlRouterProvider) {
+app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
   $stateProvider
     .state("login", {
       resolve: {
@@ -102,4 +100,6 @@ app.config(function ($stateProvider, $urlRouterProvider) {
       controller: "historyCtrl",
     });
   $urlRouterProvider.otherwise("/");
+
+  $httpProvider.interceptors.push("authInterceptor");
 });

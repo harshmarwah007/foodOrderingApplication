@@ -1,9 +1,9 @@
 /** @format */
 
-app.service("orderTableData", function ($http) {
+app.service("orderTableData", function ($http, config) {
   this.getTables = function (cb) {
     $http({
-      url: "http://localhost:3000/orderTable",
+      url: `${config.baseUrl}/orderTable`,
       method: "GET",
     })
       .then(function (result) {
@@ -13,5 +13,4 @@ app.service("orderTableData", function ($http) {
         console.log(error);
       });
   };
-  this.setTable = function () {};
 });

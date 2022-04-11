@@ -7,11 +7,24 @@
 
 <div class="d-flex justify-content-center">
   <div class="row">
-    <div col="col-md-12"> <button type="button"
+    <div col="col-md-12">
+       <button type="button"
        class="btn btn-primary" 
       ng-click="openOrderModal('newOrder')" >
         ORDER FOOD
       </button>    
+      <button type="button"
+      ng-class="{'btn btn-success':bulkEditOrdersButton == true ,'btn btn-warning': bulkEditOrdersButton == false}"
+     ng-click="setBulkEditOrdersButton()" >
+       {{bulkEditOrdersButtonText}}
+     </button>    
+      
+      <select  ng-if="bulkEditOrdersIds.length" ng-model="selectedItem" class="btn btn-danger  dropdown-toggle"
+      ng-init="selectedItem = 'None'" 
+      ng-change="bulkOrderStatusChange(selectedItem)"
+      ng-options="item for item in bulkEditStatusOptions"></select>
+      
+     </div>
     </div>
 </div>
 
@@ -32,7 +45,7 @@
            
                 <div class="card text-center">
                   <div class="card-header">
-                    {{order.orderId || order._id}}
+                    {{order.orderId }}
                   </div>
                   <div class="card-body">
                     <h5 class="card-title textCapitalize" >{{order.customerName}}</h5>
@@ -42,22 +55,28 @@
     
                       <div style="width:100%; height :60px;" >
                         <h5> Order Status</h5>
-                      <select ng-model="selectedItem" class=" border border-primary  bg-light  btn  dropdown-toggle"
-                      ng-init="selectedItem = order.orderStatus" 
-                      ng-change="statusChange(selectedItem,order.orderId,order)"
+                      <select ng-model="order.orderStatus" class=" border border-primary  bg-light  btn  dropdown-toggle"
+                      ng-init="order.orderStatus"
+                      ng-change="statusChange(order.orderStatus,order.orderId,order)"
                       ng-options="item for item in statusOptions"></select>
                       </div>
                     
                     </p>
                     
                      <!-- here is modal of cards -->
-    
+                    
+                  
+                     
                     <!-- Button trigger modal -->
                     <button type="button" class="btn btn-primary" ng-click="openInfoModal(order)">
                       More
                     </button>
                     <button type="button" class="btn btn-warning" ng-click="openOrderModal('edit',order)">Edit</button>
-               
+                    <div style="margin-top: 10px;"class="btn-group btn-group-toggle" data-toggle="buttons">
+                      <label   ng-if="bulkEditOrdersButton" class="btn btn-outline-secondary" >
+                        <input type="checkbox"ng-change="setBulkEditOrders()" ng-model="bulkEditOrders[order.orderId]"> BULK EDIT
+                      </label>
+                     </div>
                   </div>
                   <div class="card-footer text-muted">
                     <b>Total : {{order.orderAmount| currency:"₹":true }}</b>

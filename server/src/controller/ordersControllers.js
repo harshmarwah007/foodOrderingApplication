@@ -2,7 +2,7 @@
 
 const foodOrders = require("../models/FoodOrders");
 const orderTable = require("../models/OrderTable");
-
+var ObjectId = require("mongoose").Types.ObjectId;
 // functions for controllers
 const cleanTable = async function (id, cleanThisTable) {
   const tableCleaned = await orderTable.updateOne(
@@ -33,10 +33,6 @@ const swapTable = async function (id, previousTableNumber, newTableNumber) {
     { userId: id, _id: newTable[0].orderId },
     { orderTableNumber: previousTableNumber }
   );
-
-  // console.log("previousTable", previousTable);
-  // console.log("newTable", newTable);
-  // console.log("newTable.orderId", newTable[0].orderId);
 
   const updatePreviousTable = await orderTable.updateOne(
     { userId: id, tableNumber: previousTableNumber },
@@ -126,7 +122,6 @@ const getDineInOrders = function (req, res) {
 
 // for saving one order
 const saveOrder = async (req, res) => {
-  console.log(req.body);
   const order = new foodOrders({
     tax: { totalTax: req.body.totalTax, taxes: req.body.taxes },
     totalAmount: req.body.totalAmount,
@@ -142,7 +137,7 @@ const saveOrder = async (req, res) => {
 
   try {
     const savedOrder = await order.save();
-    console.log(req.body.orderTableNumber);
+
     if (req.body.orderTableNumber) {
     }
     const updateTable = await orderTable.updateOne(
@@ -188,7 +183,7 @@ const updateOrder = async (req, res) => {
   var updatedOrder = req.body.updatedOrder;
   var newTableNumber = updatedOrder.orderTableNumber;
   var previousTableNumber = req.body.previousTableNumber;
-  console.log(updatedOrder);
+
   res.json(null);
   const updateOrder = async function () {
     const updatedOrder = await foodOrders.updateOne(
@@ -213,21 +208,20 @@ const updateOrder = async (req, res) => {
       });
       if (emptyTablesArray.includes(String(newTableNumber))) {
         const updatedOrder = await updateOrder();
-        //! update id
+
         await updateTable(req.user._id, newTableNumber, req.params.orderId);
         await cleanTable(req.user._id, previousTableNumber);
-        console.log("exist");
+
         res.json(updatedOrder);
       } else {
-        console.log("not in empty tables");
         const updatedOrder = await updateOrder();
-        //!
+
         var result = await swapTable(
           req.user._id,
           previousTableNumber,
           newTableNumber
         );
-        console.log(result);
+
         res.json(updatedOrder);
       }
     }
@@ -235,7 +229,33 @@ const updateOrder = async (req, res) => {
     res.json({ message: error });
   }
 };
+
+var updateBulkOrder = function (req, res) {
+  var { bulkEditOrdersIds, selectedStatus } = req.body;
+  try {
+    var bulk = foodOrders.collection.initializeUnorderedBulkOp();
+    var newBulkEditOrdersIds = bulkEditOrdersIds.map((item) => {
+      return ObjectId(item);
+    });
+
+    bulk
+      .find({ userId: req.user._id, _id: { $in: newBulkEditOrdersIds } })
+      .update({ $set: { orderStatus: selectedStatus } });
+
+    bulk.execute(function (err, result) {
+      return res.json({ code: 200, result: result });
+    });
+  } catch (e) {
+    console.log(e, "error in bulk file");
+    return res.json({ code: 400, result: e });
+  }
+
+  console.log(req.body);
+  // var { bulkEditOrdersIds, selectedStatus } = req.body;
+};
+
 module.exports = {
+  updateBulkOrder,
   getOrders,
   saveOrder,
   getAllOrders,

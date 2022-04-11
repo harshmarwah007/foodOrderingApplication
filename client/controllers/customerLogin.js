@@ -13,6 +13,7 @@ app.controller("customerLoginCtrl", function ($scope, socket) {
   socket.emit("newUser", username);
 
   function appendCreatedOrder(data) {
+    console.log(data, data);
     let mainDiv = document.createElement("div");
     mainDiv.classList.add("outgoing", "message");
     date = moment(data.date).fromNow();
@@ -25,6 +26,7 @@ app.controller("customerLoginCtrl", function ($scope, socket) {
     let markUp = `
       <h4>${data.orderId}</h4>
       <p><b><span id="customerName">Hey! ${data.data.customerName}</span></b><br>
+      OrderType : ${data.data.orderType}<br>
       Your New order:`;
     let markup3 = `<br>
     <b>Amount : ₹${data.data.orderAmount}</b> <br>
@@ -37,8 +39,8 @@ app.controller("customerLoginCtrl", function ($scope, socket) {
   }
 
   function appendNotification(data) {
+    console.log(data, data);
     let mainDiv = document.createElement("div");
-
     mainDiv.classList.add("outgoing", "message");
     date = moment(data.date).fromNow();
     let markUp = `

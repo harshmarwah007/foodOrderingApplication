@@ -3,23 +3,21 @@
 var app = angular.module("authentication", ["ngCookies"]);
 
 // Register User
-app.service("authentication", function ($cookies, $http, $location) {
+app.service("authentication", function ($cookies, $http, config, $location) {
   this.logOut = function () {
     console.log("LOGGED OUT");
     $cookies.remove("token");
     location.reload();
   };
   this.isAuthenticated = function () {
-    if ($cookies.get("token"))
-    {
-      
+    if ($cookies.get("token")) {
       $location.path("/home");
     }
   };
-  this.authenticate = function (address) {};
+
   this.login = function (username, password) {
     $http({
-      url: "http://localhost:3000/user/login",
+      url: `${config.baseUrl}/user/login`,
       method: "POST",
       data: {
         email: username,
@@ -44,7 +42,7 @@ app.service("authentication", function ($cookies, $http, $location) {
   };
   this.register = function (name, email, phone, password) {
     $http({
-      url: "http://localhost:3000/user/register",
+      url: `${config.baseUrl}/user/register`,
       method: "POST",
       data: {
         name: name,

@@ -55,18 +55,11 @@
       href="assets/img/favicon.ico"
       type="image/x-icon"
     />
+    <!--! here using bower component -->
     <link
       rel="stylesheet"
       href="bower_components/components-font-awesome/css/all.css"
     />
-    <!-- <link
-      rel="stylesheet"
-      href="bower_components/components-font-awesome/css/fontawesome.css"
-    /> -->
-    <!-- <link
-      rel="stylesheet"
-      href="bower_components/components-font-awesome/scss/fontawesome.scss"
-    /> -->
     <!-- Google fonts -->
     <link
       href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700;800;900&amp;display=swap"
@@ -120,7 +113,7 @@
     <script src="./controllers/Modals/metricsModal.js"></script>
     <script src="./controllers/Billing/orders.js"></script>
     <!-- services -->
-    <script src="./controllers/Billing/recommendation.js"></script>
+    <script src="./services/recommendationService.js"></script>
     <script src="./services/ordersService.js"></script>
     <script src="./services/metricsService.js"></script>
     <script src="./services/historyService.js"></script>
@@ -128,6 +121,8 @@
     <script src="./services/socketioService.js"></script>
 
     <script src="./services/tableService.js"></script>
+
+    <script src="./authInterceptor.js"></script>
     <!-- socketIo -->
     <script src="http://127.0.0.1:3000/socket.io/socket.io.js"></script>
   </body>

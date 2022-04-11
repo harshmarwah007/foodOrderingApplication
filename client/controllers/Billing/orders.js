@@ -1,11 +1,6 @@
 /** @format */
 
-var app = angular.module("ordersFactory", [
-  "socketio",
-  "ordersData",
-  "ordersFactory",
-]);
-app.factory("ordersFactory", function (ordersData, recommendation, socket, _) {
+app.factory("ordersFactory", function (ordersData, socket, _) {
   var findItemById = function (items, id) {
     return _.find(items, function (item) {
       return item.id === id;
@@ -20,27 +15,10 @@ app.factory("ordersFactory", function (ordersData, recommendation, socket, _) {
     this.taxes = [];
     this.total = 0;
     this.totalTaxValue;
-    this.recommendationData;
     this.statusOptions = ["Preparing", "Prepared", "Completed"];
     this.setAllDishesData = function (data) {
       outer.allDishes = data.allDishes;
-      outer.recommendationData = data.recommendationData;
     };
-
-    // this.recommendation = function (cb) {
-    //   if (outer.cart.length) {
-    //     if (outer.cart.length < 4) {
-    //       recommendation.recommend(outer.cart, function (data) {
-    //         cb(data);
-    //       });
-    //     } else {
-    //       cb([]);
-    //     }
-    //   } else {
-    //     cb([]);
-    //   }
-    // };
-
     this.getCost = function (item) {
       return item.qty * item.price;
     };
@@ -163,7 +141,6 @@ app.factory("ordersFactory", function (ordersData, recommendation, socket, _) {
       });
       ordersData.changeStatus(orderStatusValue, orderId, order, function () {});
     };
-
     this.createOrder = function (
       customerName,
       customerContact,

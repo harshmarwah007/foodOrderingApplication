@@ -103,7 +103,7 @@ app.service("ordersData", function ($http, config) {
 
   this.changeStatus = function (orderStatusValue, orderId, order, cb) {
     $http({
-      url: `http://localhost:3000/food/orderStatus/${orderId}`,
+      url: `${ApiUrl}orderStatus/${orderId}`,
       method: "PATCH",
       data: {
         orderStatus: orderStatusValue,
@@ -121,7 +121,7 @@ app.service("ordersData", function ($http, config) {
     var updatedOrder = angular.copy(updatedOrder);
     console.log("updated one", updatedOrder);
     $http({
-      url: `http://localhost:3000/food/order/${orderId}`,
+      url: `${ApiUrl}order/${orderId}`,
       method: "PATCH",
       data: {
         updatedOrder: updatedOrder,
@@ -137,6 +137,28 @@ app.service("ordersData", function ($http, config) {
       })
       .catch(function (error) {
         cb(error);
+      });
+  };
+
+  this.bulkOrderStatusChange = function (bulkEditOrdersIds, selectedStatus) {
+    dataset = { bulkEditOrdersIds, selectedStatus };
+    console.log("inside service", bulkEditOrdersIds);
+    $http({
+      url: `${ApiUrl}bulkOrders`,
+      method: "PATCH",
+      data: {
+        bulkEditOrdersIds: bulkEditOrdersIds,
+        selectedStatus: selectedStatus,
+      },
+      // headers: {
+      //   Authorization: cookieValue,
+      // },
+    })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
       });
   };
 });

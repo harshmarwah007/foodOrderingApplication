@@ -1,31 +1,21 @@
 /** @format */
 
-var test = function ($q, $cookies, $location) {
-  var cookieValue = $cookies.get("token");
-  console.log(config);
+app.factory("authInterceptor", function ($q, $cookies, $location) {
   return {
     request: function (config) {
-      config.headers = config.headers || {};
-
-      if (cookieValue) {
-        config.headers.common["Authorization"] = cookieValue;
+      if ($cookies.get("token")) {
+        config.headers.Authorization = $cookies.get("token");
       }
-
       return config;
-    },
-    requestError: function (rejection) {
-      console.log(rejection);
-      return $q.reject(rejection);
     },
     responseError: function (response) {
       if (response.status === 401 || response.status === 403) {
         $location.path("/login");
+        $cookies.remove("token");
+        return $q.reject(response);
+      } else {
+        return $q.reject(response);
       }
-      return $q.reject(response);
     },
   };
-};
-
-angular.module("myInterceptor", []).config(function ($httpProvider) {
-  $httpProvider.interceptors.push(test);
 });

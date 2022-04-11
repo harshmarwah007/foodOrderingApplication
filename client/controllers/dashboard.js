@@ -13,8 +13,81 @@ app.controller(
     $cookies,
     _
   ) {
-    var cookieValue = $cookies.get("token");
-    $http.defaults.headers.common.Authorization = cookieValue;
+    //! here object is made
+    var orderBill = new ordersFactory();
+
+    // Bulk Edit Code Here
+    var updateOrders = function (ordersData) {
+      $scope.orders = ordersData;
+    };
+    $scope.bulkEditOrdersIds;
+    $scope.bulkEditOrders = {};
+    $scope.bulkEditOrdersButton = false;
+    $scope.bulkEditOrdersIds = [];
+    $scope.setBulkEditOrders = function () {
+      $scope.bulkEditOrdersIds = Object.entries($scope.bulkEditOrders).reduce(
+        function (ids, order) {
+          if (order[1] == true) {
+            ids.push(order[0]);
+          }
+          return ids;
+        },
+        []
+      );
+    };
+
+    $scope.bulkEditOrdersButtonText = "ENABLE BULK EDIT";
+    $scope.setBulkEditOrdersButton = function () {
+      if ($scope.bulkEditOrdersButton) {
+        $scope.bulkEditOrdersButtonText = "ENABLE BULK EDIT";
+        $scope.bulkEditOrdersButton = false;
+        $scope.bulkEditOrders = {};
+      } else {
+        $scope.bulkEditOrdersButtonText = "DISABLE BULK EDIT";
+        $scope.bulkEditOrdersButton = true;
+      }
+    };
+    $scope.bulkOrderStatusChange = function (selectedStatus) {
+      ordersData.bulkOrderStatusChange(
+        angular.copy($scope.bulkEditOrdersIds),
+        selectedStatus
+      );
+      //Update Variables
+      if (selectedStatus == "None") {
+        return alert("please select some status ... if you want to update");
+      }
+      if (selectedStatus == "Completed") {
+        $scope.bulkEditOrdersIds.map(function (orderId) {
+          var index = $scope.orders.findIndex(
+            (order) => order.orderId == orderId
+          );
+          $scope.orders.splice(index, 1);
+        });
+      } else {
+        $scope.orders.map(function (order) {
+          if ($scope.bulkEditOrdersIds.includes(order.orderId)) {
+            order.orderStatus = selectedStatus;
+          }
+          return order;
+        });
+      }
+
+      //Update data
+      $scope.bulkEditOrdersIds.length = 0;
+      Object.keys($scope.bulkEditOrders).forEach(function (order) {
+        $scope.bulkEditOrders[order] = false;
+      });
+      $scope.setBulkEditOrdersButton();
+    };
+    $scope.bulkEditStatusOptions = [
+      "None",
+      "Preparing",
+      "Prepared",
+      "Completed",
+    ];
+
+    // var cookieValue = $cookies.get("token");
+    // $http.defaults.headers.common.Authorization = cookieValue;
     $scope.showOrdersTabs = false;
     $scope.showPagination = false;
     $scope.currentPage = 1;
@@ -31,7 +104,6 @@ app.controller(
     $scope.getAllFooddishes = function () {
       foodDishes.getData(function (foodDishesData) {
         $scope.foodDishesData = foodDishesData;
-        console.log(foodDishesData.allDishes);
       });
     };
     //!
@@ -48,7 +120,10 @@ app.controller(
     $scope.getAllOrders = function () {
       $scope.orders;
       ordersData.getOrders($scope.currentPage, function (ordersData, count) {
-        $scope.orders = ordersData;
+        updateOrders(ordersData);
+        $scope.orders.map(function (item) {
+          $scope.bulkEditOrders[item.orderId] = false;
+        });
         $scope.ordersCount = count;
         if ($scope.ordersCount) {
           $scope.showPagination = true;
@@ -56,10 +131,6 @@ app.controller(
         }
       });
     };
-
-    //! here object is made
-
-    var orderBill = new ordersFactory();
 
     $scope.statusOptions = orderBill.statusOptions;
     $scope.statusChange = function (orderStatusValue, orderId, order) {
@@ -78,7 +149,6 @@ app.controller(
         }
       }
     };
-
     $scope.openInfoModal = function (order) {
       $uibModal
         .open({
