@@ -9,8 +9,6 @@ app.controller(
     ordersFactory,
     $uibModal,
     foodDishes,
-    $http,
-    $cookies,
     _
   ) {
     //! here object is made
@@ -85,9 +83,6 @@ app.controller(
       "Prepared",
       "Completed",
     ];
-
-    // var cookieValue = $cookies.get("token");
-    // $http.defaults.headers.common.Authorization = cookieValue;
     $scope.showOrdersTabs = false;
     $scope.showPagination = false;
     $scope.currentPage = 1;

@@ -5,7 +5,6 @@ var app = angular.module("authentication", ["ngCookies"]);
 // Register User
 app.service("authentication", function ($cookies, $http, config, $location) {
   this.logOut = function () {
-    console.log("LOGGED OUT");
     $cookies.remove("token");
     location.reload();
   };
